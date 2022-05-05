@@ -10,24 +10,29 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-  <link rel="stylesheet" href="./style.css" />
-
-  <title>Login</title>
+  <link rel="stylesheet" href="./css/index.css" />
 </head>
 
 <body>
-<div class = "login">
-  <h1>Login</h1>
-  <form action="/auth">
-    <label for="username">
-      <input type="text" placeholder="Enter Username" id="username" name="username" required>
-    </label>
-    <label for="password">
-      <input type="text" placeholder="Enter password" id="password" name="password" required>
-      <input type="submit" value ="Login">
-    </label>
-  </form>
-</div>
+  <main>
+    <div class="login">
+      <div id="logo">
+        <img src="./imgs/ezev_logo.png" alt="logo">
+      </div>
+      <form action="/auth">
+        <label for="username">
+          <input type="text" placeholder="Enter Username" id="username" name="username" required>
+        </label>
+        <label for="password">
+          <input type="text" placeholder="Enter password" id="password" name="password" required>
+          <input type="submit" value="Login">
+        </label>
+      </form>
+    </div>
+  </main>
+  <footer>
+    <p>Copyright Team DTC-11 2022</p>
+  </footer>
 </body>
 
 </html>

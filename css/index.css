@@ -1,0 +1,31 @@
+html, body{
+    height: 100%;
+}
+
+body {
+    margin: 0;
+}
+
+main, footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* .login {
+    color: red;
+} */
+
+#logo img {
+    display: block;
+    width:240px;
+    height: auto;
+}
+
+input[type=text] {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+}
