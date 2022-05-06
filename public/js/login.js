@@ -1,12 +1,10 @@
 function attemptLogin() {
-  let username = $("#username").val();
-  let password = $("#password").val();
   $.ajax({
     url: "/loginAttempt",
     type: "POST",
     data: {
-      username: username,
-      password: password,
+      username: $("#username").val(),
+      password: $("#password").val(),
     },
     success: (loginAttemptResult) => {
       if (loginAttemptResult) {

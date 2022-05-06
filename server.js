@@ -30,7 +30,6 @@ app.listen(5001, function (err) {
 
 app.get("/", function (req, res) {
   if (req.session.authenticated) {
-    console.log("Authenticated");
     res.sendFile(__dirname + "/public/main.html");
   } else {
     res.sendFile(__dirname + "/public/login.html");
@@ -41,11 +40,10 @@ app.get("/login", function (req, res) {
   res.sendFile(__dirname + "/public/login.html");
 });
 
-// use /loginAttempt to AJAX request
+// use "/loginAttempt" to use AJAX request
 app.post("/auth", function (req, res) {
   username = req.body.username;
   password = req.body.password;
-  console.log(username + " tries password " + password);
   if (users[username] == password) {
     req.session.authenticated = true;
     req.session.user = req.params.user;
