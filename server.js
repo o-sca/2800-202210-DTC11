@@ -20,8 +20,9 @@ app.use(
 );
 
 users = {
-  user1: "123",
-  user2: "456",
+  user1: { password: "123", email: "user1@gmail.com" },
+  user2: { password: "456", email: "user2@gmail.com" },
+  user3: { password: "789", email: "user3@gmail.com" },
 };
 
 app.listen(5001, function (err) {
@@ -40,16 +41,47 @@ app.get("/login", function (req, res) {
   res.sendFile(__dirname + "/public/login.html");
 });
 
+app.get("/logout", function (req, res) {
+  req.session.authenticated = false;
+  // diplay "logged out" via alert or temporary page
+  res.redirect("/");
+});
+
 // use "/loginAttempt" to use AJAX request
 app.post("/auth", function (req, res) {
   username = req.body.username;
   password = req.body.password;
-  if (users[username] == password) {
+  // username;
+  console.log(username + " stores " + password);
+  if (username == "admin" && password == "topsecret") {
+    req.session.admin = true;
+  } else if (username in users && users[username].password == password) {
     req.session.authenticated = true;
-    req.session.user = req.params.user;
+    req.session.admin = false;
+    req.session.user = req.params.username;
     res.redirect("/");
   } else {
     req.session.authenticated = false;
-    res.send("Username or password incorrect.");
+    req.session.admin = false;
+    res.send(`Password for ${req.session.user} is incorrect`);
+  }
+});
+
+app.post("/admin", function (req, res) {
+  if (req.session.admin) {
+    res.send(user);
+  } else {
+    res.send("Unauthorized - access denied");
+  }
+});
+
+app.post("/register", function (req, res) {
+  username = req.body.username;
+  password = req.body.password;
+  email = req.body.email;
+  if (username in users) {
+    res.send("Username already exists");
+  } else {
+    console.log("update users");
   }
 });

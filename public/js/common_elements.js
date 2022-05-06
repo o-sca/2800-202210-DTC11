@@ -1,6 +1,6 @@
 //footer and navbar
-function loadSkeleton() {
+function loadCommonElements() {
   console.log($("#navbarPlaceholder").load("../common/nav.html"));
   console.log($("#footerPlaceholder").load("../common/footer.html"));
 }
-loadSkeleton(); //invoke the function
+loadCommonElements(); //invoke the function
