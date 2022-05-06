@@ -1,12 +1,5 @@
-html, body{
-    height: 100%;
-}
-
-body {
-    margin: 0;
-}
-
-main, footer {
+main,
+footer {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -20,7 +13,7 @@ main, footer {
 
 #logo img {
     display: block;
-    width:240px;
+    width: 240px;
     height: auto;
 }
 
