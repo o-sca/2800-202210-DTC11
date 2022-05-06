@@ -1,5 +1,4 @@
-main,
-footer {
+main {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -24,3 +23,7 @@ input[type=text] {
     flex-direction: column;
     width: auto;
 }
+/* 
+footer {
+    margin-top: auto;
+} */
