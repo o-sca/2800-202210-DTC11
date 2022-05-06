@@ -51,9 +51,11 @@ app.get("/logout", function (req, res) {
 app.post("/auth", function (req, res) {
   username = req.body.username;
   password = req.body.password;
+  // username;
+  console.log(username + " stores " + password);
   if (username == "admin" && password == "topsecret") {
     req.session.admin = true;
-  } else if (users[username].password == password) {
+  } else if (username in users && users[username].password == password) {
     req.session.authenticated = true;
     req.session.admin = false;
     req.session.user = req.params.username;
