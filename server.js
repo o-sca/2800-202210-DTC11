@@ -1,7 +1,16 @@
+const https = require("https");
+const bodyParser = require("body-parser");
 const express = require("express");
-const app = express();
-app.use(express.static("./public"));
 const session = require("express-session");
+const app = express();
+
+
+users = {
+  user1: { password: "123", email: "user1@gmail.com" },
+  user2: { password: "456", email: "user2@gmail.com" },
+  user3: { password: "789", email: "user3@gmail.com" },
+};
+
 app.use(
   session({
     secret: "I ain't tellin' nobody!",
@@ -9,21 +18,16 @@ app.use(
     resave: true,
   })
 );
-app.set("view engine", "ejs");
 
-const https = require("https");
-const bodyParser = require("body-parser");
+app.use(express.static("./public"));
+
 app.use(
   bodyParser.urlencoded({
     extended: true,
   })
 );
 
-users = {
-  user1: { password: "123", email: "user1@gmail.com" },
-  user2: { password: "456", email: "user2@gmail.com" },
-  user3: { password: "789", email: "user3@gmail.com" },
-};
+app.set("view engine", "ejs");
 
 app.listen(5001, function (err) {
   if (err) console.log(err);
