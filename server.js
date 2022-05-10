@@ -89,3 +89,5 @@ app.post("/register", function (req, res) {
     console.log("update users");
   }
 });
+
+require('./public/js/sql.js')

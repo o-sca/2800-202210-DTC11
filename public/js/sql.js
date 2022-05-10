@@ -1,15 +1,33 @@
-const http = require('http');
-const url = require('url'); 
+const mysql = require('mysql');
 
 
-http.createServer((req, res) => {
-    let q = url.parse(req.url, true);
-    console.log(q.query);
+const con = mysql.createConnection({
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE
+});
 
-    res.writeHead(200, {
-        "content-type": "text-html",
-        "access-control-allow-origin": "*"
+con.connect(err => {
+    if (err) throw err;
+    console.log('Connected')
+
+    const createTableQuery = [
+        'CREATE TABLE IF NOT EXISTS users',
+        '(id INT AUTO_INCREMENT PRIMARY KEY,',
+        'email VARCHAR(255),',
+        'password VARCHAR(255),',
+        'admin BOOL)'
+    ].join(' ');
+
+    con.query(createTableQuery, (err, result) => {
+        if (err) throw err;
+        console.log('Table created!');
     });
 
-    res.end(`Hello ${q.query.name}`);
-}).listen(3001);
+    con.end(err => {
+        if (err) throw err;
+        console.log('database connection closed!');
+        process.exit();
+    });
+});
