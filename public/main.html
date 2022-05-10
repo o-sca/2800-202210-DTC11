@@ -1,32 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EZ-EV</title>
-    <meta name="COMP-2800" content="BCIT COMP-2800 Project" />
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./css/global.css" />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EZ-EV</title>
+  <meta name="COMP-2800" content="BCIT COMP-2800 Project" />
 
-  <body>
-    <!-- Nav Bar -->
-    <nav id="navbarPlaceholder"></nav>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/global.css" />
+  <style>
+    @media only screen and (max-width: 750px) {
 
-    <main>
-      <h1>Main!</h1>
-    </main>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        height: 100vh;
+      }
 
-    <!-- Footer -->
-    <nav id="footerPlaceholder"></nav>
+      button {
+        border: none;
+      }
 
-    <!-- Javascript scripts -->
-    <script src="./js/common_elements.js"></script>
-  </body>
+      .map {
+        background-color: blue;
+        width: 290px;
+        height: 784px;
+        padding: 50px;
+        margin: 20px;
+      }
+
+      .icons {
+        display: flex;
+        justify-content: space-around;
+        background-color: #ffffff;
+        border: 1px solid black;
+        opacity: 0.75;
+
+        width: 50%;
+        position: absolute;
+        bottom: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Nav Bar -->
+  <nav id="navbarPlaceholder"> navnavnavnav</nav>
+
+  <main>
+    <div class="map">
+      <!--This is where the map image would go-->
+      MAP
+
+      <div class="icons">
+        <button class="profile"><i class="material-icons">account_circle</i></button>
+        <button class="map_icon"><i class="material-icons">map</i></button>
+        <button class="favourite"><i class="material-icons">favorite</i></button>
+        </div>
+    </div>
+    
+  </main>
+
+  <!-- Footer -->
+  <nav id="footerPlaceholder"></nav>
+
+  <!-- Javascript scripts -->
+  <script src="./js/common_elements.js"></script>
+</body>
+
 </html>
