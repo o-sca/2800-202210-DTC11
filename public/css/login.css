@@ -7,6 +7,17 @@ main {
     float: center;
 }
 
+.login {
+    display: flex;
+    flex-direction: column;
+    border-style:solid;
+    border-color: rgb(73, 32, 112);
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 300px;
+}
+
 body {
     margin: 0;
     background: rgb(0, 47, 48);
@@ -16,7 +27,7 @@ body {
 #logo img {
     display: block;
     width: 240px;
-    height: auto;
+    height: 150px;
 }
 
 input[type=text] {
