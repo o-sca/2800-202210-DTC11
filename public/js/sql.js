@@ -13,9 +13,9 @@ class SQL {
 
         const localConfig = {
             host: "localhost",
-            user: "root",
-            password: "",
-            database: "users",
+            user: process.env.LOCAL_USER,
+            password: process.env.LOCAL_PASSWORD,
+            database: process.env.LOCAL_DATABASE,
             multipleStatements: false
         };
         
@@ -25,7 +25,7 @@ class SQL {
         else {
             this.con = mysql.createConnection({ localConfig });
         }
-        
+
         try {
             await new Promise((resolve, reject) => {
 
