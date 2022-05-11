@@ -81,6 +81,6 @@ app.post("/register", async (req, res) => {
   const username = req.body.username,
     password = req.body.password,
     email = req.body.email;
-  let response = await sql.register(username, email, password);
+  let response = await mysqlWrapper.register(username, email, password);
   return res.send(response);
 });

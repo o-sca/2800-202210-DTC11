@@ -106,7 +106,8 @@ class mysqlWrapper {
     if (!user) return `${username} have been taken`;
     let response = await this.addNewUser(username, email, password);
     return response;
-  }
+  };
+
   async authenticate(username, password) {
     try {
       return new Promise(async (resolve, reject) => {
@@ -117,7 +118,7 @@ class mysqlWrapper {
           (err, result) => {
             if (err) return reject(err);
             resolve({
-              isAuth: result.length ? 1 : 0,
+              isAuth:(result.length > 0) ? 1 : 0,
               isAdmin: result.isAdmin ? 1 : 0,
             });
           }
@@ -127,7 +128,8 @@ class mysqlWrapper {
     } catch (err) {
       return console.log(err);
     }
-  }
-}
+  };
+};
+
 
 module.exports = mysqlWrapper;
