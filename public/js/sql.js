@@ -3,12 +3,29 @@ const mysql = require('mysql');
 
 class SQL {
     async connect() {
-        this.con = mysql.createConnection({
+        const herokuConfig = {
             host: process.env.HOST,
             user: process.env.USER,
             password: process.env.PASSWORD,
-            database: process.env.DATABASE
-        });
+            database: process.env.DATABASE,
+            multipleStatements: false
+        };
+
+        const localConfig = {
+            host: "localhost",
+            user: "root",
+            password: "",
+            database: "users",
+            multipleStatements: false
+        };
+        
+        if (process.env.IS_HEROKU) {
+            this.con = mysql.createConnection({ herokuConfig });
+        }
+        else {
+            this.con = mysql.createConnection({ localConfig });
+        }
+        
         try {
             await new Promise((resolve, reject) => {
 
