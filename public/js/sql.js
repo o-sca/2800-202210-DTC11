@@ -51,7 +51,7 @@ class SQL {
                 await this.connect();
                 this.con.query('SELECT * FROM users WHERE username = ?', [username], (err, result) => {
                     if (err) return reject(err);
-                    resolve((result.length > 0) ? result : false);
+                    return resolve((result.length > 0) ? result : false);
                 })
                 return this.end()
             })
@@ -68,13 +68,20 @@ class SQL {
                 await this.connect();
                 this.con.query(insertQuery, insertValues, (err) => {
                     if (err) return reject(err);
-                    resolve('New user added to database');
+                    return resolve('New user added to database');
                 })
                 return this.end();
             })
         } catch (err) {
             return console.log(err)
         }
+    };
+
+    async register(username, email, password) {
+        let user = await this.findUser(username);
+        if (user !== false) return `${username} have been taken`;
+        let response = await this.addNewUser(username, email, password);
+        return response;
     };
 };
 

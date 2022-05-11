@@ -80,9 +80,6 @@ app.post("/register", async (req, res) => {
 	const username = req.body.username,
 		  password = req.body.password,
 		  email = req.body.email;
-	
-	const user = await sql.findUser(username);
-	if (user !== false) return res.send(username, 'have been taken');
-	const response = await sql.addNewUser(username, email, password);
-	console.log(response)
+	let response = await sql.register(username, email, password);
+	return res.send(response);
 });
