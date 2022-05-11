@@ -20,15 +20,14 @@ class SQL {
         };
         
         if (process.env.IS_HEROKU) {
-            this.con = mysql.createConnection({ herokuConfig });
+            this.con = mysql.createConnection(herokuConfig);
         }
         else {
-            this.con = mysql.createConnection({ localConfig });
+            this.con = mysql.createConnection(localConfig);
         }
 
         try {
             await new Promise((resolve, reject) => {
-
                 this.con.connect(err => {
                     return err? reject(err) : resolve(console.log(`Connected to database: ${this.con.config.database}`))
                 })
