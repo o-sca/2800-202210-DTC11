@@ -11,17 +11,16 @@ class mysqlWrapper {
     };
 
     const localConfig = {
-      host: "localhost",
-      user: process.env.LOCAL_USER,
-      password: process.env.LOCAL_PASSWORD,
-      database: process.env.LOCAL_DATABASE,
-      multipleStatements: false,
+      host: 'localhost',
+      user: 'root',
+      password: '',
+      database: 'users'
     };
 
     if (process.env.IS_HEROKU) {
-      this.con = mysql.createConnection({ herokuConfig });
+      this.con = mysql.createConnection(herokuConfig);
     } else {
-      this.con = mysql.createConnection({ localConfig });
+      this.con = mysql.createConnection(localConfig);
     }
 
     try {
@@ -63,7 +62,7 @@ class mysqlWrapper {
       if (err) throw err;
       console.log("Table created!", result);
     });
-  }
+  };
 
   async findUser(username) {
     try {
@@ -85,7 +84,7 @@ class mysqlWrapper {
   }
 
   async addNewUser(username, email, password) {
-    const insertQuery = `INSERT INTO users (username, email, password, admin) VALUES(?, ?, ?, ?)`;
+    const insertQuery = `INSERT INTO users ( username, email, password, admin) VALUES(?, ?, ?, ?)`;
     const insertValues = [username, email, password, 0];
     try {
       return new Promise(async (resolve, reject) => {
@@ -103,7 +102,7 @@ class mysqlWrapper {
 
   async register(username, email, password) {
     let user = await this.findUser(username);
-    if (!user) return `${username} have been taken`;
+    if (user) return `${username} have been taken`;
     let response = await this.addNewUser(username, email, password);
     return response;
   };
