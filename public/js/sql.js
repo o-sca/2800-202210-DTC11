@@ -2,26 +2,31 @@ const mysql = require('mysql');
 
 
 class SQL {
-    initConnection() {
+    async connect() {
         this.con = mysql.createConnection({
             host: process.env.HOST,
             user: process.env.USER,
             password: process.env.PASSWORD,
             database: process.env.DATABASE
         });
+        try {
+            await new Promise((resolve, reject) => {
 
-        this.con.connect(err => {
-            if (err) throw err;
-            console.log('Connected to database:', this.con.config.database)
-        })
+                this.con.connect(err => {
+                    return err? reject(err) : resolve(console.log(`Connected to database: ${this.con.config.database}`))
+                })
+            })
+        } catch (err) {
+            return console.log(err)
+        }
     };
 
     end() {
         this.con.end(err => {
             if (err) throw err;
-            console.log('database connection closed!');
-            process.exit();
-        });
+            console.log('Closed connection to database')
+            // process.exit()
+        })
     };
 
     createTable() {
@@ -30,7 +35,8 @@ class SQL {
             '(id INT AUTO_INCREMENT PRIMARY KEY,',
             'username CHAR(20),',
             'email VARCHAR(255),',
-            'password VARCHAR(255))'
+            'password VARCHAR(255),',
+            'admin TINYINT(1))'
         ].join(' ');
     
         this.con.query(createTableQuery, (err, result) => {
@@ -39,20 +45,36 @@ class SQL {
         });
     };
 
-    readUsers() {
-        this.con.query('SELECT * FROM users', (err, result, fields) => {
-            if (err) throw err;
-            console.log(result)
-            console.log(fields)
-        })
+    async findUser(username) {
+        try{
+            return new Promise(async (resolve, reject) => {
+                await this.connect();
+                this.con.query('SELECT * FROM users WHERE username = ?', [username], (err, result) => {
+                    if (err) return reject(err);
+                    resolve((result.length > 0) ? result : false);
+                })
+                return this.end()
+            })
+        } catch (err) {
+            return console.log(err)
+        }
     };
 
-    addNewUser(username, email, password) {
-        const insertQuery = `INSERT INTO users (username, email, password) VALUES('${username}', '${email}', '${password}')`;
-        this.con.query(insertQuery, (err, result) => {
-            if (err) throw err;
-            console.log('User added')
-        })
+    async addNewUser(username, email, password) {
+        const insertQuery = `INSERT INTO users (username, email, password, admin) VALUES(?, ?, ?, ?)`;
+        const insertValues = [username, email, password, 0];
+        try {
+            return new Promise(async (resolve, reject) => {
+                await this.connect();
+                this.con.query(insertQuery, insertValues, (err) => {
+                    if (err) return reject(err);
+                    resolve('New user added to database');
+                })
+                return this.end();
+            })
+        } catch (err) {
+            return console.log(err)
+        }
     };
 };
 

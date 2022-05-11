@@ -7,12 +7,6 @@ const app = express();
 const sql = new SQL();
 
 
-users = {
-	user1: { password: "123", email: "user1@gmail.com" },
-	user2: { password: "456", email: "user2@gmail.com" },
-	user3: { password: "789", email: "user3@gmail.com" },
-};
-
 app.use(
 	session({
 		secret: "I ain't tellin' nobody!",
@@ -82,16 +76,13 @@ app.post("/admin", function (req, res) {
 	}
 });
 
-app.post("/register", function (req, res) {
+app.post("/register", async (req, res) => {
 	const username = req.body.username,
 		  password = req.body.password,
 		  email = req.body.email;
-
-	if (username in users) res.send("Username already exists");	
+	
+	const user = await sql.findUser(username);
+	if (user !== false) return res.send(username, 'have been taken');
+	const response = await sql.addNewUser(username, email, password);
+	console.log(response)
 });
-
-
-// sql.initConnection();
-// sql.createTable();
-// sql.addNewUser('user1', 'user1@gmail.com', 'password123');
-// sql.readUsers();
