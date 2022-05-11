@@ -12,12 +12,49 @@ app.use(
 app.set("view engine", "ejs");
 
 const https = require("https");
+const url = require("url");
+
+const https = require("https");
 const bodyParser = require("body-parser");
+const res = require("express/lib/response");
+const req = require("express/lib/request");
 app.use(
   bodyParser.urlencoded({
     extended: true,
   })
 );
+
+https.createServer((req, red) => {
+  let q = url.parse(req.url, true);
+  console.log(q.query);
+
+  res.writeHead(200, {
+    "Contet-Type": "test/html",
+    "Access-Control-Allow-Origin": "*",
+  });
+});
+
+const mysql = require("mysql");
+// const con = mysql.createConnection({
+//   host: "us-cdbr-east-05.cleardb.net",
+//   user: "b56c870481272c",
+//   password: "020fb15f",
+//   database: "heroku_567fba5f05dd92f",
+// });
+const con = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "l3br0y",
+  database: "users",
+});
+
+con.connect((err) => {
+  if (err) throw err;
+});
+
+app.listen(preocess.env.PORT | 5001, function (err) {
+  if (err) console.log(err);
+});
 
 users = {
   user1: { password: "123", email: "user1@gmail.com" },
@@ -25,9 +62,7 @@ users = {
   user3: { password: "789", email: "user3@gmail.com" },
 };
 
-app.listen(5001, function (err) {
-  if (err) console.log(err);
-});
+//------- ROUTES -------//
 
 app.get("/", function (req, res) {
   if (req.session.authenticated) {
