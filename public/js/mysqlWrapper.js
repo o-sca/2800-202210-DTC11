@@ -1,13 +1,12 @@
 const mysql = require("mysql2");
-require("dotenv").config({ path: __dirname + "/.env" });
-console.log("USER: " + process.env.USER);
+require("dotenv").config();
 class mysqlWrapper {
   async connect() {
     const herokuConfig = {
-      host: process.env.HOST,
-      user: process.env.USER,
-      password: process.env.PASSWORD,
-      database: process.env.DATABASE,
+      host: process.env.HEROKU_HOST,
+      user: process.env.HEROKU_USER,
+      password: process.env.HEROKU_PASSWORD,
+      database: process.env.HEROKU_DATABASE,
       multipleStatements: false,
     };
     const localConfig = {
@@ -17,12 +16,9 @@ class mysqlWrapper {
       database: process.env.LOCAL_DATABASE,
       multipleStatements: false,
     };
-
-    if (process.env.IS_HEROKU) {
-      this.con = mysql.createConnection(herokuConfig);
-    } else {
-      this.con = mysql.createConnection(localConfig);
-    }
+    this.con = process.env.IS_HEROKU
+      ? mysql.createConnection(herokuConfig)
+      : mysql.createConnection(localConfig);
 
     try {
       await new Promise((resolve, reject) => {
