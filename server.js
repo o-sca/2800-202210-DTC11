@@ -1,28 +1,26 @@
 const express = require("express");
 const session = require("express-session");
+const bodyParser = require("body-parser");
+const https = require("https");
+const MySQLWrapper = require("./public/js/mysqlWrapper.js");
+const mysqlWrapper = new MySQLWrapper();
 const app = express();
 app.use(express.static("./public"));
-app.set("view engine", "ejs");
 
 app.use(
   session({
-    secret: "I ain't tellin' nobody!",
+    secret: "^!A*Wr9#v&ek5h6@Uo^a",
+    admin: false,
     saveUninitialized: true,
     resave: true,
   })
 );
-
-const bodyParser = require("body-parser");
 app.use(
   bodyParser.urlencoded({
     extended: true,
   })
 );
-
-const https = require("https");
-
-const MySQLWrapper = require("./public/js/mysqlWrapper.js");
-const mysqlWrapper = new MySQLWrapper();
+app.set("view engine", "ejs");
 
 app.listen(5001, function (err) {
   if (err) console.log(err);
@@ -49,21 +47,19 @@ app.get("/logout", function (req, res) {
   res.redirect("/");
 });
 
-// use "/loginAttempt" to use AJAX request
 app.post("/auth", async function (req, res) {
   username = req.body.username;
   password = req.body.password;
-  authenticatedResult = await mysqlWrapper.authenticate(username, password);
-  if (authenticatedResult.isAdmin) {
-    req.session.admin = true;
-  }
-  if (authenticatedResult.isAuth) {
-    req.session.authenticated = true;
-    req.session.admin = false;
-    req.session.user = req.params.username;
+  authResult = await mysqlWrapper.authenticate(username, password);
+  console.log(authResult);
+  req.session.authenticated = authResult.isAuth ? true : false;
+  if (authResult.isAuth) {
+    req.session.admin = authResult.isAdmin ? true : false;
+    req.session.user = username;
+    console.log(req.session);
     res.redirect("/");
+    // res.sendFile(__dirname + "/public/main.html");
   } else {
-    req.session.authenticated = false;
     req.session.admin = false;
     res.send(`Password for ${req.session.user} is incorrect`);
   }
@@ -71,16 +67,21 @@ app.post("/auth", async function (req, res) {
 
 app.post("/admin", function (req, res) {
   if (req.session.admin) {
-    res.send(user);
+    res.sendFile(__dirname + "/public/admin.html");
   } else {
-    res.send("Unauthorized - access denied");
+    res.send("Unauthorized access denied");
   }
 });
 
 app.post("/register", async (req, res) => {
-  const username = req.body.username,
-    password = req.body.password,
-    email = req.body.email;
-  let response = await sql.register(username, email, password);
-  return res.send(response);
+  console.log(req.body);
+  const username = req.body.username;
+  if (await mysqlWrapper.findUser(username)) {
+    res.send("The username is already taken, please use another.");
+  } else {
+    const password = req.body.password;
+    const email = req.body.email;
+    let response = await mysqlWrapper.register(username, email, password);
+    res.send(response);
+  }
 });

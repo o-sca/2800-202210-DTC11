@@ -10,7 +10,7 @@ function setup() {
       },
       success: (createNewAccountResult) => {
         if (createNewAccountResult) {
-          $("#errorMessage").text(createNewAccountResult);
+          $("#errorMessage").text("Username or password is incorrect.");
         }
       },
     });
