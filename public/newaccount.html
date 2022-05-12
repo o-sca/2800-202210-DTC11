@@ -4,17 +4,28 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css/newaccount.css" />
     <title>Registration</title>
+    <meta name="COMP-2800" content="BCIT COMP-2800 Project" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./css/global.css" />
+    <link rel="stylesheet" href="css/newaccount.css" />
   </head>
 
   <body>
     <!-- Nav Bar -->
     <nav id="navbarPlaceholder"></nav>
     <main>
-      <form action="/register" method="POST">
+      <form id="newAccountForm" action="/register" method="POST">
         <h1>Register</h1>
         <p>Fill out the following details to create a new account.</p>
+        <br />
+        <p id="errorMessage"></p>
         <label for="username">
           <input
             type="text"
