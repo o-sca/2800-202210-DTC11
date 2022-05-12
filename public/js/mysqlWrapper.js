@@ -88,21 +88,27 @@ class mysqlWrapper {
         await this.connect();
         this.con.query(insertQuery, insertValues, (err) => {
           if (err) return reject(err);
-          return resolve("New user added to database");
+          return resolve(`New account for "${username}" has been created`);
         });
-        return this.end();
+        console.log(this.end());
       });
     } catch (err) {
-      return console.log(err);
+      console.log(err);
     }
   }
 
   async register(username, email, password) {
-    let user = await this.findUser(username);
-    if (!user) return `${username} have been taken`;
+    let userExists = await this.findUser(username);
+    if (userExists)
+      return {
+        success: false,
+        message: `Username "${username}" has been taken`,
+      };
     let response = await this.addNewUser(username, email, password);
-    return response;
+    // TODO: handle insertion error
+    return { success: true, message: response };
   }
+
   async authenticate(username, password) {
     try {
       return new Promise(async (resolve, reject) => {
