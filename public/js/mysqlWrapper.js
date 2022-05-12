@@ -1,5 +1,6 @@
 const mysql = require("mysql2");
-
+require("dotenv").config({ path: __dirname + "/.env" });
+console.log("USER: " + process.env.USER);
 class mysqlWrapper {
   async connect() {
     const herokuConfig = {
@@ -9,10 +10,9 @@ class mysqlWrapper {
       database: process.env.DATABASE,
       multipleStatements: false,
     };
-
     const localConfig = {
       host: process.env.LOCAL_HOST,
-      user: process.env.LOCAL_USERNAME,
+      user: process.env.LOCAL_USER,
       password: process.env.LOCAL_PASSWORD,
       database: process.env.LOCAL_DATABASE,
       multipleStatements: false,
