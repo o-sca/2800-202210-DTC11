@@ -1,7 +1,9 @@
 const express = require("express");
+const session = require("express-session");
 const app = express();
 app.use(express.static("./public"));
-const session = require("express-session");
+app.set("view engine", "ejs");
+
 app.use(
   session({
     secret: "I ain't tellin' nobody!",
@@ -9,9 +11,7 @@ app.use(
     resave: true,
   })
 );
-app.set("view engine", "ejs");
 
-const https = require("https");
 const bodyParser = require("body-parser");
 app.use(
   bodyParser.urlencoded({
@@ -19,15 +19,17 @@ app.use(
   })
 );
 
-users = {
-  user1: { password: "123", email: "user1@gmail.com" },
-  user2: { password: "456", email: "user2@gmail.com" },
-  user3: { password: "789", email: "user3@gmail.com" },
-};
+const https = require("https");
+
+const MySQLWrapper = require("./public/js/mysqlWrapper.js");
+const mysqlWrapper = new MySQLWrapper();
 
 app.listen(5001, function (err) {
   if (err) console.log(err);
+  console.log("Listening");
 });
+
+/***** ROUTES *****/
 
 app.get("/", function (req, res) {
   if (req.session.authenticated) {
@@ -43,19 +45,19 @@ app.get("/login", function (req, res) {
 
 app.get("/logout", function (req, res) {
   req.session.authenticated = false;
-  // diplay "logged out" via alert or temporary page
+  // TODO: diplay "logged out" via alert or temporary page
   res.redirect("/");
 });
 
 // use "/loginAttempt" to use AJAX request
-app.post("/auth", function (req, res) {
+app.post("/auth", async function (req, res) {
   username = req.body.username;
   password = req.body.password;
-  // username;
-  console.log(username + " stores " + password);
-  if (username == "admin" && password == "topsecret") {
+  authenticatedResult = await mysqlWrapper.authenticate(username, password);
+  if (authenticatedResult.isAdmin) {
     req.session.admin = true;
-  } else if (username in users && users[username].password == password) {
+  }
+  if (authenticatedResult.isAuth) {
     req.session.authenticated = true;
     req.session.admin = false;
     req.session.user = req.params.username;
@@ -75,13 +77,10 @@ app.post("/admin", function (req, res) {
   }
 });
 
-app.post("/register", function (req, res) {
-  username = req.body.username;
-  password = req.body.password;
-  email = req.body.email;
-  if (username in users) {
-    res.send("Username already exists");
-  } else {
-    console.log("update users");
-  }
+app.post("/register", async (req, res) => {
+  const username = req.body.username,
+    password = req.body.password,
+    email = req.body.email;
+  let response = await sql.register(username, email, password);
+  return res.send(response);
 });
