@@ -21,8 +21,9 @@ main {
 
 body {
     margin: 0;
-    background: rgb(0, 47, 48);
-    background: linear-gradient(50deg, rgba(0, 47, 48, 1) 0%, rgba(68, 84, 214, 1) 34%, rgba(0, 225, 255, 1) 92%);
+    background: radial-gradient(#d9eff9, #40537e);
+    /* background: rgb(0, 47, 48); */
+    /* background: linear-gradient(50deg, rgba(0, 47, 48, 1) 0%, rgba(68, 84, 214, 1) 34%, rgba(0, 225, 255, 1) 92%); */
 }
 
 #logo img {
