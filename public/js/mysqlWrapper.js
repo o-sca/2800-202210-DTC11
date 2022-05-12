@@ -1,4 +1,4 @@
-const mysql = require("mysql");
+const mysql = require("mysql2");
 
 class mysqlWrapper {
   async connect() {
@@ -11,17 +11,17 @@ class mysqlWrapper {
     };
 
     const localConfig = {
-      host: "localhost",
-      user: process.env.LOCAL_USER,
+      host: process.env.LOCAL_HOST,
+      user: process.env.LOCAL_USERNAME,
       password: process.env.LOCAL_PASSWORD,
       database: process.env.LOCAL_DATABASE,
       multipleStatements: false,
     };
 
     if (process.env.IS_HEROKU) {
-      this.con = mysql.createConnection({ herokuConfig });
+      this.con = mysql.createConnection(herokuConfig);
     } else {
-      this.con = mysql.createConnection({ localConfig });
+      this.con = mysql.createConnection(localConfig);
     }
 
     try {
