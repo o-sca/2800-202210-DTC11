@@ -8,8 +8,8 @@ function setup() {
         username: $("#username").val(),
         password: $("#password").val(),
       },
-      success: (createNewAccountResult) => {
-        if (createNewAccountResult) {
+      success: (success) => {
+        if (!success) {
           $("#errorMessage").text("Username or password is incorrect.");
         }
       },
