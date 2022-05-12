@@ -6,14 +6,14 @@
   <style>
     body {
     background-color: rgb(255, 255, 255);
+    font-family: Arial, Helvetica, sans-serif;
+
   }
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-
     .topnav {
+      /* display: flex; */
+      /* width: 100%; */
+      justify-content: space-between;
       overflow: hidden;
       background-color: #333;
       position: relative;
@@ -51,6 +51,10 @@
       color: white;
     }
 
+    #admin{
+      display:none;
+    }
+
 @media only screen and (max-width: 800px) {
   body {
     background-color: rgb(255, 255, 255);
@@ -80,10 +84,10 @@
     }
 
     .topnav a.icon {
-      background: 03045E;
+      background: #03045E;
       display: block;
       position: absolute;
-      left: 0;
+      right: 0;
       top: 0;
       font-size: 20px;
     }
@@ -98,6 +102,10 @@
       background-color: #48CAE4;
       color: white;
     }
+
+    #admin{
+      display:none;
+    }
   }
     </style>
     </head>
@@ -109,7 +117,7 @@
       <div id="myLinks">
         <a href="/main.html">Home</a>
         <a href="/login.html"><span id="log">Login / Sign-up</span></a>
-        <a href="#about">About</a>
+        <a href="/admin.html" id="admin">Admin</a>
       </div>
       <a href="javascript:void(0);" class="icon" onclick="myFunction()">
         <i class="fa fa-bars"></i>
@@ -127,79 +135,4 @@
       }
     }
     </script>
-
-    </body>
-  <!-- <style>
-    @media only screen and (max-width: 800px) {
-      body {
-        background-color: lightpink;
-      }
-
-
-      .topnav {
-        background-color: #333;
-        position: relative;
-      }
-
-      #links {
-        display: none;
-      }
-
-      .hamburg a {
-        color: red;
-        display: block;
-        position: absolute;
-        right: 0;
-        top: 0;
-        font-size: 50px;
-      }
-
-      a.icon {
-        background: black;
-      }
-    }
-  </style>
-
-</head>
-
-<body>
-
-
-  <nav>
-      <!-- <div id="brand">
-        <a href="/main.html">
-          <img id="nav-logo" src="" width="60px" height="60px" /></a>
-        EZ-EV
-      </div> -->
-
-      <!-- <div class="topnav">
-        <div id="links">
-          <a href="/main.html">Home</a>
-          <a href="/login.html"><span id="log">Login / Sign-up</span></a>
-          <a href="#about">About</a>
-        </div>
-        <div class="hamburg">
-          <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-            <i class="fa fa-bars"></i>
-          </a>
-        </div>
-      </div>
-
-      <!-- only visible when Admin logged in  -->
-      <!-- <li class="nav-item" style="display: none">
-        <a class="nav-link" href="/admin.html">Home</a>
-      </li>
-  </nav>
-
-  <script>
-    function myFunction() {
-      var x = document.getElementById("links");
-      if (x.style.display === "block") {
-        x.style.display = "none";
-      } else {
-        x.style.display = "block";
-      }
-    }
-  </script> -->
-
 </body>
