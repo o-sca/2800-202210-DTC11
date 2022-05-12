@@ -31,14 +31,11 @@ app.listen(5001, function (err) {
 
 app.get("/", function (req, res) {
   if (req.session.authenticated) {
-    res.sendFile(__dirname + "/public/main.html");
+    res.redirect("/main.html");
+    // res.sendFile(__dirname + "/public/newaccount.html");
   } else {
     res.sendFile(__dirname + "/public/login.html");
   }
-});
-
-app.get("/login", function (req, res) {
-  res.sendFile(__dirname + "/public/login.html");
 });
 
 app.get("/logout", function (req, res) {
@@ -48,20 +45,17 @@ app.get("/logout", function (req, res) {
 });
 
 app.post("/auth", async function (req, res) {
-  username = req.body.username;
-  password = req.body.password;
+  const { username, password } = req.body;
   authResult = await mysqlWrapper.authenticate(username, password);
   console.log(authResult);
   req.session.authenticated = authResult.isAuth ? true : false;
   if (authResult.isAuth) {
     req.session.admin = authResult.isAdmin ? true : false;
     req.session.user = username;
-    console.log(req.session);
-    res.redirect("/");
-    // res.sendFile(__dirname + "/public/main.html");
+    req.session.admin ? res.redirect("/") : res.redirect("/");
   } else {
     req.session.admin = false;
-    res.send(`Password for ${req.session.user} is incorrect`);
+    res.send(true);
   }
 });
 
@@ -74,14 +68,12 @@ app.post("/admin", function (req, res) {
 });
 
 app.post("/register", async (req, res) => {
-  console.log(req.body);
-  const username = req.body.username;
-  if (await mysqlWrapper.findUser(username)) {
-    res.send("The username is already taken, please use another.");
-  } else {
-    const password = req.body.password;
-    const email = req.body.email;
-    let response = await mysqlWrapper.register(username, email, password);
-    res.send(response);
-  }
+  const { username, password, email } = req.body;
+  const { success, message } = await mysqlWrapper.register(
+    username,
+    email,
+    password
+  );
+  res.send(false);
+  // success ? res.redirect("/") : res.send(success);
 });
