@@ -47,16 +47,17 @@ app.get("/logout", function (req, res) {
 
 app.post("/login", async function (req, res) {
   const { username, password } = req.body;
-  authResult = await mysqlWrapper.authenticate(username, password);
-  console.log(authResult);
-  req.session.authenticated = authResult.isAuth ? true : false;
-  if (authResult.isAuth) {
-    req.session.admin = authResult.isAdmin ? true : false;
+  const { isAuth, isAdmin } = await mysqlWrapper.authenticate(
+    username,
+    password
+  );
+  req.session.authenticated = isAuth ? true : false;
+  if (isAuth) {
+    req.session.admin = isAdmin;
     req.session.user = username;
     req.session.admin ? res.redirect("/admin") : res.redirect("/");
   } else {
     req.session.admin = false;
-    // res.send(false);
     res.render(__dirname + "/public/login.ejs", {
       username: username,
       message: "Username or password invalid.",
@@ -64,7 +65,7 @@ app.post("/login", async function (req, res) {
   }
 });
 
-app.post("/admin", function (req, res) {
+app.get("/admin", function (req, res) {
   if (req.session.admin) {
     res.sendFile(__dirname + "/public/admin.html");
   } else {
@@ -86,11 +87,17 @@ app.post("/register", async (req, res) => {
     email,
     password
   );
-  console.log({ success });
   success
     ? res.redirect("/")
     : res.render(__dirname + "/public/newaccount", {
         email: email,
         message: "That username is already taken",
       });
+});
+
+app.get("/userStatus", (req, res) => {
+  res.send({
+    isLoggedIn: req.session.authenticated,
+    isAdmin: req.session.admin,
+  });
 });
