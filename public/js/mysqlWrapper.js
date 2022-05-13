@@ -119,8 +119,8 @@ class mysqlWrapper {
           (err, result) => {
             if (err) return reject(err);
             resolve({
-              isAuth: result.length ? 1 : 0,
-              isAdmin: result.isAdmin ? 1 : 0,
+              isAuth: result.length > 0,
+              isAdmin: result.length > 0 ? result[0].admin > 0 : false,
             });
           }
         );
