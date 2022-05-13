@@ -130,6 +130,26 @@ class mysqlWrapper {
       return console.log(err);
     }
   }
+
+  async getUsers(offset = 0, limit = 10) {
+    //SELECT cols FROM tables LIMIT offset, limit ORDER BY (?)
+    try {
+      return new Promise(async (resolve, reject) => {
+        await this.connect();
+        this.con.query(
+          "SELECT * FROM users LIMIT ? , ?",
+          [offset, limit],
+          (err, result) => {
+            if (err) return reject(err);
+            resolve(result);
+          }
+        );
+        return this.end();
+      });
+    } catch (err) {
+      return console.log(err);
+    }
+  }
 }
 
 module.exports = mysqlWrapper;
