@@ -11,11 +11,10 @@ class mysqlWrapper {
     };
 
     const localConfig = {
-      host: process.env.LOCAL_HOST,
-      user: process.env.LOCAL_USERNAME,
-      password: process.env.LOCAL_PASSWORD,
-      database: process.env.LOCAL_DATABASE,
-      multipleStatements: false,
+      host: 'localhost',
+      user: 'root',
+      password: '',
+      database: 'users'
     };
 
     if (process.env.IS_HEROKU) {
@@ -63,7 +62,7 @@ class mysqlWrapper {
       if (err) throw err;
       console.log("Table created!", result);
     });
-  }
+  };
 
   async findUser(username) {
     try {
@@ -82,10 +81,10 @@ class mysqlWrapper {
     } catch (err) {
       return console.log(err);
     }
-  }
+  };
 
   async addNewUser(username, email, password) {
-    const insertQuery = `INSERT INTO users (username, email, password, admin) VALUES(?, ?, ?, ?)`;
+    const insertQuery = `INSERT INTO users ( username, email, password, admin) VALUES(?, ?, ?, ?)`;
     const insertValues = [username, email, password, 0];
     try {
       return new Promise(async (resolve, reject) => {
@@ -99,14 +98,15 @@ class mysqlWrapper {
     } catch (err) {
       return console.log(err);
     }
-  }
+  };
 
   async register(username, email, password) {
     let user = await this.findUser(username);
-    if (!user) return `${username} have been taken`;
+    if (user) return `${username} have been taken`;
     let response = await this.addNewUser(username, email, password);
     return response;
-  }
+  };
+
   async authenticate(username, password) {
     try {
       return new Promise(async (resolve, reject) => {
@@ -117,7 +117,7 @@ class mysqlWrapper {
           (err, result) => {
             if (err) return reject(err);
             resolve({
-              isAuth: result.length ? 1 : 0,
+              isAuth:(result.length > 0) ? 1 : 0,
               isAdmin: result.isAdmin ? 1 : 0,
             });
           }
@@ -127,7 +127,8 @@ class mysqlWrapper {
     } catch (err) {
       return console.log(err);
     }
-  }
-}
+  };
+};
+
 
 module.exports = mysqlWrapper;
