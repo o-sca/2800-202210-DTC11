@@ -59,11 +59,11 @@ input[type=submit] {
     height: 40%;
   }
 
-.button {
+.guestbutton {
     background-color: #151788;
     color: white;
     border: none;
     cursor: pointer;
-    width: 42.9%;
-    height: 10%;
+    width: 147px;    
+    height: 40px;
 }
