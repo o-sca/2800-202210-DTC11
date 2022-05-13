@@ -25,13 +25,14 @@
         <h1>Register</h1>
         <p>Fill out the following details to create a new account.</p>
         <br />
-        <p id="errorMessage"></p>
+        <p id="errorMessage"><%= message %></p>
         <label for="username">
           <input
             type="text"
             placeholder="Username"
             id="username"
             name="username"
+            value="<%= username %>"
             required
           />
         </label>
@@ -41,6 +42,7 @@
             placeholder="Email"
             id="email"
             name="email"
+            value="<%= email %>"
             required
           />
         </label>
@@ -61,6 +63,6 @@
 
     <!-- Javascript scripts -->
     <script src="./js/common_elements.js"></script>
-    <script src="./js/newaccount.js"></script>
+    <!-- <script src="./js/newaccount.js"></script> -->
   </body>
 </html>
