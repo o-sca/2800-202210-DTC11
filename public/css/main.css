@@ -32,8 +32,9 @@
 
 .map {
     /* background-color: lightblue; */
-    width: 300px;
-    height: 570px;
+    width: 358px;
+    height: 600px;
+    margin-top: 1px;
     /* padding: 50px; */
-    margin: 20px;
+    /* margin: 10px; */
 }
