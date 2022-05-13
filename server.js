@@ -23,7 +23,7 @@ app.set("view engine", "ejs");
 const MySQLWrapper = require("./public/js/mysqlWrapper.js");
 const mysqlWrapper = new MySQLWrapper();
 
-app.listen(5001, function (err) {
+app.listen(5001 || process.env.PORT, function (err) {
   if (err) console.log(err);
   console.log("Listening");
 });
