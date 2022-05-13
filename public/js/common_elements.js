@@ -12,7 +12,7 @@ function setup() {
     success: (res) => {
       const { isLoggedIn, isAdmin } = res;
       $("#log").text(isLoggedIn ? "Logout" : "Login / Sign-up");
-      $("#log").attr("href", isLoggedIn ? "/logout" : "/login");
+      $("#log").attr("href", isLoggedIn ? "/logout" : "/");
       $("#admin").css("display", isAdmin ? "block" : "none");
     },
   });

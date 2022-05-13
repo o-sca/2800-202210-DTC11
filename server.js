@@ -20,9 +20,6 @@ app.use(
 );
 app.set("view engine", "ejs");
 
-const leafletWrapper = require('./public/js/leaftletWrapper.js');
-const leaflet = new leafletWrapper();
-
 const MySQLWrapper = require("./public/js/mysqlWrapper.js");
 const mysqlWrapper = new MySQLWrapper();
 
@@ -37,7 +34,6 @@ app.get("/", function (req, res) {
   if (req.session.authenticated) {
     console.log("'/''");
     res.sendFile(__dirname + "/public/main.html");
-    leaflet.init()
   } else {
     res.render(__dirname + "/public/login", { username: "", message: "" });
   }
