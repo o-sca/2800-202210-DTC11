@@ -87,6 +87,7 @@ app.post("/register", async (req, res) => {
     email,
     password
   );
+  // TODO: add dat/time of registration
   success
     ? res.redirect("/")
     : res.render(__dirname + "/public/newaccount", {
@@ -100,4 +101,9 @@ app.get("/userStatus", (req, res) => {
     isLoggedIn: req.session.authenticated,
     isAdmin: req.session.admin,
   });
+});
+
+app.get("/getUsers", async (req, res) => {
+  const userList = await mysqlWrapper.getUsers(0, 5);
+  res.send(userList);
 });

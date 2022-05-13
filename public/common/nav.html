@@ -1,17 +1,17 @@
-<!-- copied from 1800, just a placeholder navbar -->
-
 <head>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+  />
 
   <style>
     body {
-    background-color: rgb(255, 255, 255);
-  }
+      background-color: rgb(255, 255, 255);
+    }
 
     body {
       font-family: Arial, Helvetica, sans-serif;
     }
-
 
     .topnav {
       overflow: hidden;
@@ -41,95 +41,88 @@
     }
 
     .topnav a:hover {
-      background-color: #0096C7;
+      background-color: #0096c7;
       color: black;
     }
 
     .active {
       text-align: center;
-      background-color: #48CAE4;
+      background-color: #48cae4;
       color: white;
     }
 
-@media only screen and (max-width: 800px) {
-  body {
-    background-color: rgb(255, 255, 255);
-  }
+    @media only screen and (max-width: 800px) {
+      body {
+        background-color: rgb(255, 255, 255);
+      }
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-    }
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
 
+      .topnav {
+        overflow: hidden;
+        background-color: #333;
+        position: relative;
+      }
 
-    .topnav {
-      overflow: hidden;
-      background-color: #333;
-      position: relative;
-    }
+      .topnav #myLinks {
+        display: none;
+      }
 
-    .topnav #myLinks {
-      display: none;
-    }
+      .topnav a {
+        color: white;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+        display: block;
+      }
 
-    .topnav a {
-      color: white;
-      padding: 14px 16px;
-      text-decoration: none;
-      font-size: 17px;
-      display: block;
-    }
+      .topnav a.icon {
+        background: 03045E;
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-size: 20px;
+      }
 
-    .topnav a.icon {
-      background: 03045E;
-      display: block;
-      position: absolute;
-      left: 0;
-      top: 0;
-      font-size: 20px;
-    }
+      .topnav a:hover {
+        background-color: #0096c7;
+        color: black;
+      }
 
-    .topnav a:hover {
-      background-color: #0096C7;
-      color: black;
-    }
-
-    .active {
-      text-align: center;
-      background-color: #48CAE4;
-      color: white;
-    }
-  }
-    </style>
-    </head>
-    <body>
-
-    <!-- Top Navigation Menu -->
-    <div class="topnav">
-      <a href="#home" class="active">Logo</a>
-      <div id="myLinks">
-        <a href="/main.html">Home</a>
-        <a href="/login.html"><span id="log">Login / Sign-up</span></a>
-        <a href="#about">About</a>
-      </div>
-      <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-        <i class="fa fa-bars"></i>
-      </a>
-    </div>
-
-
-    <script>
-    function myFunction() {
-      var x = document.getElementById("myLinks");
-      if (x.style.display === "block") {
-        x.style.display = "none";
-      } else {
-        x.style.display = "block";
+      .active {
+        text-align: center;
+        background-color: #48cae4;
+        color: white;
       }
     }
-    </script>
+  </style>
+</head>
+<body>
+  <!-- Top Navigation Menu -->
+  <div class="topnav">
+    <a href="#home" class="active">Logo</a>
+    <div id="myLinks">
+      <a href="/main.html">Home</a>
+      <a href="/login.html" id="log">Login / Sign-up</a>
+      <a href="#about">About</a>
+      <a href="/admin" id="admin" style="display: none">Admin</a>
+    </div>
+    <a href="javascript:void(0);" class="icon" onclick="showMenu()">
+      <i class="fa fa-bars"></i>
+    </a>
+  </div>
 
-    </body>
-  <!-- <style>
+  <script>
+    function showMenu() {
+      var x = document.getElementById("myLinks");
+      x.style.display = x.style.display === "block" ? "none" : "block";
+    }
+  </script>
+</body>
+<!-- <style>
     @media only screen and (max-width: 800px) {
       body {
         background-color: lightpink;
@@ -166,13 +159,13 @@
 
 
   <nav>
-      <!-- <div id="brand">
+      <div id="brand">
         <a href="/main.html">
           <img id="nav-logo" src="" width="60px" height="60px" /></a>
         EZ-EV
-      </div> -->
+      </div> 
 
-      <!-- <div class="topnav">
+      <div class="topnav">
         <div id="links">
           <a href="/main.html">Home</a>
           <a href="/login.html"><span id="log">Login / Sign-up</span></a>
@@ -185,8 +178,8 @@
         </div>
       </div>
 
-      <!-- only visible when Admin logged in  -->
-      <!-- <li class="nav-item" style="display: none">
+      only visible when Admin logged in 
+      <li class="nav-item" style="display: none">
         <a class="nav-link" href="/admin.html">Home</a>
       </li>
   </nav>
@@ -200,6 +193,7 @@
         x.style.display = "block";
       }
     }
-  </script> -->
+  </script> 
 
 </body>
+-->
