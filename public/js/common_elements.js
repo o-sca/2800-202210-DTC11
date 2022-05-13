@@ -1,6 +1,21 @@
-//footer and navbar
+// footer and navbar
 function loadCommonElements() {
-  console.log($("#navbarPlaceholder").load("../common/nav.html"));
-  console.log($("#footerPlaceholder").load("../common/footer.html"));
+  $("#navbarPlaceholder").load("../common/nav.html");
+  $("#footerPlaceholder").load("../common/footer.html");
 }
-loadCommonElements(); //invoke the function
+loadCommonElements();
+
+function setup() {
+  $.ajax({
+    url: "/userStatus",
+    type: "GET",
+    success: (res) => {
+      const { isLoggedIn, isAdmin } = res;
+      $("#log").text(isLoggedIn ? "Logout" : "Login / Sign-up");
+      $("#log").attr("href", isLoggedIn ? "/logout" : "/login");
+      $("#admin").css("display", isAdmin ? "block" : "none");
+    },
+  });
+}
+
+$(document).ready(setup);

@@ -12,13 +12,7 @@
         border: none;
     }
 
-    .map {
-        background-color: lightblue;
-        width: 300px;
-        height: 784px;
-        padding: 50px;
-        margin: 20px;
-    }
+    
 
     .icons {
         display: flex;
@@ -38,4 +32,12 @@
         width: 200px;
         align-items: center;
     }
+}
+
+.map {
+    background-color: lightblue;
+    width: 300px;
+    height: 784px;
+    padding: 50px;
+    margin: 20px;
 }

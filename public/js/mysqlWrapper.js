@@ -1,28 +1,24 @@
 const mysql = require("mysql2");
-
+require("dotenv").config();
 class mysqlWrapper {
   async connect() {
     const herokuConfig = {
-      host: process.env.HOST,
-      user: process.env.USER,
-      password: process.env.PASSWORD,
-      database: process.env.DATABASE,
+      host: process.env.HEROKU_HOST,
+      user: process.env.HEROKU_USER,
+      password: process.env.HEROKU_PASSWORD,
+      database: process.env.HEROKU_DATABASE,
       multipleStatements: false,
     };
-
     const localConfig = {
       host: process.env.LOCAL_HOST,
-      user: process.env.LOCAL_USERNAME,
+      user: process.env.LOCAL_USER,
       password: process.env.LOCAL_PASSWORD,
       database: process.env.LOCAL_DATABASE,
       multipleStatements: false,
     };
-
-    if (process.env.IS_HEROKU) {
-      this.con = mysql.createConnection(herokuConfig);
-    } else {
-      this.con = mysql.createConnection(localConfig);
-    }
+    this.con = process.env.IS_HEROKU
+      ? mysql.createConnection(herokuConfig)
+      : mysql.createConnection(localConfig);
 
     try {
       await new Promise((resolve, reject) => {
@@ -63,7 +59,7 @@ class mysqlWrapper {
       if (err) throw err;
       console.log("Table created!", result);
     });
-  }
+  };
 
   async findUser(username) {
     try {
@@ -82,31 +78,41 @@ class mysqlWrapper {
     } catch (err) {
       return console.log(err);
     }
-  }
+  };
 
   async addNewUser(username, email, password) {
-    const insertQuery = `INSERT INTO users (username, email, password, admin) VALUES(?, ?, ?, ?)`;
-    const insertValues = [username, email, password, 0];
+    let currentDateTime = new Date()
+      .toISOString()
+      .slice(0, 19)
+      .replace("T", " ");
+    const insertQuery = `INSERT INTO users (username, email, password, added, admin) VALUES(?, ?, ?, ?, ?)`;
+    const insertValues = [username, email, password, currentDateTime, 0];
     try {
       return new Promise(async (resolve, reject) => {
         await this.connect();
         this.con.query(insertQuery, insertValues, (err) => {
           if (err) return reject(err);
-          return resolve("New user added to database");
+          return resolve(`New account for "${username}" has been created`);
         });
-        return this.end();
+        console.log(this.end());
       });
     } catch (err) {
-      return console.log(err);
+      console.log(err);
     }
-  }
+  };
 
   async register(username, email, password) {
-    let user = await this.findUser(username);
-    if (!user) return `${username} have been taken`;
+    let userExists = await this.findUser(username);
+    if (userExists)
+      return {
+        success: false,
+        message: `Username "${username}" has been taken`,
+      };
     let response = await this.addNewUser(username, email, password);
-    return response;
+    // TODO: handle insertion error
+    return { success: true, message: response };
   }
+
   async authenticate(username, password) {
     try {
       return new Promise(async (resolve, reject) => {
@@ -117,9 +123,28 @@ class mysqlWrapper {
           (err, result) => {
             if (err) return reject(err);
             resolve({
-              isAuth: result.length ? 1 : 0,
-              isAdmin: result.isAdmin ? 1 : 0,
+              isAuth: result.length > 0,
+              isAdmin: result.length > 0 ? result[0].admin > 0 : false,
             });
+          }
+        );
+        return this.end();
+      });
+    } catch (err) {
+      return console.log(err);
+    }
+  }
+
+  async getUsers(offset = 0, limit = 10) {
+    try {
+      return new Promise(async (resolve, reject) => {
+        await this.connect();
+        this.con.query(
+          "SELECT * FROM users LIMIT ? , ?",
+          [offset, limit],
+          (err, result) => {
+            if (err) return reject(err);
+            resolve(result);
           }
         );
         return this.end();
