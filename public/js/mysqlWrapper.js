@@ -59,7 +59,7 @@ class mysqlWrapper {
       if (err) throw err;
       console.log("Table created!", result);
     });
-  }
+  };
 
   async findUser(username) {
     try {
@@ -78,7 +78,7 @@ class mysqlWrapper {
     } catch (err) {
       return console.log(err);
     }
-  }
+  };
 
   async addNewUser(username, email, password) {
     let currentDateTime = new Date()
@@ -99,7 +99,7 @@ class mysqlWrapper {
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   async register(username, email, password) {
     let userExists = await this.findUser(username);

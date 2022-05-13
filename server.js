@@ -2,12 +2,9 @@ const express = require("express");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const https = require("https");
-const MySQLWrapper = require("./public/js/mysqlWrapper.js");
 const { redirect } = require("express/lib/response");
-const mysqlWrapper = new MySQLWrapper();
 const app = express();
 app.use(express.static("./public"));
-
 app.use(
   session({
     secret: "^!A*Wr9#v&ek5h6@Uo^a",
@@ -23,6 +20,12 @@ app.use(
 );
 app.set("view engine", "ejs");
 
+const leafletWrapper = require('./public/js/leaftletWrapper.js');
+const leaflet = new leafletWrapper();
+
+const MySQLWrapper = require("./public/js/mysqlWrapper.js");
+const mysqlWrapper = new MySQLWrapper();
+
 app.listen(5001, function (err) {
   if (err) console.log(err);
   console.log("Listening");
@@ -34,6 +37,7 @@ app.get("/", function (req, res) {
   if (req.session.authenticated) {
     console.log("'/''");
     res.sendFile(__dirname + "/public/main.html");
+    leaflet.init()
   } else {
     res.render(__dirname + "/public/login", { username: "", message: "" });
   }
@@ -87,7 +91,6 @@ app.post("/register", async (req, res) => {
     email,
     password
   );
-  // TODO: add dat/time of registration
   success
     ? res.redirect("/")
     : res.render(__dirname + "/public/newaccount", {

@@ -28,6 +28,8 @@
     "mysql2": "^2.3.3"
   },
   "devDependencies": {
-    "node-env-run": "^4.0.2"
+    "node-env-run": "^4.0.2",
+    "leaflet": "^1.8.0",
+    "mysql": "^2.18.1"
   }
 }
