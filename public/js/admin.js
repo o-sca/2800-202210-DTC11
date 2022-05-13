@@ -1,5 +1,5 @@
 function setup() {
-  $(".container").hide();
+  // $(".container").hide();
   $.ajax({
     url: "/getUsers",
     type: "GET",

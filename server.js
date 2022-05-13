@@ -103,6 +103,6 @@ app.get("/userStatus", (req, res) => {
 });
 
 app.get("/getUsers", async (req, res) => {
-  const userList = await mysqlWrapper.getUsers(0, 5);
+  const userList = await mysqlWrapper.getUsers(0, 20);
   res.send(userList);
 });
