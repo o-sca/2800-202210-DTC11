@@ -81,8 +81,12 @@ class mysqlWrapper {
   }
 
   async addNewUser(username, email, password) {
-    const insertQuery = `INSERT INTO users (username, email, password, admin) VALUES(?, ?, ?, ?)`;
-    const insertValues = [username, email, password, 0];
+    let currentDateTime = new Date()
+      .toISOString()
+      .slice(0, 19)
+      .replace("T", " ");
+    const insertQuery = `INSERT INTO users (username, email, password, added, admin) VALUES(?, ?, ?, ?, ?)`;
+    const insertValues = [username, email, password, currentDateTime, 0];
     try {
       return new Promise(async (resolve, reject) => {
         await this.connect();
@@ -132,7 +136,6 @@ class mysqlWrapper {
   }
 
   async getUsers(offset = 0, limit = 10) {
-    //SELECT cols FROM tables LIMIT offset, limit ORDER BY (?)
     try {
       return new Promise(async (resolve, reject) => {
         await this.connect();
