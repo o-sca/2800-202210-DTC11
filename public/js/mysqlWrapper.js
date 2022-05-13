@@ -81,7 +81,7 @@ class mysqlWrapper {
     } catch (err) {
       return console.log(err);
     }
-  }
+  };
 
   async addNewUser(username, email, password) {
     const insertQuery = `INSERT INTO users ( username, email, password, admin) VALUES(?, ?, ?, ?)`;
@@ -98,7 +98,7 @@ class mysqlWrapper {
     } catch (err) {
       return console.log(err);
     }
-  }
+  };
 
   async register(username, email, password) {
     let user = await this.findUser(username);
