@@ -1,87 +1,108 @@
 const express = require("express");
+const session = require("express-session");
+const bodyParser = require("body-parser");
+const https = require("https");
+const { redirect } = require("express/lib/response");
 const app = express();
 app.use(express.static("./public"));
-const session = require("express-session");
 app.use(
   session({
-    secret: "I ain't tellin' nobody!",
+    secret: "^!A*Wr9#v&ek5h6@Uo^a",
+    admin: false,
     saveUninitialized: true,
     resave: true,
   })
 );
-app.set("view engine", "ejs");
-
-const https = require("https");
-const bodyParser = require("body-parser");
 app.use(
   bodyParser.urlencoded({
     extended: true,
   })
 );
+app.set("view engine", "ejs");
 
-users = {
-  user1: { password: "123", email: "user1@gmail.com" },
-  user2: { password: "456", email: "user2@gmail.com" },
-  user3: { password: "789", email: "user3@gmail.com" },
-};
+const MySQLWrapper = require("./public/js/mysqlWrapper.js");
+const mysqlWrapper = new MySQLWrapper();
 
 app.listen(5001, function (err) {
   if (err) console.log(err);
+  console.log("Listening");
 });
+
+/***** ROUTES *****/
 
 app.get("/", function (req, res) {
   if (req.session.authenticated) {
+    console.log("'/''");
     res.sendFile(__dirname + "/public/main.html");
   } else {
-    res.sendFile(__dirname + "/public/login.html");
+    res.render(__dirname + "/public/login", { username: "", message: "" });
   }
-});
-
-app.get("/login", function (req, res) {
-  res.sendFile(__dirname + "/public/login.html");
 });
 
 app.get("/logout", function (req, res) {
   req.session.authenticated = false;
-  // diplay "logged out" via alert or temporary page
+  // TODO: diplay "logged out" via alert or temporary page
   res.redirect("/");
 });
 
-// use "/loginAttempt" to use AJAX request
-app.post("/auth", function (req, res) {
-  username = req.body.username;
-  password = req.body.password;
-  // username;
-  console.log(username + " stores " + password);
-  if (username == "admin" && password == "topsecret") {
-    req.session.admin = true;
-  } else if (username in users && users[username].password == password) {
-    req.session.authenticated = true;
-    req.session.admin = false;
-    req.session.user = req.params.username;
-    res.redirect("/");
+app.post("/login", async function (req, res) {
+  const { username, password } = req.body;
+  const { isAuth, isAdmin } = await mysqlWrapper.authenticate(
+    username,
+    password
+  );
+  req.session.authenticated = isAuth ? true : false;
+  if (isAuth) {
+    req.session.admin = isAdmin;
+    req.session.user = username;
+    req.session.admin ? res.redirect("/admin") : res.redirect("/");
   } else {
-    req.session.authenticated = false;
     req.session.admin = false;
-    res.send(`Password for ${req.session.user} is incorrect`);
+    res.render(__dirname + "/public/login.ejs", {
+      username: username,
+      message: "Username or password invalid.",
+    });
   }
 });
 
-app.post("/admin", function (req, res) {
+app.get("/admin", function (req, res) {
   if (req.session.admin) {
-    res.send(user);
+    res.sendFile(__dirname + "/public/admin.html");
   } else {
-    res.send("Unauthorized - access denied");
+    res.send("Unauthorized access denied");
   }
 });
 
-app.post("/register", function (req, res) {
-  username = req.body.username;
-  password = req.body.password;
-  email = req.body.email;
-  if (username in users) {
-    res.send("Username already exists");
-  } else {
-    console.log("update users");
-  }
+app.get("/newaccount", function (req, res) {
+  res.render(__dirname + "/public/newaccount", {
+    email: "",
+    message: "",
+  });
+});
+
+app.post("/register", async (req, res) => {
+  const { username, password, email } = req.body;
+  const { success, message } = await mysqlWrapper.register(
+    username,
+    email,
+    password
+  );
+  success
+    ? res.redirect("/")
+    : res.render(__dirname + "/public/newaccount", {
+        email: email,
+        message: "That username is already taken",
+      });
+});
+
+app.get("/userStatus", (req, res) => {
+  res.send({
+    isLoggedIn: req.session.authenticated,
+    isAdmin: req.session.admin,
+  });
+});
+
+app.get("/getUsers", async (req, res) => {
+  const userList = await mysqlWrapper.getUsers(0, 20);
+  res.send(userList);
 });
