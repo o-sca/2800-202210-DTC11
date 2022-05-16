@@ -20,11 +20,6 @@ app.use(
 );
 app.set("view engine", "ejs");
 
-<<<<<<< HEAD
-=======
-const https = require("https");
-
->>>>>>> Oscar-MapAPI-Feature
 const MySQLWrapper = require("./public/js/mysqlWrapper.js");
 const mysqlWrapper = new MySQLWrapper();
 
