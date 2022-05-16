@@ -21,9 +21,7 @@ app.use(
 
 const https = require("https");
 
-const leafletWrapper = require('./public/js/leaftletWrapper.js');
 const MySQLWrapper = require("./public/js/mysqlWrapper.js");
-const leaflet = new leafletWrapper();
 const mysqlWrapper = new MySQLWrapper();
 
 app.listen(5001, function (err) {
@@ -36,7 +34,6 @@ app.listen(5001, function (err) {
 app.get("/", function (req, res) {
   if (req.session.authenticated) {
     res.sendFile(__dirname + "/public/main.html");
-    leaflet.init()
   } else {
     res.sendFile(__dirname + "/public/login.html");
   }
