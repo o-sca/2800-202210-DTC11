@@ -20,15 +20,10 @@ app.use(
 );
 app.set("view engine", "ejs");
 
-<<<<<<< HEAD
-=======
-const https = require("https");
-
->>>>>>> Oscar-MapAPI-Feature
 const MySQLWrapper = require("./public/js/mysqlWrapper.js");
 const mysqlWrapper = new MySQLWrapper();
 
-app.listen(process.env.PORT || 5001 , function (err) {
+app.listen(process.env.PORT || 5001, function (err) {
   if (err) console.log(err);
   console.log("Listening");
 });
@@ -40,7 +35,7 @@ app.get("/", function (req, res) {
     console.log("'/''");
     res.sendFile(__dirname + "/public/main.html");
   } else {
-    res.render(__dirname + "/public/login", { username: "", message: "" });
+    res.render("login", { username: "", message: "" });
   }
 });
 
@@ -72,14 +67,14 @@ app.post("/login", async function (req, res) {
 
 app.get("/admin", function (req, res) {
   if (req.session.admin) {
-    res.sendFile(__dirname + "/public/admin.html");
+    res.render("admin", {});
   } else {
     res.send("Unauthorized access denied");
   }
 });
 
 app.get("/newaccount", function (req, res) {
-  res.render(__dirname + "/public/newaccount", {
+  res.render("newaccount", {
     email: "",
     message: "",
   });
@@ -94,7 +89,7 @@ app.post("/register", async (req, res) => {
   );
   success
     ? res.redirect("/")
-    : res.render(__dirname + "/public/newaccount", {
+    : res.render("newaccount", {
         email: email,
         message: "That username is already taken",
       });
