@@ -3,5 +3,19 @@ async function fetchVanData() {
         method: "GET"
     })
     const data = await response.json();
-    return data
+    
+    var tempArray = [];
+
+    for (let i = 0; i < data.records.length; i++) {
+        let address = data.records[i].fields.address;
+        let lng = data.records[i].fields.geom.coordinates[0];
+        let lat = data.records[i].fields.geom.coordinates[1];
+        
+        tempArray.push({
+            address: address,
+            lng: lng,
+            lat: lat
+        })
+    };
+    return tempArray;
 };

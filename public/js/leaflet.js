@@ -38,18 +38,17 @@ function round(number) {
   return Math.round(number * 1000) / 1000;
 };
 
-function populateStations(object, map) {
-    for (let i = 0; i < object.records.length; i++) {
-        let lng = object.records[i].fields.geom.coordinates[0];
-        let lat = object.records[i].fields.geom.coordinates[1];
-        let option = {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.9,
-            radius: 25
-        }
-        circle(lat, lng, map, option);
-    }
+function populateStations(arr, map) {
+  for (let i = 0; i < arr.length; i++) {
+    console.log(arr[i])
+      let option = {
+          color: 'red',
+          fillColor: '#f03',
+          fillOpacity: 0.9,
+          radius: 25
+      }
+      circle(arr[i].lat, arr[i].lng, map, option);
+  }
 };
 
 (async () => {
@@ -61,8 +60,8 @@ function populateStations(object, map) {
   marker(location.lat, location.lng, map); // User's current location
 
 
-  console.log(await fetchVanData())
-  // populateStations(sampleData, map)
+  const data = await fetchVanData();
+  populateStations(data, map);
 
   map.on("click", (e) => {
     popup.setLatLng(e.latlng).setContent(e.latlng.toString()).openOn(map);
