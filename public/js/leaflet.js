@@ -65,7 +65,7 @@ function createRainbow(map) {
     topright,
     bottomleft,
     {
-      opacity: 0.6,
+      opacity: 0.5,
       interactive: true,
       attribution: "You'll never get me lucky charms!",
     }
