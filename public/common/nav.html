@@ -50,10 +50,19 @@
     .topnav a.searchIcon {
       display: block;
       position: absolute;
-      left: 0;
-      bottom: 0;
+      right: 50;
+      top: 0;
       font-size: 20px;
-      color: black;
+      /* color: black; */
+    }
+
+    .topnav a.filterIcon {
+      display: block;
+      position: absolute;
+      right: 100;
+      top: 0;
+      font-size: 20px;
+      /* color: black; */
     }
 
     .active {
@@ -97,6 +106,42 @@
 
     .close:hover,
     .close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .modal2 {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      padding-top: 100px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0, 0, 0);
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content2 {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+    }
+
+    .close2 {
+      color: #aaaaaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close2:hover,
+    .close2:focus {
       color: #000;
       text-decoration: none;
       cursor: pointer;
@@ -166,7 +211,6 @@
       <a href="/main.html">Home</a>
       <a href="/login.html"><span id="log">Login / Sign-up</span></a>
       <a href="/admin.html" id="admin">Admin</a>
-      <a href="" id="filter">Filter</a>
     </div>
     <a href="javascript:void(0);" class="icon" onclick="myFunction()">
       <i class="fa fa-bars"></i>
@@ -174,15 +218,16 @@
     <a href="#myModal" id="openModal" class="searchIcon">
       <i class="fas fa-search"></i>
     </a>
+    <a href="#myModal2" id="openModal2" class="filterIcon">
+      <i class="fa-solid fa-filter"></i>
+    </a>
   </div>
 
   <!-- The Modal -->
   <div id="myModal" class="modal">
-
     <!-- Modal content -->
     <div class="modal-content">
       <span class="close">&times;</span>
-
       <!-- Search Bar -->
       <div class="search-container">
         <form action="/action_page.php">
@@ -190,10 +235,14 @@
           <button type="submit">Submit</button>
         </form>
       </div>
-
-
     </div>
+  </div>
 
+  <div id="myModal2" class="modal2">
+    <div class="modal-content2">
+      <span class="close2">&times;</span>
+      <p>Hello test modal</p>
+    </div>
   </div>
 
 
@@ -207,29 +256,35 @@
       }
     }
 
-    // Get the modal
+    // Search modal Functionality
     var modal = document.getElementById("myModal");
-
-    // Get the button that opens the modal
     var btn = document.getElementById("openModal");
-
-    // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
-
-    // When the user clicks the button, open the modal 
     btn.onclick = function () {
       modal.style.display = "block";
     }
-
-    // When the user clicks on <span> (x), close the modal
     span.onclick = function () {
       modal.style.display = "none";
     }
-
-    // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
       if (event.target == modal) {
         modal.style.display = "none";
+      }
+    }
+
+    //Filter modal Functionality
+    var modal2 = document.getElementById("myModal2");
+    var btn2 = document.getElementById("openModal2");
+    var span2 = document.getElementsByClassName("close2")[0];
+    btn2.onclick = function () {
+      modal2.style.display = "block";
+    }
+    span2.onclick = function () {
+      modal2.style.display = "none";
+    }
+    window.onclick = function (event) {
+      if (event.target == modal2) {
+        modal2.style.display = "none";
       }
     }
   </script>
