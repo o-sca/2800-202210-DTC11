@@ -38,6 +38,10 @@ input[type=text] {
     flex-direction: column;
     width: auto;
     padding-top: 5px;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 footer {
@@ -51,13 +55,14 @@ footer {
 
 
 input[type=submit] {
+    align-items: center;
     background-color: #151788;
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
     border: none;
     cursor: pointer;
-    width: 100%;
+    width: 60%;
     height: 40%;
   }
 
@@ -68,4 +73,11 @@ input[type=submit] {
     cursor: pointer;
     width: 147px;    
     height: 40px;
+}
+
+#password{
+    align-items: center;
+}
+#username {
+    align-items: center;
 }
