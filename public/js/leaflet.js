@@ -41,24 +41,50 @@ function round(number) {
 
 function populateStations(arr, map) {
   for (let i = 0; i < arr.length; i++) {
-      let option = {
-          color: 'red',
-          fillColor: '#f03',
-          fillOpacity: 0.9,
-          radius: 25
-      }
-      circle(arr[i].lat, arr[i].lng, map, option);
+    let option = {
+      color: "red",
+      fillColor: "#f03",
+      fillOpacity: 0.9,
+      radius: 25,
+    };
+    circle(arr[i].lat, arr[i].lng, map, option);
   }
-};
+}
+function createRainbow(map) {
+  // N.Van, BBY, DTC
+  const bottomleft = L.latLng(49.323145, -123.100153),
+    topright = L.latLng(49.250687, -123.003881),
+    topleft = L.latLng(49.283443, -123.115244);
 
-(async () => {
+  let overlay = L.imageOverlay.rotated(
+    "./imgs/rainbow_flipped.png",
+    topleft,
+    topright,
+    bottomleft,
+    {
+      opacity: 0.5,
+      interactive: true,
+      attribution: "You'll never get me lucky charms!",
+    }
+  );
+  return overlay;
+}
+function drawRainbow(map, overlay, draw) {
+  if (draw) {
+    overlay.addTo(map);
+    map.setView([49.270056, -123.061295], 12);
+  } else {
+    overlay.remove();
+  }
+}
+
+map = (async () => {
   let location = await getUserLocation();
   let map = createMap(location);
 
   var popup = L.popup();
 
   marker(location.lat, location.lng, map); // User's current location
-
 
   const data = await fetchStation();
   populateStations(data, map);
@@ -71,11 +97,11 @@ function populateStations(arr, map) {
   let footerCount = 0;
   $(".copyright").on("click", () => {
     footerCount++;
-    console.log({ footerCount });
     if (footerCount == 3) drawRainbow(map, overlay, true);
     if (footerCount > 3) {
       footerCount = 0;
       drawRainbow(map, overlay, false);
     }
+    return map;
   });
 })();
