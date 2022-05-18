@@ -1,6 +1,5 @@
 function createMap(object) {
-  const attribution =
-    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+  const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
   const tileURL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
   const tiles = L.tileLayer(tileURL, { attribution });
 
@@ -8,7 +7,7 @@ function createMap(object) {
 
   tiles.addTo(map);
   return map;
-}
+};
 
 async function getUserLocation() {
   return new Promise(async (resolve, reject) => {
@@ -33,21 +32,22 @@ function circle(lat, lng, map, option) {
     fillOpacity: option === undefined ? 0.5 : option.fillOpacity,
     radius: option === undefined ? 500 : option.radius,
   }).addTo(map);
-}
+};
 
 function round(number) {
   return Math.round(number * 1000) / 1000;
-}
+};
 
 function populateStations(arr, map) {
   for (let i = 0; i < arr.length; i++) {
       let option = {
-          color: 'red',
+          color: 'green',
           fillColor: '#f03',
           fillOpacity: 0.9,
           radius: 25
       }
-      circle(arr[i].lat, arr[i].lng, map, option);
+      circle(arr[i].lat, arr[i].lng, map, option).bindPopup(String(arr[i].name))
+    
   }
 };
 
@@ -65,7 +65,7 @@ function populateStations(arr, map) {
   populateStations(data, map);
 
   map.on("click", (e) => {
-    popup.setLatLng(e.latlng).setContent(e.latlng.toString()).openOn(map);
+    // popup.setLatLng(e.latlng).setContent(e.latlng.toString()).openOn(map);
   });
 
   let overlay = createRainbow(map);
