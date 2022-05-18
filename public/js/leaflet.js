@@ -60,8 +60,9 @@ function populateStations(arr, map) {
   marker(location.lat, location.lng, map); // User's current location
 
 
-  const data = await fetchVanData();
-  populateStations(data, map);
+  const data = await fetchStation(160931);
+  console.log(data)
+  // populateStations(data, map);
 
   map.on("click", (e) => {
     popup.setLatLng(e.latlng).setContent(e.latlng.toString()).openOn(map);
