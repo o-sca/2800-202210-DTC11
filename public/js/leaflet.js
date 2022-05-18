@@ -53,23 +53,32 @@ function populateStations(object, map) {
   }
 }
 
-function drawRainbow(map) {
-  // const topleft = L.latLng(49.318959, -123.077429), // N.Van
-  //   topright = L.latLng(49.250687, -123.003881), BBY
-  //   bottomleft = L.latLng(49.283443, -123.115244); DTC
-
+function createRainbow(map) {
+  // N.Van, BBY, DTC
   const bottomleft = L.latLng(49.323145, -123.100153),
     topright = L.latLng(49.250687, -123.003881),
     topleft = L.latLng(49.283443, -123.115244);
 
-  let overlay = L.imageOverlay
-    .rotated("./imgs/rainbow_flipped.png", topleft, topright, bottomleft, {
+  let overlay = L.imageOverlay.rotated(
+    "./imgs/rainbow_flipped.png",
+    topleft,
+    topright,
+    bottomleft,
+    {
       opacity: 0.6,
       interactive: true,
-      attribution: "It's raining men, Hallelujuh",
-    })
-    .addTo(map);
-  console.log({ overlay });
+      attribution: "You'll never get me lucky charms!",
+    }
+  );
+  return overlay;
+}
+function drawRainbow(map, overlay, draw) {
+  if (draw) {
+    overlay.addTo(map);
+    map.setView([49.270056, -123.061295], 12);
+  } else {
+    overlay.remove();
+  }
 }
 
 (async () => {
@@ -87,5 +96,15 @@ function drawRainbow(map) {
     popup.setLatLng(e.latlng).setContent(e.latlng.toString()).openOn(map);
   });
 
-  drawRainbow(map);
+  let overlay = createRainbow(map);
+  let footerCount = 0;
+  $(".copyright").on("click", () => {
+    footerCount++;
+    console.log({ footerCount });
+    if (footerCount == 3) drawRainbow(map, overlay, true);
+    if (footerCount > 3) {
+      footerCount = 0;
+      drawRainbow(map, overlay, false);
+    }
+  });
 })();
