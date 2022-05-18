@@ -37,6 +37,20 @@ input[type=text] {
     display: flex;
     flex-direction: column;
     width: auto;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    padding-bottom: 5px;
+    align-items: center;
+    justify-content: center;
+    /* margin-left: auto; */
+    margin-right: auto;
+    color: #545457;
+}
+
+input[type=password] {
+    display: flex;
+    flex-direction: column;
+    width: auto;
     padding-top: 5px;
     align-items: center;
     justify-content: center;
@@ -62,8 +76,11 @@ input[type=submit] {
     margin: 8px 0;
     border: none;
     cursor: pointer;
-    width: 60%;
-    height: 40%;
+    width: 100%;
+    height: 35%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
   }
 
 .guestbutton {
@@ -71,8 +88,11 @@ input[type=submit] {
     color: white;
     border: none;
     cursor: pointer;
-    width: 147px;    
+    width: 147px;
     height: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
 }
 
 #password{
