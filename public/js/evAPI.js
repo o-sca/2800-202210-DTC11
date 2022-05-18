@@ -19,3 +19,12 @@ async function fetchVanData() {
     };
     return tempArray;
 };
+
+async function fetchStation(id) {
+    const response = await fetch(`https://ezev-api.herokuapp.com/api/ev/${id}`, {
+        method: "GET"
+    });
+    
+    const data = await response.json();
+    console.log(data)
+}
