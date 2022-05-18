@@ -70,7 +70,7 @@ function populateStations(arr, map) {
 
 async function saveStation(id) {
   const userObject = await getUserStatus();
-  if (!userObject.isLoggedIn) return alert(`Only registered / logged in users can access this feature.`);
+  if (userObject.isLoggedIn !== true) return alert(`Only registered / logged in users can access this feature.`);
 
 };
 

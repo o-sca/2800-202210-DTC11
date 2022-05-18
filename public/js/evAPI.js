@@ -34,5 +34,5 @@ async function getUserStatus() {
     const response = await fetch(`/userStatus`, {
         method: "GET"
     });
-    return response;
+    return await response.json();
 };
