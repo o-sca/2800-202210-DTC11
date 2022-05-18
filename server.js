@@ -109,3 +109,7 @@ app.get("/getUsers", async (req, res) => {
   const userList = await mysqlWrapper.getUsers(0, 20);
   res.send(userList);
 });
+
+app.post("/insertSavedStation", async (req, res) => {
+  
+})

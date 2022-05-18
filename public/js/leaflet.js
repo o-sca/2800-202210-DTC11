@@ -68,10 +68,11 @@ function populateStations(arr, map) {
   }
 };
 
-async function saveStation(id) {
+async function saveStation(stationID) {
   const userObject = await getUserStatus();
-  if (userObject.isLoggedIn !== true) return alert(`Only registered / logged in users can access this feature.`);
-
+  if (!userObject.isLoggedIn) return alert(`Only registered / logged in users can access this feature.`);
+  const response = await insertSavedStation(stationID, userObject.userID)
+  if (response === 200) return; // Saved Successfully
 };
 
 function createRainbow(map) {

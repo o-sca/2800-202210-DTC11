@@ -36,3 +36,12 @@ async function getUserStatus() {
     });
     return await response.json();
 };
+
+async function insertSavedStation(stationID, userID) {
+    const response = await fetch(`/insertSavedStation`, {
+        method: "POST",
+        headers:  { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ stationID: stationID, userID: userID })
+    })
+    return response.status;
+};
