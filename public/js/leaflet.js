@@ -1,5 +1,6 @@
 function createMap(object) {
-  const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+  const attribution =
+    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
   const tileURL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
   const tiles = L.tileLayer(tileURL, { attribution });
 
@@ -7,7 +8,7 @@ function createMap(object) {
 
   tiles.addTo(map);
   return map;
-};
+}
 
 async function getUserLocation() {
   return new Promise(async (resolve, reject) => {
@@ -19,24 +20,24 @@ async function getUserLocation() {
       });
     });
   });
-};
+}
 
 function marker(lat, lng, map) {
-    return L.marker([lat, lng]).addTo(map);
-};
+  return L.marker([lat, lng]).addTo(map);
+}
 
 function circle(lat, lng, map, option) {
-    return L.circle([lat, lng], {
-        color: option === undefined ? 'red' : option.color,
-        fillColor: option === undefined ? '#f03' : option.fillColor,
-        fillOpacity: option === undefined ? 0.5 : option.fillOpacity,
-        radius: option === undefined ? 500 : option.radius
-    }).addTo(map);
-};
+  return L.circle([lat, lng], {
+    color: option === undefined ? "red" : option.color,
+    fillColor: option === undefined ? "#f03" : option.fillColor,
+    fillOpacity: option === undefined ? 0.5 : option.fillOpacity,
+    radius: option === undefined ? 500 : option.radius,
+  }).addTo(map);
+}
 
 function round(number) {
   return Math.round(number * 1000) / 1000;
-};
+}
 
 function populateStations(arr, map) {
   for (let i = 0; i < arr.length; i++) {
@@ -64,5 +65,17 @@ function populateStations(arr, map) {
 
   map.on("click", (e) => {
     popup.setLatLng(e.latlng).setContent(e.latlng.toString()).openOn(map);
+  });
+
+  let overlay = createRainbow(map);
+  let footerCount = 0;
+  $(".copyright").on("click", () => {
+    footerCount++;
+    console.log({ footerCount });
+    if (footerCount == 3) drawRainbow(map, overlay, true);
+    if (footerCount > 3) {
+      footerCount = 0;
+      drawRainbow(map, overlay, false);
+    }
   });
 })();
