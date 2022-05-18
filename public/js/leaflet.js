@@ -40,7 +40,6 @@ function round(number) {
 
 function populateStations(arr, map) {
   for (let i = 0; i < arr.length; i++) {
-    console.log(arr[i])
       let option = {
           color: 'red',
           fillColor: '#f03',
@@ -60,9 +59,8 @@ function populateStations(arr, map) {
   marker(location.lat, location.lng, map); // User's current location
 
 
-  const data = await fetchStation(160931);
-  console.log(data)
-  // populateStations(data, map);
+  const data = await fetchStation();
+  populateStations(data, map);
 
   map.on("click", (e) => {
     popup.setLatLng(e.latlng).setContent(e.latlng.toString()).openOn(map);

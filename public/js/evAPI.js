@@ -23,10 +23,11 @@ async function fetchVanData() {
 async function fetchStation(id = '') {
     const response = await fetch(`https://ezev-api.herokuapp.com/api/ev/${id}`, {
         method: "GET",
+        mode: 'cors',
     });
 
     const results = await response.json();
     if (results.status !== true) return results.data;
 
-    return results;
+    return results.data;
 };
