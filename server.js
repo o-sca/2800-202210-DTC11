@@ -1,55 +1,108 @@
 const express = require("express");
+const session = require("express-session");
+const bodyParser = require("body-parser");
+const https = require("https");
+const { redirect } = require("express/lib/response");
 const app = express();
 app.use(express.static("./public"));
-const session = require("express-session");
 app.use(
   session({
-    secret: "I ain't tellin' nobody!",
+    secret: "^!A*Wr9#v&ek5h6@Uo^a",
+    admin: false,
     saveUninitialized: true,
     resave: true,
   })
 );
-app.set("view engine", "ejs");
-
-const https = require("https");
-const bodyParser = require("body-parser");
 app.use(
   bodyParser.urlencoded({
     extended: true,
   })
 );
+app.set("view engine", "ejs");
 
-users = {
-  user1: "123",
-  user2: "456",
-};
+const MySQLWrapper = require("./public/js/mysqlWrapper.js");
+const mysqlWrapper = new MySQLWrapper();
 
-app.listen(5001, function (err) {
+app.listen(process.env.PORT || 5001, function (err) {
   if (err) console.log(err);
+  console.log("Listening");
 });
+
+/***** ROUTES *****/
 
 app.get("/", function (req, res) {
   if (req.session.authenticated) {
+    console.log("'/''");
     res.sendFile(__dirname + "/public/main.html");
   } else {
-    res.sendFile(__dirname + "/public/login.html");
+    res.render("login", { username: "", message: "" });
   }
 });
 
-app.get("/login", function (req, res) {
-  res.sendFile(__dirname + "/public/login.html");
+app.get("/logout", function (req, res) {
+  req.session.authenticated = false;
+  // TODO: diplay "logged out" via alert or temporary page
+  res.redirect("/");
 });
 
-// use "/loginAttempt" to use AJAX request
-app.post("/auth", function (req, res) {
-  username = req.body.username;
-  password = req.body.password;
-  if (users[username] == password) {
-    req.session.authenticated = true;
-    req.session.user = req.params.user;
-    res.redirect("/");
+app.post("/login", async function (req, res) {
+  const { username, password } = req.body;
+  const { isAuth, isAdmin } = await mysqlWrapper.authenticate(
+    username,
+    password
+  );
+  req.session.authenticated = isAuth ? true : false;
+  if (isAuth) {
+    req.session.admin = isAdmin;
+    req.session.user = username;
+    req.session.admin ? res.redirect("/admin") : res.redirect("/");
   } else {
-    req.session.authenticated = false;
-    res.send("Username or password incorrect.");
+    req.session.admin = false;
+    res.render(__dirname + "/public/login.ejs", {
+      username: username,
+      message: "Username or password invalid.",
+    });
   }
+});
+
+app.get("/admin", function (req, res) {
+  if (req.session.admin) {
+    res.render("admin", {});
+  } else {
+    res.send("Unauthorized access denied");
+  }
+});
+
+app.get("/newaccount", function (req, res) {
+  res.render("newaccount", {
+    email: "",
+    message: "",
+  });
+});
+
+app.post("/register", async (req, res) => {
+  const { username, password, email } = req.body;
+  const { success, message } = await mysqlWrapper.register(
+    username,
+    email,
+    password
+  );
+  success
+    ? res.redirect("/")
+    : res.render("newaccount", {
+        email: email,
+        message: "That username is already taken",
+      });
+});
+
+app.get("/userStatus", (req, res) => {
+  res.send({
+    isLoggedIn: req.session.authenticated,
+    isAdmin: req.session.admin,
+  });
+});
+
+app.get("/getUsers", async (req, res) => {
+  const userList = await mysqlWrapper.getUsers(0, 20);
+  res.send(userList);
 });

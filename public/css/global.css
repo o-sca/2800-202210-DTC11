@@ -7,8 +7,9 @@
 html,
 body {
     height: 100%;
+    margin: 0;
 }
 
 img {
-    width: 60%;
+    width: 100%;
 }
