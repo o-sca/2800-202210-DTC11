@@ -10,11 +10,8 @@ async function filterStations(params = {}) {
     if (stationsCount && stationsCount > stations.length) pass = false;
     return pass;
   });
-  coords = filteredStations.map((station) => {
-    return { lat: station.lat, lng: station.lng };
-  });
-  console.log(coords);
-  return filteredStations;
+  console.log(toLatLng(filteredStations));
+  return toLatLng(filteredStations);
 }
 
 async function searchStations(query = "") {
@@ -24,7 +21,14 @@ async function searchStations(query = "") {
     let { name, address } = station;
     if (name.includes(query) || address.includes(query)) return true;
   });
-  console.log(filteredStations);
+  console.log(toLatLng(filteredStations));
+  return toLatLng(filteredStations);
+}
+
+function toLatLng(stations) {
+  return stations.map((station) => {
+    return { lat: station.lat, lng: station.lng };
+  });
 }
 
 let filteredStations = filterStations({ stationsCount: 6 });
