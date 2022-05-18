@@ -1,14 +1,5 @@
 @media only screen and (max-width: 750px) {
 
-    body {
-        /* display: flex;
-        flex-direction: column;
-        justify-content: space-around; */
-        /* align-items: center; */
-        /* text-align: center; */
-        /* height: 100vh; */
-    }
-
     .icons {
         display: flex;
         justify-content: space-around;
@@ -31,10 +22,7 @@
 }
 
 .map {
-    /* background-color: lightblue; */
     width: 100%;
     height: 600px;
     margin-top: 1px;
-    /* padding: 50px; */
-    /* margin: 10px; */
 }
