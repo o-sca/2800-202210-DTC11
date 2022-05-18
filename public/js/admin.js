@@ -12,7 +12,7 @@ function setup() {
         let userRow = `
         <div class="user-row ${parity}-row">
           <div class="user-id-cell">
-            <span class="user-id">${user.id}</span>
+            <p class="user-id">${user.id}</p>
           </div>
           <div class="user-name-email">
             <p class="user-name">${user.username}</p>
@@ -23,7 +23,7 @@ function setup() {
             <p class="user-added-time">${addTime}</p>
           </div>
            <div class="user-manage">
-            <button type="button">❌</button>
+            <button type="button" onclick=deleteUser(${user.id})>❌</button>
           </div>
         </div>
         `;

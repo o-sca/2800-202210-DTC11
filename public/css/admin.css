@@ -29,11 +29,17 @@ main {
 .user-id-cell,
 .user-manage {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-content: center;
+    align-items: center;
 }
 
 .user-name,
 .user-added-date {
     font-weight: bold;
+}
+
+button {
+    width: 25px;
+    height: 25px;
 }
