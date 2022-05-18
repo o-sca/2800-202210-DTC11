@@ -17,7 +17,15 @@ async function filterStations(params = {}) {
   return filteredStations;
 }
 
-// function filterBy
+async function searchStations(query = "") {
+  if (!query) return false;
+  let filteredStations = await fetchStation();
+  filteredStations = filteredStations.filter((station) => {
+    let { name, address } = station;
+    if (name.includes(query) || address.includes(query)) return true;
+  });
+  console.log(filteredStations);
+}
 
 let filteredStations = filterStations({ stationsCount: 6 });
 // populateStations(data, map);
