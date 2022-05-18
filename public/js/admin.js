@@ -27,25 +27,15 @@ function setup() {
           </div>
         </div>
         `;
-
-        // let userRow = `
-        // <tr>
-        //   <td class="user-id">${user.id}</td>
-        //   <td class="user-username">${user.username}</td>
-        //   <td class="user-email">${user.email}</td>
-        //   <td class="user-added">${user.added}</td>
-        //   <td class="user-manage">
-        //     <button type="button">?</button>
-        //   </td>
-        // </tr>
-        // `;
-
-        // console.log(userRow);
         $("#users-container").append(userRow);
         parity = parity == "even" ? "odd" : "even";
       });
     },
   });
+}
+
+function deleteUser(id) {
+  console.log(`Delete user ${id}`);
 }
 
 $(document).ready(setup);
