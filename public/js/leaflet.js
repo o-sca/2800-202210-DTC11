@@ -68,10 +68,10 @@ function populateStations(arr, map) {
   }
 };
 
-function saveStation(id) {
-  const userID = getUserID();
-  if (userID) return alert(`Only registered / logged in users can access this feature.`);
-  
+async function saveStation(id) {
+  const userObject = await getUserStatus();
+  if (!userObject.isLoggedIn) return alert(`Only registered / logged in users can access this feature.`);
+
 };
 
 function createRainbow(map) {

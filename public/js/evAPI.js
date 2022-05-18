@@ -30,8 +30,8 @@ async function fetchStation(id = '') {
     return results.data;
 };
 
-async function getUserID() {
-    const response = await fetch(`/getUserID`, {
+async function getUserStatus() {
+    const response = await fetch(`/userStatus`, {
         method: "GET"
     });
     return response;

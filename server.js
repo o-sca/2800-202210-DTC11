@@ -51,9 +51,10 @@ app.post("/login", async function (req, res) {
     username,
     password
   );
+  console.log(userID)
   req.session.authenticated = isAuth ? true : false;
   if (isAuth) {
-    req.session.id = userID;
+    req.session.userID = userID;
     req.session.admin = isAdmin;
     req.session.user = username;
     req.session.admin ? res.redirect("/admin") : res.redirect("/");
@@ -99,6 +100,7 @@ app.post("/register", async (req, res) => {
 app.get("/userStatus", (req, res) => {
   res.send({
     isLoggedIn: req.session.authenticated,
+    userID: req.session.userID,
     isAdmin: req.session.admin,
   });
 });
@@ -106,8 +108,4 @@ app.get("/userStatus", (req, res) => {
 app.get("/getUsers", async (req, res) => {
   const userList = await mysqlWrapper.getUsers(0, 20);
   res.send(userList);
-});
-
-app.get("/getUserID", async (req, res) => {
-  res.send(req.session.id);
 });
