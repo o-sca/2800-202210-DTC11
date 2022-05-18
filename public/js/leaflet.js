@@ -45,7 +45,7 @@ function locationIcon(lat, lng, map) {
     iconUrl: '../imgs/arrow-icon.png'
   })
   
-  return L.marker([lat, lng], { icon: icon }).addTo(map)
+  return L.marker([lat, lng], { icon: icon }).addTo(map).bindPopup(`<div onclick="console.log(1)">Clickme</div>`)
 };
 
 function round(number) {
@@ -54,7 +54,17 @@ function round(number) {
 
 function populateStations(arr, map) {
   for (let i = 0; i < arr.length; i++) {
-    marker(arr[i].lat, arr[i].lng, map).bindPopup(String(arr[i].name));
+    const name = arr[i].name;
+    const address = arr[i].address;
+    const id = arr[i].id;
+
+    marker(arr[i].lat, arr[i].lng, map)
+      .bindPopup(`
+        <div onclick="console.log('${name}')" style="cursor:pointer">
+          <b>${name}</b>
+          <p>${address}</p>
+          
+        </div>`);
   }
 };
 
@@ -90,13 +100,6 @@ function drawRainbow(map, overlay, draw) {
 map = (async () => {
   let location = await getUserLocation();
   let map = createMap(location);
-
-  let option = {
-    color: "green",
-    fillColor: "green",
-    fillOpacity: 0.7,
-    radius: 35,
-  };
 
   locationIcon(location.lat, location.lng, map); // User's current location
 
