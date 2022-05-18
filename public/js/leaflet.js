@@ -60,7 +60,7 @@ function populateStations(arr, map) {
 
     marker(arr[i].lat, arr[i].lng, map)
       .bindPopup(`
-        <div class="populateStation" style="cursor:pointer">
+        <div class="populateStation">
           <b>${name}</b>
           <p>${address}</p>
           <button onclick="saveStation('${id}')">Save</button>
@@ -69,7 +69,9 @@ function populateStations(arr, map) {
 };
 
 function saveStation(id) {
-  console.log(id)
+  console.log(req.session.id)
+  if (!req.session.id) return alert(`Only registered / logged in users can access this feature`)
+
 };
 
 function createRainbow(map) {

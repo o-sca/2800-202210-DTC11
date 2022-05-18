@@ -32,7 +32,7 @@ app.listen(process.env.PORT || 5001, function (err) {
 
 app.get("/", function (req, res) {
   if (req.session.authenticated) {
-    console.log("'/''");
+    console.log("'/'");
     res.sendFile(__dirname + "/public/main.html");
   } else {
     res.render("login", { username: "", message: "" });
@@ -47,12 +47,13 @@ app.get("/logout", function (req, res) {
 
 app.post("/login", async function (req, res) {
   const { username, password } = req.body;
-  const { isAuth, isAdmin } = await mysqlWrapper.authenticate(
+  const { userID, isAuth, isAdmin } = await mysqlWrapper.authenticate(
     username,
     password
   );
   req.session.authenticated = isAuth ? true : false;
   if (isAuth) {
+    req.session.id = userID;
     req.session.admin = isAdmin;
     req.session.user = username;
     req.session.admin ? res.redirect("/admin") : res.redirect("/");
@@ -105,4 +106,8 @@ app.get("/userStatus", (req, res) => {
 app.get("/getUsers", async (req, res) => {
   const userList = await mysqlWrapper.getUsers(0, 20);
   res.send(userList);
+});
+
+app.get("/getUserID", async (req, res) => {
+  res.send(req.session.id);
 });

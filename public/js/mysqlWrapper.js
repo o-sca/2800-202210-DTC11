@@ -122,7 +122,9 @@ class mysqlWrapper {
           [username, password],
           (err, result) => {
             if (err) return reject(err);
+            console.log(result)
             resolve({
+              userID: result[0].id,
               isAuth: result.length > 0,
               isAdmin: result.length > 0 ? result[0].admin > 0 : false,
             });
