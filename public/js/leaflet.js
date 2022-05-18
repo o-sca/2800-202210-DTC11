@@ -19,11 +19,11 @@ async function getUserLocation() {
       });
     });
   });
-}
+};
 
 function marker(lat, lng, map) {
   return L.marker([lat, lng]).addTo(map);
-}
+};
 
 function circle(lat, lng, map, option) {
   return L.circle([lat, lng], {
@@ -34,49 +34,86 @@ function circle(lat, lng, map, option) {
   }).addTo(map);
 };
 
+function locationIcon(lat, lng, map) {
+  // Custom Icon Classes
+  var locationIcon = L.Icon.extend({
+    options: {
+      iconSize: [20, 25],
+  }})
+
+  var icon = new locationIcon({
+    iconUrl: '../imgs/arrow-icon.png'
+  })
+  
+  return L.marker([lat, lng], { icon: icon }).addTo(map)
+};
+
 function round(number) {
   return Math.round(number * 1000) / 1000;
 };
 
 function populateStations(arr, map) {
   for (let i = 0; i < arr.length; i++) {
-      let option = {
-          color: 'green',
-          fillColor: '#f03',
-          fillOpacity: 0.9,
-          radius: 25
-      }
-      circle(arr[i].lat, arr[i].lng, map, option).bindPopup(String(arr[i].name))
-    
+    marker(arr[i].lat, arr[i].lng, map).bindPopup(String(arr[i].name));
   }
 };
 
-(async () => {
+function createRainbow(map) {
+  // N.Van, BBY, DTC
+  const bottomleft = L.latLng(49.323145, -123.100153),
+    topright = L.latLng(49.250687, -123.003881),
+    topleft = L.latLng(49.283443, -123.115244);
+
+  let overlay = L.imageOverlay.rotated(
+    "./imgs/rainbow_flipped.png",
+    topleft,
+    topright,
+    bottomleft,
+    {
+      opacity: 0.5,
+      interactive: true,
+      attribution: "You'll never get me lucky charms!",
+    }
+  );
+  return overlay;
+};
+
+function drawRainbow(map, overlay, draw) {
+  if (draw) {
+    overlay.addTo(map);
+    map.setView([49.270056, -123.061295], 12);
+  } else {
+    overlay.remove();
+  }
+};
+
+map = (async () => {
   let location = await getUserLocation();
   let map = createMap(location);
 
-  var popup = L.popup();
+  let option = {
+    color: "green",
+    fillColor: "green",
+    fillOpacity: 0.7,
+    radius: 35,
+  };
 
-  marker(location.lat, location.lng, map); // User's current location
-  
-
+  locationIcon(location.lat, location.lng, map); // User's current location
 
   const data = await fetchStation();
   populateStations(data, map);
 
-  map.on("click", (e) => {
-    // popup.setLatLng(e.latlng).setContent(e.latlng.toString()).openOn(map);
-  });
+  map.on("click", (e) => {});
 
   let overlay = createRainbow(map);
   let footerCount = 0;
   $(".copyright").on("click", () => {
     footerCount++;
-    console.log({ footerCount });
     if (footerCount == 3) drawRainbow(map, overlay, true);
     if (footerCount > 3) {
       footerCount = 0;
       drawRainbow(map, overlay, false);
     }
+    return map;
   });
 })();
