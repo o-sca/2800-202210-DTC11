@@ -69,9 +69,9 @@ function populateStations(arr, map) {
 };
 
 function saveStation(id) {
-  console.log(req.session.id)
-  if (!req.session.id) return alert(`Only registered / logged in users can access this feature`)
-
+  const userID = getUserID();
+  if (userID) return alert(`Only registered / logged in users can access this feature.`);
+  
 };
 
 function createRainbow(map) {

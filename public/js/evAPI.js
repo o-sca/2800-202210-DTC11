@@ -25,9 +25,14 @@ async function fetchStation(id = '') {
         method: "GET",
         mode: 'cors',
     });
-
     const results = await response.json();
     if (results.status !== true) return results.data;
-
     return results.data;
+};
+
+async function getUserID() {
+    const response = await fetch(`/getUserID`, {
+        method: "GET"
+    });
+    return response;
 };
