@@ -60,12 +60,16 @@ function populateStations(arr, map) {
 
     marker(arr[i].lat, arr[i].lng, map)
       .bindPopup(`
-        <div onclick="console.log('${name}')" style="cursor:pointer">
+        <div class="populateStation" style="cursor:pointer">
           <b>${name}</b>
           <p>${address}</p>
-          
+          <button onclick="saveStation('${id}')">Save</button>
         </div>`);
   }
+};
+
+function saveStation(id) {
+  console.log(id)
 };
 
 function createRainbow(map) {
