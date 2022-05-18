@@ -2,13 +2,15 @@
 
 <head>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/font-awesome.min.css">
 
+  <script src="https://kit.fontawesome.com/575ee5eea7.js" crossorigin="anonymous"></script>
   <style>
     body {
-    background-color: rgb(255, 255, 255);
-    font-family: Arial, Helvetica, sans-serif;
+      background-color: rgb(255, 255, 255);
+      font-family: Arial, Helvetica, sans-serif;
 
-  }
+    }
 
     .topnav {
       /* display: flex; */
@@ -45,55 +47,12 @@
       color: black;
     }
 
-    .active {
-      text-align: center;
-      background-color: #48CAE4;
-      color: white;
-    }
-
-    #admin{
-      display:none;
-    }
-
-@media only screen and (max-width: 800px) {
-  body {
-    background-color: rgb(255, 255, 255);
-  }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-
-    .topnav {
-      overflow: hidden;
-      background-color: #333;
-      position: relative;
-    }
-
-    .topnav #myLinks {
-      display: none;
-    }
-
-    .topnav a {
-      color: white;
-      padding: 14px 16px;
-      text-decoration: none;
-      font-size: 17px;
-      display: block;
-    }
-
-    .topnav a.icon {
-      background: #03045E;
+    .topnav a.searchIcon {
       display: block;
       position: absolute;
-      right: 0;
-      top: 0;
+      left: 0;
+      bottom: 0;
       font-size: 20px;
-    }
-
-    .topnav a:hover {
-      background-color: #0096C7;
       color: black;
     }
 
@@ -103,31 +62,142 @@
       color: white;
     }
 
-    #admin{
-      display:none;
+    #admin {
+      display: none;
     }
-  }
-    </style>
-    </head>
-    <body>
 
-    <!-- Top Navigation Menu -->
-    <div class="topnav">
-      <a href="#home" class="active">Logo</a>
-      <div id="myLinks">
-        <a href="/main.html">Home</a>
-        <a href="/login.html"><span id="log">Login / Sign-up</span></a>
-        <a href="/admin.html" id="admin">Admin</a>
-        <a href="" id ="search">Search</a>
-        <a href="" id ="filter">Filter</a>
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      padding-top: 100px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0, 0, 0);
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+    }
+
+    .close {
+      color: #aaaaaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    @media only screen and (max-width: 800px) {
+      body {
+        background-color: rgb(255, 255, 255);
+      }
+
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+
+      .topnav {
+        overflow: hidden;
+        background-color: #333;
+        position: relative;
+      }
+
+      .topnav #myLinks {
+        display: none;
+      }
+
+      .topnav a {
+        color: white;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+        display: block;
+      }
+
+      .topnav a.icon {
+        background: #03045E;
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 0;
+        font-size: 20px;
+      }
+
+      .topnav a:hover {
+        background-color: #0096C7;
+        color: black;
+      }
+
+      .active {
+        text-align: center;
+        background-color: #48CAE4;
+        color: white;
+      }
+
+      #admin {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Top Navigation Menu -->
+  <div class="topnav">
+    <a href="#home" class="active">Logo</a>
+    <div id="myLinks">
+      <a href="/main.html">Home</a>
+      <a href="/login.html"><span id="log">Login / Sign-up</span></a>
+      <a href="/admin.html" id="admin">Admin</a>
+      <a href="" id="filter">Filter</a>
+    </div>
+    <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+      <i class="fa fa-bars"></i>
+    </a>
+    <a href="#myModal" id="openModal" class="searchIcon">
+      <i class="fas fa-search"></i>
+    </a>
+  </div>
+
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+
+      <!-- Search Bar -->
+      <div class="search-container">
+        <form action="/action_page.php">
+          <input type="text" placeholder="Search.." name="search">
+          <button type="submit">Submit</button>
+        </form>
       </div>
-      <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-        <i class="fa fa-bars"></i>
-      </a>
+
+
     </div>
 
+  </div>
 
-    <script>
+
+  <script>
     function myFunction() {
       var x = document.getElementById("myLinks");
       if (x.style.display === "block") {
@@ -136,5 +206,31 @@
         x.style.display = "block";
       }
     }
-    </script>
+
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("openModal");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal 
+    btn.onclick = function () {
+      modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+      modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  </script>
 </body>
