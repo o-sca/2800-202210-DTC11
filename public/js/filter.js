@@ -2,15 +2,16 @@ async function filterStations(params = {}) {
   const STATIONS = await fetchStation();
   if (!STATIONS.length) return false;
   if (!params) return STATIONS;
-  // console.log(filteredStations[0]);
-  const { stationsCount, kilowatts, power, status } = params;
-  filteredStations = STATIONS.filter((STATION) => {
-    let { address, lat, lng, stations } = STATION;
+  console.log(getStationInnerData(STATIONS[0].stations));
+  const { numOfStations, kilowatts, power, status } = params;
+  const filteredStations = STATIONS.filter((STATION) => {
+    const { address, lat, lng, stations } = STATION;
     let pass = true;
-    if (stationsCount && stationsCount > stations.length) pass = false;
-    if (kilowatts)
-      // stations.forEach;
-      return pass;
+    if (numOfStations && numOfStations > stations.length) pass = false;
+
+    // if (kilowatts )
+    // stations.forEach;
+    return pass;
   });
   console.log(toLatLng(filteredStations));
   return toLatLng(filteredStations);
@@ -19,8 +20,8 @@ async function filterStations(params = {}) {
 async function searchStations(query = "") {
   if (!query) return false;
   const STATIONS = await fetchStation();
-  filteredStations = STATIONS.filter((station) => {
-    let { name, address } = station;
+  const filteredStations = STATIONS.filter((station) => {
+    const { name, address } = station;
     if (name.includes(query) || address.includes(query)) return true;
   });
   // console.log(toLatLng(filteredStations));
@@ -31,6 +32,18 @@ function toLatLng(stations) {
   return stations.map((station) => {
     return { lat: station.lat, lng: station.lng };
   });
+}
+
+function getStationInnerData(stations) {
+  data = { connector: [], kilowatts: [], power: [], status: [] };
+  stations.forEach((station) => {
+    station.outlets.forEach((outlet) => {
+      for (const key of Object.keys(data)) {
+        data[key].push(outlet[key]);
+      }
+    });
+  });
+  return data;
 }
 
 function getBusy(stations) {
@@ -50,7 +63,7 @@ async function stationDataSets() {
   STATIONS.forEach((STATION) => {
     STATION.stations.forEach((station) => {
       station.outlets.forEach((outlet) => {
-        let { connector, kilowatts, power, status } = outlet;
+        const { connector, kilowatts, power, status } = outlet;
         connectorSet.add(connector);
         kilowattsSet.add(kilowatts);
         powerSet.add(power);
@@ -61,5 +74,5 @@ async function stationDataSets() {
   console.log({ connectorSet, kilowattsSet, powerSet, statusSet });
 }
 
-let filteredStations = filterStations({ stationsCount: 8 });
+let filteredStations = filterStations({ numOfStations: 8 });
 // populateStations(filteredStations, map);
