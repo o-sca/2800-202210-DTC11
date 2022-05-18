@@ -59,6 +59,7 @@ function populateStations(object, map) {
   var popup = L.popup();
 
   marker(location.lat, location.lng, map); // User's current location
+  
 
 
   console.log(await fetchVanData())
