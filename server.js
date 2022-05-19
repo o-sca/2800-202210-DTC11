@@ -112,5 +112,5 @@ app.get("/getUsers", async (req, res) => {
 });
 
 app.post("/insertSavedStation", async (req, res) => {
-  console.log(req.body)
+  await insertStation(userID, stationID)
 })

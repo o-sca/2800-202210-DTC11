@@ -111,7 +111,7 @@ class mysqlWrapper {
     let response = await this.addNewUser(username, email, password);
     // TODO: handle insertion error
     return { success: true, message: response };
-  }
+  };
 
   async authenticate(username, password) {
     try {
@@ -135,7 +135,7 @@ class mysqlWrapper {
     } catch (err) {
       return console.log(err);
     }
-  }
+  };
 
   async getUsers(offset = 0, limit = 10) {
     try {
@@ -154,7 +154,44 @@ class mysqlWrapper {
     } catch (err) {
       return console.log(err);
     }
-  }
-}
+  };
+
+  async verifyUserSavedStations(userID, stationID) {
+    try {
+      return new Promise(async (resolve, reject) => {
+        await this.connect();
+        this.con.query("SELECT * FROM stations where userID = ? AND stationID = ?", [userID, stationID],
+        (err, result) => {
+          if (err) return reject(err);
+          return resolve({ status: result.length > 0 ? true : false })
+        })
+      })
+    } catch (e) {
+      return console.error(e);
+    }
+  };
+
+  async insertStation(userID, stationID) {
+    try {
+      return new Promise(async (resolve, reject) => {
+        await this.connect();
+        const result = await this.verifyUserSavedStations(userID, stationID)
+        if (!result) return; // userID already have this stationID in their saved table
+        this.con.query(
+          "INSERT INTO stations (userID, stationID) VALUES (?, ?)", 
+          [userID, stationID],
+          (err, result) => {
+            if (err) return reject(err);
+            return resolve(result);
+          })
+          return this.end();
+      })
+    } catch (e) {
+      return console.error(e);
+    }
+  };
+};
+
+
 
 module.exports = mysqlWrapper;
