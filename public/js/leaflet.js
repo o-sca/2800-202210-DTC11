@@ -116,9 +116,9 @@ async function saveStation(stationID) {
 function createRainbowOverlay(map) {
   const overlay = L.imageOverlay.rotated(
     "./imgs/rainbow_flipped.png",
-    L.latLng(49.323145, -123.100153),
-    L.latLng(49.250687, -123.003881),
     L.latLng(49.283443, -123.115244),
+    L.latLng(49.250687, -123.003881),
+    L.latLng(49.323145, -123.100153),
     {
       opacity: 0.5,
       interactive: true,
