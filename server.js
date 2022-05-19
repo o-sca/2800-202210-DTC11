@@ -113,5 +113,12 @@ app.get("/getUsers", async (req, res) => {
 
 app.post("/insertSavedStation", async (req, res) => {
   const result = await mysqlWrapper.insertStation(req.body.userID, req.body.stationID);
-  console.log(result)
+  if (result) return res.status(200).send({
+    status: true,
+    msg: "Successfully inserted new record"
+  })
+  else return res.status(200).send({
+    status: false,
+    msg: "Duplicate record found"
+  })
 })
