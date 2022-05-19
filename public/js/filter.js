@@ -1,20 +1,22 @@
 async function filterStations(params = {}) {
   const STATIONS = await fetchStation();
-  console.log(STATIONS[0]);
+  // console.log(STATIONS[0]);
   if (!STATIONS.length) return false;
   if (!params) return STATIONS;
-  const { numOfStations, kilowatts, power, status } = params;
+  const { numOfStations, kilowatts, power, status, availability } = params;
   const filteredStations = STATIONS.filter((STATION) => {
     const { stations } = STATION;
+    const stationData = getStationInnerData(stations);
     let pass = true;
     if (numOfStations && numOfStations > stations.length) pass = false;
-    const stationData = getStationInnerData(stations);
     if (kilowatts && !stationData.kilowatts.includes(kilowatts)) pass = false;
     if (power && !stationData.power.includes(power)) pass = false;
     if (status && !stationData.status.includes(status)) pass = false;
+    if (availability && availability > getAvailability(stationData.status))
+      pass = false;
     return pass;
   });
-  console.log(toLatLng(filteredStations));
+  // console.log(toLatLng(filteredStations));
   return toLatLng(filteredStations);
 }
 
@@ -47,9 +49,12 @@ function getStationInnerData(stations) {
   return data;
 }
 
-function getBusy(stations) {
-  let busyLevel = 0;
-  stations.forEach((station) => {});
+function getAvailability(statusList) {
+  let avail = 0;
+  statusList.forEach((status) => {
+    if (status === "AVAILABLE") avail++;
+  });
+  return avail / statusList.length;
 }
 
 //TODO: sort by distance, busy status, number of
@@ -75,5 +80,5 @@ async function stationDataSets() {
   // console.log({ connectorSet, kilowattsSet, powerSet, statusSet });
 }
 
-let filteredStations = filterStations({ numOfStations: 8 });
+let filteredStations = filterStations({ numOfStations: 8, availability: 0.5 });
 // populateStations(filteredStations, map);
