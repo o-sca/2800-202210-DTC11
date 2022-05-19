@@ -27,7 +27,7 @@ class mysqlWrapper {
             ? reject(err)
             : resolve(
                 console.log(
-                  `Connected to database: ${this.con.config.database}`
+                  `Connected to threadID: ${this.con.threadId}`
                 )
               );
         });
@@ -156,26 +156,12 @@ class mysqlWrapper {
     }
   };
 
-  async verifyUserSavedStations(userID, stationID) {
-    try {
-      return new Promise(async (resolve, reject) => {
-        this.con.query("SELECT * FROM stations where userID = ? AND stationID = ?", [userID, stationID],
-        (err, result) => {
-          if (err) return reject(err);
-          return resolve(result.length > 0 ? true : false)
-        })
-      })
-    } catch (e) {
-      return console.error(e);
-    }
-  };
-
   async insertStation(userID, stationID) {
     try {
       return new Promise(async (resolve, reject) => {
         await this.connect();
         this.con.query(
-          "INSERT INTO stations (userID, stationID) VALUES (?, ?)", 
+          `REPLACE INTO stations (userID, stationID) VALUES (?, ?)`, 
           [userID, stationID],
           (err, result) => {
             if (err) return reject(err);
