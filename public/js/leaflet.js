@@ -57,6 +57,7 @@ function createMarker(lat, lng, layer) {
 }
 
 const markersLayer = new L.LayerGroup();
+
 function populateStations(arr, map) {
   markersLayer.clearLayers();
   for (let i = 0; i < arr.length; i++) {
@@ -64,15 +65,37 @@ function populateStations(arr, map) {
     const address = arr[i].address;
     const id = arr[i].id;
 
-    createMarker(arr[i].lat, arr[i].lng, markersLayer).bindPopup(`
-        <div class="populateStation">
-          <b>${name}</b>
-          <p>${address}</p>
-          <button onclick="saveStation('${id}')">Save</button>
-        </div>`);
+    const outletDiv = appendStations(arr[i].stations);
+
+    var stationInfo = `
+    <div class="stations">
+      <b>${name}</b>
+      <p>${address}</p>
+      <button onclick="saveStation('${id}')">Save</button>
+      <div class="station-container">
+      ${outletDiv}
+      </div>
+    </div>`
+
+    createMarker(arr[i].lat, arr[i].lng, markersLayer).bindPopup(stationInfo);
   }
   map.addLayer(markersLayer);
-}
+};
+
+function appendStations(stations) {
+  var stnArr = [];
+  stations.forEach(station => {
+    stnArr.push(`
+      <div class="outlets" id="${station.outlets[0].id}">
+        <p class="outlet-id">Outlet: ${station.outlets[0].id}</p>
+        <p class="kilowatts">KWh: ${station.outlets[0].kilowatts}</p>
+        <p class="power">Power: ${station.outlets[0].power}</p>
+        <p class="status">Status: ${station.outlets[0].status}</p>
+      </div>
+    `)
+  });
+  return stnArr.join(" ");
+};
 
 async function saveStation(stationID) {
   const userObject = await getUserStatus();
