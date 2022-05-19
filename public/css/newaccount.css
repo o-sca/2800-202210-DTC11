@@ -23,7 +23,7 @@ body {
     border-color: rgb(73,32,112);
     justify-content: center;
     width: 350px;
-    height: 350px;
+    height: 400px;
     background-color: #d9eff9;
     text-align: center;
     align-items: center;
@@ -42,11 +42,12 @@ input[type=text] {
 }
 
 #gif {
-    display: block;
+    display:inline-block;
     width: 200px;
     height: 120px;
     align-items: center;
     padding-bottom: 5px;
+    margin-bottom: 40px;
     margin-left: auto;
     margin-right: auto;
 }
