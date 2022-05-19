@@ -5,8 +5,6 @@ body {
   }
 
   .topnav {
-    /* display: flex; */
-    /* width: 100%; */
     justify-content: space-between;
     overflow: hidden;
     background-color: #333;
@@ -42,7 +40,7 @@ body {
   .topnav a.searchIcon {
     display: block;
     position: absolute;
-    right: 50;
+    right: 50px;
     top: 0;
     font-size: 20px;
   }
@@ -50,7 +48,7 @@ body {
   .topnav a.filterIcon {
     display: block;
     position: absolute;
-    right: 100;
+    right: 100px;
     top: 0;
     font-size: 20px;
   }
@@ -162,16 +160,6 @@ body {
   height: 50%;
 }
 
-/* input[type=submit] {
-  background-color: #151788;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  height: 40%;
-} */
 
 #searchButton {
   border: none;
@@ -180,129 +168,3 @@ body {
   height: 35px;
   width: 125px;
 }
-
-  @media only screen and (max-width: 800px) {
-    body {
-      background-color: rgb(255, 255, 255);
-    }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-
-    .topnav {
-      overflow: hidden;
-      background-color: #333;
-      position: relative;
-    }
-
-    .topnav #myLinks {
-      display: none;
-    }
-
-    .topnav a {
-      color: white;
-      padding: 14px 16px;
-      text-decoration: none;
-      font-size: 17px;
-      display: block;
-    }
-
-    .topnav a.icon {
-      display: block;
-      position: absolute;
-      right: 0;
-      top: 0;
-      font-size: 20px;
-    }
-
-    .topnav a:hover {
-      background-color: #0096C7;
-      color: black;
-    }
-
-    .active {
-      text-align: center;
-      background-color: #48CAE4;
-      color: white;
-    }
-
-    #admin {
-      display: none;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      padding-top: 100px;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgb(0, 0, 0);
-      background-color: rgba(0, 0, 0, 0.4);
-    }
-
-    .modal-content {
-      background-color: #fefefe;
-      margin: auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-    }
-
-    .close {
-      color: #aaaaaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-      color: #000;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .modal2 {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      padding-top: 100px;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgb(0, 0, 0);
-      background-color: rgba(0, 0, 0, 0.4);
-    }
-
-    .modal-content2 {
-      background-color: #fefefe;
-      margin: auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 90%;
-    }
-
-    .close2 {
-      color: #aaaaaa;
-      position: absolute;
-      top: 100;
-      right: 45;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    .close2:hover,
-    .close2:focus {
-      color: #000;
-      text-decoration: none;
-      cursor: pointer;
-    }
-  }
