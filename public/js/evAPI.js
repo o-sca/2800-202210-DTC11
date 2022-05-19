@@ -25,9 +25,23 @@ async function fetchStation(id = '') {
         method: "GET",
         mode: 'cors',
     });
-
     const results = await response.json();
     if (results.status !== true) return results.data;
-
     return results.data;
+};
+
+async function getUserStatus() {
+    const response = await fetch(`/userStatus`, {
+        method: "GET"
+    });
+    return await response.json();
+};
+
+async function insertSavedStation(stationID, userID) {
+    const response = await fetch(`/insertSavedStation`, {
+        method: "POST",
+        headers:  { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ stationID: stationID, userID: userID })
+    })
+    return response.status;
 };

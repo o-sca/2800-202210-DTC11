@@ -13,6 +13,7 @@ app.use(
     resave: true,
   })
 );
+app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
     extended: true,
@@ -32,7 +33,7 @@ app.listen(process.env.PORT || 5001, function (err) {
 
 app.get("/", function (req, res) {
   if (req.session.authenticated) {
-    console.log("'/''");
+    console.log("'/'");
     res.sendFile(__dirname + "/public/main.html");
   } else {
     res.render("login", { username: "", message: "" });
@@ -47,12 +48,14 @@ app.get("/logout", function (req, res) {
 
 app.post("/login", async function (req, res) {
   const { username, password } = req.body;
-  const { isAuth, isAdmin } = await mysqlWrapper.authenticate(
+  const { userID, isAuth, isAdmin } = await mysqlWrapper.authenticate(
     username,
     password
   );
+  console.log(userID)
   req.session.authenticated = isAuth ? true : false;
   if (isAuth) {
+    req.session.userID = userID;
     req.session.admin = isAdmin;
     req.session.user = username;
     req.session.admin ? res.redirect("/admin") : res.redirect("/");
@@ -98,6 +101,7 @@ app.post("/register", async (req, res) => {
 app.get("/userStatus", (req, res) => {
   res.send({
     isLoggedIn: req.session.authenticated,
+    userID: req.session.userID,
     isAdmin: req.session.admin,
   });
 });
@@ -106,3 +110,8 @@ app.get("/getUsers", async (req, res) => {
   const userList = await mysqlWrapper.getUsers(0, 20);
   res.send(userList);
 });
+
+app.post("/insertSavedStation", async (req, res) => {
+  const result = await mysqlWrapper.insertStation(req.body.userID, req.body.stationID);
+  console.log(result)
+})

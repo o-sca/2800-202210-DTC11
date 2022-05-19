@@ -27,7 +27,7 @@ class mysqlWrapper {
             ? reject(err)
             : resolve(
                 console.log(
-                  `Connected to database: ${this.con.config.database}`
+                  `Connected to threadID: ${this.con.threadId}`
                 )
               );
         });
@@ -111,7 +111,7 @@ class mysqlWrapper {
     let response = await this.addNewUser(username, email, password);
     // TODO: handle insertion error
     return { success: true, message: response };
-  }
+  };
 
   async authenticate(username, password) {
     try {
@@ -122,7 +122,9 @@ class mysqlWrapper {
           [username, password],
           (err, result) => {
             if (err) return reject(err);
+            console.log(result)
             resolve({
+              userID: result[0].id,
               isAuth: result.length > 0,
               isAdmin: result.length > 0 ? result[0].admin > 0 : false,
             });
@@ -133,7 +135,7 @@ class mysqlWrapper {
     } catch (err) {
       return console.log(err);
     }
-  }
+  };
 
   async getUsers(offset = 0, limit = 10) {
     try {
@@ -152,7 +154,27 @@ class mysqlWrapper {
     } catch (err) {
       return console.log(err);
     }
-  }
-}
+  };
+
+  async insertStation(userID, stationID) {
+    try {
+      return new Promise(async (resolve, reject) => {
+        await this.connect();
+        this.con.query(
+          `REPLACE INTO stations (userID, stationID) VALUES (?, ?)`, 
+          [userID, stationID],
+          (err, result) => {
+            if (err) return reject(err);
+            return resolve(result.length > 0);
+          })
+          return this.end();
+      })
+    } catch (e) {
+      return console.error(e);
+    }
+  };
+};
+
+
 
 module.exports = mysqlWrapper;
