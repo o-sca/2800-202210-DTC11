@@ -1,0 +1,29 @@
+.save-button {
+    padding: .5em;
+    width: max-content;
+    height: max-content;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.station-header {
+    display: grid;
+    grid-template-columns: auto 50px;
+}
+
+.station-container {
+    height: 25vh;
+    overflow-y: scroll;
+
+}
+
+.outlets {
+    padding: 5px;
+    background-color: hsl(0, 5%, 96%);
+    border-radius: 8px;
+    margin-bottom: 2px;
+}
+
+.outlets p {
+    margin: 0.25em 0;
+}

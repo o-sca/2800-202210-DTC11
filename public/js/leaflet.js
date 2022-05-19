@@ -69,22 +69,26 @@ function populateStations(arr, map) {
 
     var stationInfo = `
     <div class="stations">
-      <b>${name}</b>
-      <p>${address}</p>
-      <button onclick="saveStation('${id}')">Save</button>
+      <div class="station-header">
+        <div class="station-header-text">
+        <b>${name}</b>
+        <p>${address}</p>
+        </div>
+        <button class="save-button" onclick="saveStation('${id}')">Save</button>
+      </div>
       <div class="station-container">
       ${outletDiv}
       </div>
-    </div>`
+    </div>`;
 
     createMarker(arr[i].lat, arr[i].lng, markersLayer).bindPopup(stationInfo);
   }
   map.addLayer(markersLayer);
-};
+}
 
 function appendStations(stations) {
   var stnArr = [];
-  stations.forEach(station => {
+  stations.forEach((station) => {
     stnArr.push(`
       <div class="outlets" id="${station.outlets[0].id}">
         <p class="outlet-id">Outlet: ${station.outlets[0].id}</p>
@@ -92,17 +96,18 @@ function appendStations(stations) {
         <p class="power">Power: ${station.outlets[0].power}</p>
         <p class="status">Status: ${station.outlets[0].status}</p>
       </div>
-    `)
+    `);
   });
   return stnArr.join(" ");
-};
+}
 
 async function saveStation(stationID) {
   const userObject = await getUserStatus();
-  if (!userObject.isLoggedIn) return alert(`Only registered / logged in users can access this feature.`);
-  const response = await insertSavedStation(stationID, userObject.userID)
-  console.log(response)
-};
+  if (!userObject.isLoggedIn)
+    return alert(`Only registered / logged in users can access this feature.`);
+  const response = await insertSavedStation(stationID, userObject.userID);
+  console.log(response);
+}
 
 function createRainbowOverlay(map) {
   const overlay = L.imageOverlay.rotated(
