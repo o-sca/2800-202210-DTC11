@@ -1,16 +1,17 @@
 async function filterStations(params = {}) {
   const STATIONS = await fetchStation();
+  console.log(STATIONS[0]);
   if (!STATIONS.length) return false;
   if (!params) return STATIONS;
-  console.log(getStationInnerData(STATIONS[0].stations));
   const { numOfStations, kilowatts, power, status } = params;
   const filteredStations = STATIONS.filter((STATION) => {
-    const { address, lat, lng, stations } = STATION;
+    const { stations } = STATION;
     let pass = true;
     if (numOfStations && numOfStations > stations.length) pass = false;
-
-    // if (kilowatts )
-    // stations.forEach;
+    const stationData = getStationInnerData(stations);
+    if (kilowatts && !stationData.kilowatts.includes(kilowatts)) pass = false;
+    if (power && !stationData.power.includes(power)) pass = false;
+    if (status && !stationData.status.includes(status)) pass = false;
     return pass;
   });
   console.log(toLatLng(filteredStations));
@@ -71,7 +72,7 @@ async function stationDataSets() {
       });
     });
   });
-  console.log({ connectorSet, kilowattsSet, powerSet, statusSet });
+  // console.log({ connectorSet, kilowattsSet, powerSet, statusSet });
 }
 
 let filteredStations = filterStations({ numOfStations: 8 });
