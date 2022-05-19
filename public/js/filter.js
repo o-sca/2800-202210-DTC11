@@ -7,14 +7,13 @@ async function filterStations(params = {}) {
   const filteredStations = STATIONS.filter((STATION) => {
     const { stations } = STATION;
     const stationData = getStationInnerData(stations);
-    let pass = true;
-    if (numOfStations && numOfStations > stations.length) pass = false;
-    if (kilowatts && !stationData.kilowatts.includes(kilowatts)) pass = false;
-    if (power && !stationData.power.includes(power)) pass = false;
-    if (status && !stationData.status.includes(status)) pass = false;
+    if (numOfStations && numOfStations > stations.length) return false;
+    if (kilowatts && !stationData.kilowatts.includes(kilowatts)) return false;
+    if (power && !stationData.power.includes(power)) return false;
+    if (status && !stationData.status.includes(status)) return false;
     if (availability && availability > getAvailability(stationData.status))
-      pass = false;
-    return pass;
+      return false;
+    return true;
   });
   // console.log(toLatLng(filteredStations));
   return toLatLng(filteredStations);
@@ -81,4 +80,4 @@ async function stationDataSets() {
 }
 
 let filteredStations = filterStations({ numOfStations: 8, availability: 0.5 });
-// populateStations(filteredStations, map);
+// populateStations(filteredStations, MAP);

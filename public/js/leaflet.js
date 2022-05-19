@@ -1,5 +1,6 @@
 function createMap(object) {
-  const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+  const attribution =
+    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
   const tileURL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
   const tiles = L.tileLayer(tileURL, { attribution });
 
@@ -7,7 +8,7 @@ function createMap(object) {
 
   tiles.addTo(map);
   return map;
-};
+}
 
 async function getUserLocation() {
   return new Promise(async (resolve, reject) => {
@@ -19,11 +20,7 @@ async function getUserLocation() {
       });
     });
   });
-};
-
-function marker(lat, lng, map) {
-  return L.marker([lat, lng]).addTo(map);
-};
+}
 
 function circle(lat, lng, map, option) {
   return L.circle([lat, lng], {
@@ -32,57 +29,61 @@ function circle(lat, lng, map, option) {
     fillOpacity: option === undefined ? 0.5 : option.fillOpacity,
     radius: option === undefined ? 500 : option.radius,
   }).addTo(map);
-};
+}
 
 function locationIcon(lat, lng, map) {
   // Custom Icon Classes
   var locationIcon = L.Icon.extend({
     options: {
       iconSize: [20, 25],
-  }})
+    },
+  });
 
   var icon = new locationIcon({
-    iconUrl: '../imgs/arrow-icon.png'
-  })
-  
-  return L.marker([lat, lng], { icon: icon }).addTo(map).bindPopup(`<div onclick="console.log(1)">Clickme</div>`)
-};
+    iconUrl: "../imgs/arrow-icon.png",
+  });
+
+  return L.marker([lat, lng], { icon: icon })
+    .addTo(map)
+    .bindPopup(`<div onclick="console.log(1)">Clickme</div>`);
+}
 
 function round(number) {
   return Math.round(number * 1000) / 1000;
-};
+}
 
+function createMarker(lat, lng, layer) {
+  return L.marker([lat, lng]).addTo(layer);
+}
+
+const markersLayer = new L.LayerGroup();
 function populateStations(arr, map) {
+  markersLayer.clearLayers();
   for (let i = 0; i < arr.length; i++) {
     const name = arr[i].name;
     const address = arr[i].address;
     const id = arr[i].id;
 
-    marker(arr[i].lat, arr[i].lng, map)
-      .bindPopup(`
+    createMarker(arr[i].lat, arr[i].lng, markersLayer).bindPopup(`
         <div class="populateStation" style="cursor:pointer">
           <b>${name}</b>
           <p>${address}</p>
           <button onclick="saveStation('${id}')">Save</button>
         </div>`);
   }
-};
+  map.addLayer(markersLayer);
+}
 
 function saveStation(id) {
-  console.log(id)
-};
+  console.log(id);
+}
 
-function createRainbow(map) {
-  // N.Van, BBY, DTC
-  const bottomleft = L.latLng(49.323145, -123.100153),
-    topright = L.latLng(49.250687, -123.003881),
-    topleft = L.latLng(49.283443, -123.115244);
-
-  let overlay = L.imageOverlay.rotated(
+function createRainbowOverlay(map) {
+  const overlay = L.imageOverlay.rotated(
     "./imgs/rainbow_flipped.png",
-    topleft,
-    topright,
-    bottomleft,
+    L.latLng(49.323145, -123.100153),
+    L.latLng(49.250687, -123.003881),
+    L.latLng(49.283443, -123.115244),
     {
       opacity: 0.5,
       interactive: true,
@@ -90,37 +91,38 @@ function createRainbow(map) {
     }
   );
   return overlay;
-};
+}
 
-function drawRainbow(map, overlay, draw) {
+function addRainbowToMap(map, overlay, draw) {
   if (draw) {
     overlay.addTo(map);
     map.setView([49.270056, -123.061295], 12);
   } else {
     overlay.remove();
   }
-};
+}
 
-map = (async () => {
+async function load() {
   let location = await getUserLocation();
-  let map = createMap(location);
+  map = createMap(location);
 
   locationIcon(location.lat, location.lng, map); // User's current location
 
-  const data = await fetchStation();
-  populateStations(data, map);
+  const stationsArray = await fetchStation();
+  populateStations(stationsArray, map);
 
-  map.on("click", (e) => {});
+  // map.on("click", (e) => {});
 
-  let overlay = createRainbow(map);
+  let overlay = createRainbowOverlay(map);
   let footerCount = 0;
   $(".copyright").on("click", () => {
     footerCount++;
-    if (footerCount == 3) drawRainbow(map, overlay, true);
+    if (footerCount == 3) addRainbowToMap(map, overlay, true);
     if (footerCount > 3) {
       footerCount = 0;
-      drawRainbow(map, overlay, false);
+      addRainbowToMap(map, overlay, false);
     }
     return map;
   });
-})();
+}
+load();
