@@ -169,7 +169,7 @@ class mysqlWrapper {
           [userID, stationID, stationID],
           (err, result) => {
             if (err) return reject(err);
-            return resolve(result.affectedRows);
+            return resolve(result.affectedRows >= 1 ? true : false);
           })
           return this.end();
       })
