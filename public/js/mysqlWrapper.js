@@ -159,11 +159,10 @@ class mysqlWrapper {
   async verifyUserSavedStations(userID, stationID) {
     try {
       return new Promise(async (resolve, reject) => {
-        await this.connect();
         this.con.query("SELECT * FROM stations where userID = ? AND stationID = ?", [userID, stationID],
         (err, result) => {
           if (err) return reject(err);
-          return resolve({ status: result.length > 0 ? true : false })
+          return resolve(result.length > 0 ? true : false)
         })
       })
     } catch (e) {
@@ -175,8 +174,6 @@ class mysqlWrapper {
     try {
       return new Promise(async (resolve, reject) => {
         await this.connect();
-        const result = await this.verifyUserSavedStations(userID, stationID)
-        if (!result) return; // userID already have this stationID in their saved table
         this.con.query(
           "INSERT INTO stations (userID, stationID) VALUES (?, ?)", 
           [userID, stationID],
