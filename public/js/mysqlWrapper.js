@@ -165,7 +165,7 @@ class mysqlWrapper {
           [userID, stationID],
           (err, result) => {
             if (err) return reject(err);
-            return resolve(result);
+            return resolve(result.length > 0);
           })
           return this.end();
       })

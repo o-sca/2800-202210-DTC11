@@ -112,5 +112,6 @@ app.get("/getUsers", async (req, res) => {
 });
 
 app.post("/insertSavedStation", async (req, res) => {
-  await mysqlWrapper.insertStation(req.body.userID, req.body.stationID)
+  const result = await mysqlWrapper.insertStation(req.body.userID, req.body.stationID);
+  console.log(result)
 })
