@@ -161,11 +161,15 @@ class mysqlWrapper {
       return new Promise(async (resolve, reject) => {
         await this.connect();
         this.con.query(
-          `REPLACE INTO stations (userID, stationID) VALUES (?, ?)`, 
-          [userID, stationID],
+          `INSERT INTO stations (userID, stationID)
+          SELECT * FROM (SELECT ?, ?) as tmp
+          WHERE NOT EXISTS (
+            SELECT userID FROM stations WHERE stationID = ?
+          ) LIMIT 1`, 
+          [userID, stationID, stationID],
           (err, result) => {
             if (err) return reject(err);
-            return resolve(result.length > 0);
+            return resolve(result.affectedRows >= 1 ? true : false);
           })
           return this.end();
       })
