@@ -64,6 +64,8 @@ function populateStations(arr, map) {
     const name = arr[i].name;
     const address = arr[i].address;
     const id = arr[i].id;
+    const totaloutlets = arr[i].stations.length;
+    const availableoutlets = "N/A";
 
     const outletDiv = appendStations(arr[i].stations);
 
@@ -73,6 +75,8 @@ function populateStations(arr, map) {
         <div class="station-header-text">
         <b>${name}</b>
         <p>${address}</p>
+        <p>Outlets: total ${totaloutlets}, 
+          <span class="available-outlets">available ${availableoutlets}</span></p>
         </div>
         <button class="save-button" onclick="saveStation('${id}')">Save</button>
       </div>
