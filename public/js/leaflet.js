@@ -58,6 +58,8 @@ function createMarker(lat, lng, layer) {
 
 const markersLayer = new L.LayerGroup();
 function populateStations(arr, map) {
+  console.log(arr.length);
+  console.log(map._size);
   markersLayer.clearLayers();
   for (let i = 0; i < arr.length; i++) {
     const name = arr[i].name;
@@ -76,10 +78,11 @@ function populateStations(arr, map) {
 
 async function saveStation(stationID) {
   const userObject = await getUserStatus();
-  if (!userObject.isLoggedIn) return alert(`Only registered / logged in users can access this feature.`);
-  const response = await insertSavedStation(stationID, userObject.userID)
+  if (!userObject.isLoggedIn)
+    return alert(`Only registered / logged in users can access this feature.`);
+  const response = await insertSavedStation(stationID, userObject.userID);
   if (response === 200) return; // Saved Successfully
-};
+}
 
 function createRainbowOverlay(map) {
   const overlay = L.imageOverlay.rotated(
@@ -128,4 +131,4 @@ async function load() {
     return map;
   });
 }
-load();
+map = load();

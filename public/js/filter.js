@@ -1,7 +1,7 @@
 async function filterStations(params = {}) {
   const STATIONS = await fetchStation();
   // console.log(STATIONS[0]);
-  if (!STATIONS.length) return false;
+  if (!STATIONS) return false;
   if (!params) return STATIONS;
   const { numOfStations, kilowatts, power, status, availability } = params;
   const filteredStations = STATIONS.filter((STATION) => {
@@ -79,5 +79,11 @@ async function stationDataSets() {
   // console.log({ connectorSet, kilowattsSet, powerSet, statusSet });
 }
 
-let filteredStations = filterStations({ numOfStations: 8, availability: 0.5 });
-// populateStations(filteredStations, MAP);
+testParams = {
+  numOfStations: 6,
+  availability: 0.25,
+};
+async function populateFilteredStations(params) {
+  let filteredStations = await filterStations(params);
+  populateStations(filteredStations, map);
+}
