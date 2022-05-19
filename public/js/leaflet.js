@@ -78,7 +78,7 @@ async function saveStation(stationID) {
   const userObject = await getUserStatus();
   if (!userObject.isLoggedIn) return alert(`Only registered / logged in users can access this feature.`);
   const response = await insertSavedStation(stationID, userObject.userID)
-  if (response === 200) return; // Saved Successfully
+  console.log(response)
 };
 
 function createRainbowOverlay(map) {

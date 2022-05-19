@@ -43,5 +43,5 @@ async function insertSavedStation(stationID, userID) {
         headers:  { 'Content-Type': 'application/json' },
         body: JSON.stringify({ stationID: stationID, userID: userID })
     })
-    return response.status;
+    return await response.json();
 };
