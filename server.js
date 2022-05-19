@@ -13,6 +13,7 @@ app.use(
     resave: true,
   })
 );
+app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
     extended: true,
@@ -111,5 +112,5 @@ app.get("/getUsers", async (req, res) => {
 });
 
 app.post("/insertSavedStation", async (req, res) => {
-  
+  console.log(req.body)
 })
