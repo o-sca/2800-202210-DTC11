@@ -3,7 +3,6 @@
 <head>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/font-awesome.min.css">
-
   <script src="https://kit.fontawesome.com/575ee5eea7.js" crossorigin="anonymous"></script>
   <style>
     body {
@@ -174,7 +173,6 @@
       }
 
       .topnav a.icon {
-        background: #03045E;
         display: block;
         position: absolute;
         right: 0;
@@ -252,12 +250,14 @@
       margin: auto;
       padding: 20px;
       border: 1px solid #888;
-      width: 80%;
+      width: 90%;
     }
 
     .close2 {
       color: #aaaaaa;
-      float: right;
+      position: absolute; 
+      top: 100;
+      right: 45;
       font-size: 28px;
       font-weight: bold;
     }
@@ -308,10 +308,43 @@
     </div>
   </div>
 
+  <!-- Filter Modal -->
   <div id="myModal2" class="modal2">
     <div class="modal-content2">
+      <h2>Filter by:</h2>
       <span class="close2">&times;</span>
-      <p>Hello test modal</p>
+
+      <label>connector</label>
+      <select name="filter_connector" id="filter_connector">
+        <option value="6">6</option>
+        <option value="13">13</option>
+        <option value="3">3</option>
+        <option value="2">2</option>
+        <option value="1">1</option>
+        <option value="5">5</option>
+      </select>
+
+      <label>kiloWatts</label>
+      <select name="filter_kiloWatts" id="filter_KiloWatts">
+        <option value="0-100">0 - 100</option>
+        <option value="101-200">101 - 200</option>
+        <option value="201 - 300">201 - 300</option>
+        <option value="301 - 400">301 - 400</option>
+      </select>
+
+      <label>Power type</label>
+      <select name="filter_power" id="filter_power">
+        <option value="1">1</option>
+        <option value="2">2</option>
+      </select>
+
+      <label">Charging Status</label>
+      <select name="filter_status" id="filter_status">
+        <option value="available">Available</option>
+        <option value="unknown">Unknown</option>
+        <option value="charging">Charging</option>
+        <option value="planned">Planned</option>
+      </select>
     </div>
   </div>
 
@@ -357,5 +390,5 @@
         modal2.style.display = "none";
       }
     }
-  </script>
-</body>
+    </script>
+    </body>
