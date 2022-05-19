@@ -6,6 +6,8 @@
 }
 
 .save-button {
+    color: white;
+    background-color: hsl(201, 81%, 49%);
     padding: .5em;
     width: max-content;
     height: max-content;
