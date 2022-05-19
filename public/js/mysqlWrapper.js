@@ -177,6 +177,14 @@ class mysqlWrapper {
       return console.error(e);
     }
   };
+
+  async fetchSavedStations(userID) {
+    try {
+      return new Promise(async (resolve, reject) => {
+        
+      })
+    }
+  };
 };
 
 

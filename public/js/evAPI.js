@@ -45,3 +45,11 @@ async function insertSavedStation(stationID, userID) {
     })
     return await response.json();
 };
+
+async function fetchSavedStations(userID) {
+    const response = await fetch('/fetchSavedStations', {
+        method: "GET"
+    })
+    console.log(await response.json())
+    return;
+}
