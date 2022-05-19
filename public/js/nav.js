@@ -8,9 +8,9 @@ function openHamburgerMenu() {
   }
 
   // Search modal Functionality
-  var modal = document.getElementById("myModal");
-  var btn = document.getElementById("openModal");
-  var span = document.getElementsByClassName("close")[0];
+  var modal = document.getElementById("modal-search");
+  var btn = document.getElementById("openSearchModal");
+  var span = document.getElementsByClassName("filterClose")[0];
   btn.onclick = function () {
     modal.style.display = "block";
   }
@@ -24,9 +24,9 @@ function openHamburgerMenu() {
   }
 
   //Filter modal Functionality
-  var modal2 = document.getElementById("myModal2");
-  var btn2 = document.getElementById("openModal2");
-  var span2 = document.getElementsByClassName("close2")[0];
+  var modal2 = document.getElementById("filterModal");
+  var btn2 = document.getElementById("openfilterModal");
+  var span2 = document.getElementsByClassName("closefilterModal")[0];
   btn2.onclick = function () {
     modal2.style.display = "block";
   }
