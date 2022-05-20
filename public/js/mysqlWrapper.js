@@ -90,11 +90,11 @@ class mysqlWrapper {
     try {
       return new Promise(async (resolve, reject) => {
         await this.connect();
-        this.con.query(insertQuery, insertValues, (err) => {
+        this.con.query(insertQuery, insertValues, (err, result, field) => {
           if (err) return reject(err);
-          return resolve(`New account for "${username}" has been created`);
+          return resolve(field);
         });
-        console.log(this.end());
+        return this.end();
       });
     } catch (err) {
       console.log(err);
@@ -109,6 +109,7 @@ class mysqlWrapper {
         message: `Username "${username}" has been taken`,
       };
     let response = await this.addNewUser(username, email, password);
+    console.log(response)
     // TODO: handle insertion error
     return { success: true, message: response };
   };

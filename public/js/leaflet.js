@@ -59,17 +59,21 @@ function createMarker(lat, lng, layer) {
 const markersLayer = new L.LayerGroup();
 
 async function populateStations(arr, map) {
-  const userObject = await getUserStatus();
-  const savedStations = await fetchSavedStations(userObject.userID);
-
+  let savedStations;
   markersLayer.clearLayers();
 
+  const userObject = await getUserStatus();
+  if (userObject.isLoggedIn) savedStations = await fetchSavedStations(userObject.userID);
+  else savedStations = false;
+
   for (let i = 0; i < arr.length; i++) {
+    let savedStatus;
     const name = arr[i].name;
     const address = arr[i].address;
     const id = arr[i].id;
     const outletDiv = appendStations(arr[i].stations);
-    const savedStatus = savedStations.includes(id) ? `Remove` : `Save`
+    if (!savedStations) savedStatus = `Save`;
+    else savedStatus = savedStations.includes(id) ? `Remove` : `Save`
 
     var stationInfo = `
     <div class="stations">
