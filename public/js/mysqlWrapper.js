@@ -25,9 +25,7 @@ class mysqlWrapper {
         this.con.connect((err) => {
           return err
             ? reject(err)
-            : resolve(
-                console.log(`Connected to threadID: ${this.con.threadId}`)
-              );
+            : resolve(this.con.threadId);
         });
       });
     } catch (err) {
@@ -38,7 +36,7 @@ class mysqlWrapper {
   end() {
     this.con.end((err) => {
       if (err) throw err;
-      console.log("Closed connection to database");
+      return;
       // process.exit()
     });
   }
@@ -103,6 +101,7 @@ class mysqlWrapper {
         await this.connect();
         this.con.query(insertQuery, insertValues, (err) => {
           if (err) return reject(err);
+          console.log(`${username} added to users database`);
           return resolve(`${username} added to database`);
         });
         return this.end();
@@ -114,17 +113,17 @@ class mysqlWrapper {
 
   async register(username, email, password) {
     let userExists = await this.findUser(username);
-    if (!!userExists)
+    if (!!userExists) {
       return {
         success: false,
-        id: "",
+        userID: "",
       };
-    let response = await this.addNewUser(username, email, password);
+    }
+    await this.addNewUser(username, email, password);
     let userID = await this.findUser(username);
-    console.log({ userID });
     await this.addUserIntoStation(userID);
     // TODO: handle insertion error
-    return { success: true, id: userID };
+    return { success: true, userID: userID };
   }
 
   async authenticate(username, password) {
@@ -179,6 +178,7 @@ class mysqlWrapper {
           [userID, 0],
           (err, result) => {
             if (err) return reject(err);
+            console.log(userID, 'added to stations database')
             return resolve(result.affectedRows >= 1 ? true : false);
           }
         );
@@ -200,6 +200,7 @@ class mysqlWrapper {
           [userID, stationID, stationID],
           (err, result) => {
             if (err) return reject(err);
+            console.log(stationID, 'added')
             return resolve(result.affectedRows >= 1 ? true : false);
           }
         );
@@ -219,6 +220,7 @@ class mysqlWrapper {
           [userID, stationID],
           (err, result) => {
             if (err) return reject(err);
+            console.log(stationID, 'removed')
             return resolve(result.affectedRows >= 1 ? true : false);
           }
         );
@@ -238,6 +240,7 @@ class mysqlWrapper {
           [userID],
           (err, result) => {
             if (err) return reject(err);
+            console.log(result)
             return resolve(result.length > 0 ? result : false);
           }
         );

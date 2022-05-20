@@ -98,7 +98,7 @@ app.post("/register", async (req, res) => {
     req.session.username = username;
     req.session.userID = userID;
     req.session.admin = false;
-    res.redirect("/");
+    res.redirect("/main.html");
   } else {
     res.render("newaccount", {
       email: email,
