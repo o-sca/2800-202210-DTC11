@@ -59,7 +59,7 @@ app.post("/login", async function (req, res) {
   );
   req.session.authenticated = isAuth ? true : false;
   if (isAuth) {
-    req.session.usernameID = userID;
+    req.session.userID = userID;
     req.session.admin = isAdmin;
     req.session.username = username;
     req.session.admin ? res.redirect("/admin") : res.redirect("/");
@@ -98,7 +98,7 @@ app.post("/register", async (req, res) => {
     req.session.username = username;
     req.session.userID = userID;
     req.session.admin = false;
-    res.redirect("/");
+    res.redirect("/main.html");
   } else {
     res.render("newaccount", {
       email: email,
