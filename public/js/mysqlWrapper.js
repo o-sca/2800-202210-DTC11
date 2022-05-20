@@ -201,6 +201,7 @@ class mysqlWrapper {
           (err, result) => {
             if (err) return reject(err);
             console.log(stationID, 'added')
+            console.log(result)
             return resolve(result.affectedRows >= 1 ? true : false);
           }
         );
