@@ -39,10 +39,19 @@ app.get("/", function (req, res) {
   }
 });
 
-app.get("/logout", function (req, res) {
+app.get("/logout", function (req, res, next) {
+  console.log('Executed')
   req.session.authenticated = false;
+  req.session.user = null
+  req.logout();
+  req.session.save(function (err) {
+    if (err) next(err);
+    req.session.regenerate(function (err) {
+      if (err) next(err)
+      res.redirect('/')
+    })
+  })
   // TODO: diplay "logged out" via alert or temporary page
-  res.redirect("/");
 });
 
 app.post("/login", async function (req, res) {
