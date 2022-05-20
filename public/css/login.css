@@ -1,3 +1,7 @@
+* {
+    font-family: Helvetica, sans-serif;
+}
+
 main {
     display: flex;
     flex-direction: column;
@@ -10,19 +14,20 @@ main {
 .login {
     display: flex;
     flex-direction: column;
-    border-style:solid;
+    border-style: solid;
     border-color: rgb(73, 32, 112);
+    border-radius: 8px;
     justify-content: center;
     align-items: center;
     width: 300px;
-    height: 350px;
+    height: min-content;
     background-color: #d9eff9;
 }
 
 body {
     margin: 0;
     background: linear-gradient(-45deg, #d9eff9, #40537e, #1e467a, #3f1997);
-    animation: gradient 10s  ease infinite;
+    animation: gradient 10s ease infinite;
     background-size: 300% 300%;
     /* background-size: 150% 150%; */
     /* background: rgb(0, 47, 48); */
@@ -62,16 +67,6 @@ input[type=password] {
     margin-right: auto;
 }
 
-footer {
-    text-align: center;
-    margin-top: auto;
-    position:absolute;
-    bottom:0;
-    width: 100%;
-    height: 15px;
-}
-
-
 input[type=submit] {
     align-items: center;
     background-color: #151788;
@@ -85,34 +80,51 @@ input[type=submit] {
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 10px;
-  }
+}
+
+button {
+    cursor: pointer;
+    font-size: 50px;
+    width: 200px;
+    align-items: center;
+    border: none;
+}
 
 .guestbutton {
+    display: inline;
     background-color: #151788;
     color: white;
-    border: none;
+    border: solid;
     cursor: pointer;
     width: 147px;
     height: 40px;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 10px;
+    font-size: 15px;
 }
 
-#password{
+#password {
     align-items: center;
 }
+
 #username {
     align-items: center;
+}
+
+#sign-up-link {
+    margin: 15px;
 }
 
 @keyframes gradient {
     0% {
         background-position: 0% 50%;
     }
+
     50% {
         background-position: 100% 50%;
     }
+
     100% {
         background-position: 0% 50%;
     }
