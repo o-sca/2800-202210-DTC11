@@ -5,11 +5,10 @@ body {
 }
 
 .topnav {
-  justify-content: right;
-  overflow: hidden;
   background-color: #333;
+  z-index: 0;
   position: relative;
-  width: 200px;
+  margin-left: 1px;
 }
 
 .topnav #myLinks {
@@ -55,11 +54,11 @@ body {
   font-size: 18px;
 }
 
-.topnav img {
+/* .topnav img {
   object-fit: cover;
   height: 5%;
   width: 50%;
-}
+} */
 
 
 .active {

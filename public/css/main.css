@@ -9,7 +9,7 @@
     position: fixed;
     top: 0;
     right: 0;
-    width:35%;
+    width:45%;
 }
 
 .map {
@@ -32,6 +32,13 @@
     width: 50%;
     position: absolute;
     bottom: 22px;
+}
+
+#footerPlaceholder {
+    z-index: 9999;
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }
 
 
