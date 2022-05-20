@@ -32,7 +32,7 @@ async function searchStations(query = "") {
   const STATIONS = await fetchStation();
   const filteredStations = STATIONS.filter((station) => {
     const { name, address } = station;
-    if (name.includes(query) || address.includes(query)) return true;
+    if (name.includes(capitaliseFirstLetter(query)) || address.includes(capitaliseFirstLetter(query))) return true;
   });
   return filteredStations;
   // return toLatLng(filteredStations);
@@ -118,3 +118,7 @@ function updateSliderDisplayValue() {
 function resetFilters() {
   console.log("Filters to be reset on next update :)");
 }
+
+function capitaliseFirstLetter(string) {
+  return string[0].toUpperCase() + string.substring(1);
+};
