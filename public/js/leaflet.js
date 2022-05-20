@@ -22,6 +22,15 @@ async function getUserLocation() {
   });
 }
 
+async function getDistanceFromUser(stations) {
+  let loc = await getUserLocation();
+  let userLatLng = L.latLng(loc.lat, loc.lng);
+  stations.forEach((station) => {
+    let stationLatLng = L.latLng(station.lat, station.lng);
+    station.distance = userLatLng.distanceTo(stationLatLng);
+  });
+}
+
 function circle(lat, lng, map, option) {
   return L.circle([lat, lng], {
     color: option === undefined ? "red" : option.color,
@@ -132,6 +141,7 @@ function addRainbowToMap(map, overlay, draw) {
   if (draw) {
     overlay.addTo(map);
     map.setView([49.270056, -123.061295], 12);
+    overlay.bringToFront();
   } else {
     overlay.remove();
   }
