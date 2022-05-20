@@ -9,8 +9,9 @@
     position: fixed;
     top: 0;
     right: 0;
-    width:45%;
+    width: 45%;
 }
+
 
 .map {
     /* background-color: lightblue; */
@@ -33,14 +34,6 @@
     position: absolute;
     bottom: 22px;
 }
-
-#footerPlaceholder {
-    z-index: 9999;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-}
-
 
 @media only screen and (max-width: 750px) {
 

@@ -4,11 +4,21 @@ body {
 
 }
 
+#navbarPlaceholder {
+  position: absolute;
+  margin-right: 5px;
+  width: 150px;
+}
+
 .topnav {
   background-color: #333;
   z-index: 0;
   position: relative;
   margin-left: 1px;
+  margin-top: 5px;
+  width: 150px;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 .topnav #myLinks {
@@ -41,7 +51,7 @@ body {
 .topnav a.searchIcon {
   display: block;
   position: absolute;
-  right: 50px;
+  right: 100px;
   top: 0;
   font-size: 20px;
 }
@@ -49,7 +59,7 @@ body {
 .topnav a.filterIcon {
   display: block;
   position: absolute;
-  right: 100px;
+  right: 50px;
   top: 0;
   font-size: 18px;
 }
@@ -97,7 +107,7 @@ body {
   color: #aaaaaa;
   position: absolute;
   top: 100px;
-  right: 100px;
+  right: 50px;
   font-size: 28px;
   font-weight: bold;
 }
@@ -162,6 +172,7 @@ body {
 input[type=text] {
   width: 75%;
   height: 35px;
+  border-style: solid;
 }
 
 input[type=submit] {
@@ -193,12 +204,10 @@ input[type=submit] {
     border: none;
     background-color: #151788;
     color: white;
-    height: 35px;
-    width: 75%;
-    font-size: 25px;
+    width: 50px;
   }
 
-  .filterClose {
+  .searchClose {
     position: absolute;
     top: 100px;
     right: 50px;
@@ -206,6 +215,6 @@ input[type=submit] {
 
   .closefilterModal {
     position: absolute;
-    right: 50px;
+    right: 90px;
   }
 }

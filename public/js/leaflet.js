@@ -1,6 +1,6 @@
 function createMap(object) {
   const attribution =
-    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
   const tileURL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
   const tiles = L.tileLayer(tileURL, { attribution });
 
@@ -72,7 +72,8 @@ async function populateStations(arr, map) {
   markersLayer.clearLayers();
 
   const userObject = await getUserStatus();
-  if (userObject.isLoggedIn) savedStations = await fetchSavedStations(userObject.userID);
+  if (userObject.isLoggedIn)
+    savedStations = await fetchSavedStations(userObject.userID);
   else savedStations = false;
 
   for (let i = 0; i < arr.length; i++) {
@@ -85,7 +86,7 @@ async function populateStations(arr, map) {
 
     const outletDiv = appendStations(arr[i].stations);
     if (!savedStations) savedStatus = `Save`;
-    else savedStatus = savedStations.includes(id) ? `Remove` : `Save`
+    else savedStatus = savedStations.includes(id) ? `Remove` : `Save`;
 
     var stationInfo = `
     <div class="stations">
@@ -106,7 +107,7 @@ async function populateStations(arr, map) {
     createMarker(arr[i].lat, arr[i].lng, markersLayer).bindPopup(stationInfo);
   }
   map.addLayer(markersLayer);
-};
+}
 
 function appendStations(stations) {
   var stnArr = [];
@@ -121,16 +122,21 @@ function appendStations(stations) {
     `);
   });
   return stnArr.join(" ");
-};
+}
 
 async function saveStation(stationID, status) {
   const userObject = await getUserStatus();
-  if (!userObject.isLoggedIn) return alert(`Only registered / logged in users can access this feature.`);
-  const method = status.toLowerCase() === 'save' ? 1 : 0;
-  const response = await updateSavedStation(stationID, userObject.userID, method);
+  if (!userObject.isLoggedIn)
+    return alert(`Only registered / logged in users can access this feature.`);
+  const method = status.toLowerCase() === "save" ? 1 : 0;
+  const response = await updateSavedStation(
+    stationID,
+    userObject.userID,
+    method
+  );
   if (response.status) return location.reload();
   return;
-};
+}
 
 function createRainbowOverlay(map) {
   const overlay = L.imageOverlay.rotated(
@@ -141,7 +147,7 @@ function createRainbowOverlay(map) {
     {
       opacity: 0.5,
       interactive: true,
-      attribution: "You'll never get me lucky charms!",
+      attribution: "BCIT CST",
     }
   );
   return overlay;
@@ -180,6 +186,5 @@ async function load() {
     return map;
   });
 }
-
 
 load();
