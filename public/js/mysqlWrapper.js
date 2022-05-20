@@ -111,6 +111,22 @@ class mysqlWrapper {
     }
   }
 
+  async deleteUser(userID) {
+    try {
+      return new Promise(async (resolve, reject) => {
+        await this.connect();
+        this.con.query("DELETE FROM users WHERE id = ?", [userID], (err) => {
+          if (err) return reject(err);
+          console.log(`${userID} removed from users database`);
+          return resolve(`${userID} removed from database`);
+        });
+        return this.end();
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   async register(username, email, password) {
     let userExists = await this.findUser(username);
     if (!!userExists) {
@@ -230,7 +246,7 @@ class mysqlWrapper {
     } catch (e) {
       return console.error(e);
     }
-  }
+  };
 
   async fetchSavedStations(userID) {
     try {
@@ -250,7 +266,7 @@ class mysqlWrapper {
     } catch (e) {
       return console.log(e);
     }
-  }
-}
+  };
+};
 
 module.exports = mysqlWrapper;
