@@ -1,67 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Registration</title>
-    <meta name="COMP-2800" content="BCIT COMP-2800 Project" />
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registration</title>
+  <meta name="COMP-2800" content="BCIT COMP-2800 Project" />
 
-    <link rel="stylesheet" href="./css/global.css" />
-    <link rel="stylesheet" href="css/newaccount.css" />
-  </head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
-  <body>
-    <!-- Nav Bar -->
-    <nav id="navbarPlaceholder"></nav>
-    <main>
-      <form id="newAccountForm" action="/register" method="POST">
-        <h1>Register</h1>
-        <p>Fill out the following details to create a new account.</p>
-        <br />
-        <p id="errorMessage"><%= message %></p>
-        <label for="username">
-          <input
-            type="text"
-            placeholder="Username"
-            id="username"
-            name="username"
-            required
-          />
-        </label>
-        <label for="email">
-          <input
-            type="text"
-            placeholder="Email"
-            id="email"
-            name="email"
-            value="<%= email %>"
-            required
-          />
-        </label>
-        <label for="password">
-          <input
-            type="text"
-            placeholder="Password"
-            name="password"
-            id="password"
-            required
-          />
-        </label>
+  <link rel="stylesheet" href="./css/global.css" />
+  <link rel="stylesheet" href="css/newaccount.css" />
+</head>
+
+<body>
+  <a href="/"><button class="cybr-btn">Back</button></a>
+  <main>
+    <div class="register">
+      <div id="gif">
+        <img src="./imgs/car.gif" alt="car" />
+      </div>
+      <div class="login">
+        <form id="newAccountForm" action="/register" method="POST">
+          <h1>Register</h1>
+          <p>Fill out the following details to create a new account.</p>
+          <br />
+          <p id="errorMessage">
+            <%= message %>
+          </p>
+          <label for="username">
+            <input type="text" placeholder="Username" id="username" name="username" required />
+          </label>
+          <label for="email">
+            <input type="text" placeholder="Email" id="email" name="email" value="<%= email %>" required />
+          </label>
+          <label for="password">
+            <input type="password" placeholder="Password" name="password" id="password" required />
+          </label>
+          <!-- <input type="submit" value="Register" /> -->
+        </form>
         <input type="submit" value="Register" />
-      </form>
-    </main>
-    <!-- Footer -->
-    <nav id="footerPlaceholder"></nav>
+      </div>
+  </main>
+  <!-- Footer -->
+  <nav id="footerPlaceholder"></nav>
 
-    <!-- Javascript scripts -->
-    <script src="./js/common_elements.js"></script>
-    <!-- <script src="./js/newaccount.js"></script> -->
-  </body>
+  <!-- Javascript scripts -->
+  <script src="./js/common_elements.js"></script>
+  <!-- <script src="./js/newaccount.js"></script> -->
+</body>
+
 </html>

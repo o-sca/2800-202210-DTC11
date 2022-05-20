@@ -22,6 +22,15 @@ async function getUserLocation() {
   });
 }
 
+async function getDistanceFromUser(stations) {
+  let loc = await getUserLocation();
+  let userLatLng = L.latLng(loc.lat, loc.lng);
+  stations.forEach((station) => {
+    let stationLatLng = L.latLng(station.lat, station.lng);
+    station.distance = userLatLng.distanceTo(stationLatLng);
+  });
+}
+
 function circle(lat, lng, map, option) {
   return L.circle([lat, lng], {
     color: option === undefined ? "red" : option.color,
@@ -58,9 +67,16 @@ function createMarker(lat, lng, layer) {
 
 const markersLayer = new L.LayerGroup();
 
-function populateStations(arr, map) {
+async function populateStations(arr, map) {
+  let savedStations;
   markersLayer.clearLayers();
+
+  const userObject = await getUserStatus();
+  if (userObject.isLoggedIn) savedStations = await fetchSavedStations(userObject.userID);
+  else savedStations = false;
+
   for (let i = 0; i < arr.length; i++) {
+    let savedStatus;
     const name = arr[i].name;
     const address = arr[i].address;
     const id = arr[i].id;
@@ -68,6 +84,8 @@ function populateStations(arr, map) {
     const availableoutlets = "N/A";
 
     const outletDiv = appendStations(arr[i].stations);
+    if (!savedStations) savedStatus = `Save`;
+    else savedStatus = savedStations.includes(id) ? `Remove` : `Save`
 
     var stationInfo = `
     <div class="stations">
@@ -78,7 +96,7 @@ function populateStations(arr, map) {
         <p>Outlets: total ${totaloutlets}, 
           <span class="available-outlets">available ${availableoutlets}</span></p>
         </div>
-        <button class="save-button" onclick="saveStation('${id}')">Save</button>
+        <button class="save-button" onclick="saveStation('${id}', '${savedStatus}')">${savedStatus}</button>
       </div>
       <div class="station-container">
       ${outletDiv}
@@ -88,7 +106,7 @@ function populateStations(arr, map) {
     createMarker(arr[i].lat, arr[i].lng, markersLayer).bindPopup(stationInfo);
   }
   map.addLayer(markersLayer);
-}
+};
 
 function appendStations(stations) {
   var stnArr = [];
@@ -103,15 +121,16 @@ function appendStations(stations) {
     `);
   });
   return stnArr.join(" ");
-}
+};
 
-async function saveStation(stationID) {
+async function saveStation(stationID, status) {
   const userObject = await getUserStatus();
-  if (!userObject.isLoggedIn)
-    return alert(`Only registered / logged in users can access this feature.`);
-  const response = await insertSavedStation(stationID, userObject.userID);
-  console.log(response);
-}
+  if (!userObject.isLoggedIn) return alert(`Only registered / logged in users can access this feature.`);
+  const method = status.toLowerCase() === 'save' ? 1 : 0;
+  const response = await updateSavedStation(stationID, userObject.userID, method);
+  if (response.status) return location.reload();
+  return;
+};
 
 function createRainbowOverlay(map) {
   const overlay = L.imageOverlay.rotated(
@@ -132,6 +151,7 @@ function addRainbowToMap(map, overlay, draw) {
   if (draw) {
     overlay.addTo(map);
     map.setView([49.270056, -123.061295], 12);
+    overlay.bringToFront();
   } else {
     overlay.remove();
   }
@@ -144,7 +164,7 @@ async function load() {
   locationIcon(location.lat, location.lng, map); // User's current location
 
   const stationsArray = await fetchStation();
-  populateStations(stationsArray, map);
+  await populateStations(stationsArray, map);
 
   // map.on("click", (e) => {});
 
@@ -160,4 +180,6 @@ async function load() {
     return map;
   });
 }
+
+
 load();

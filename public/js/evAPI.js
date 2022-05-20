@@ -37,11 +37,22 @@ async function getUserStatus() {
     return await response.json();
 };
 
-async function insertSavedStation(stationID, userID) {
-    const response = await fetch(`/insertSavedStation`, {
+async function updateSavedStation(stationID, userID, method) {
+    const url = method === 1 ? `/insertSavedStation` : `/removeSavedStation`;
+    const response = await fetch(url, {
         method: "POST",
         headers:  { 'Content-Type': 'application/json' },
         body: JSON.stringify({ stationID: stationID, userID: userID })
     })
     return await response.json();
+};
+
+async function fetchSavedStations(userID) {
+    const response = await fetch(`/fetchSavedStations/${userID}`, {
+        method: "GET"
+    })
+    let responseJSON = await response.json();
+    if (!responseJSON.status) return; // No saved stations
+    const parsedStations = responseJSON.data.map(station => { return station.stationID });
+    return parsedStations;
 };

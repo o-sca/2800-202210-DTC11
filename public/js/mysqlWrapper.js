@@ -25,11 +25,7 @@ class mysqlWrapper {
         this.con.connect((err) => {
           return err
             ? reject(err)
-            : resolve(
-                console.log(
-                  `Connected to threadID: ${this.con.threadId}`
-                )
-              );
+            : resolve(this.con.threadId);
         });
       });
     } catch (err) {
@@ -40,12 +36,12 @@ class mysqlWrapper {
   end() {
     this.con.end((err) => {
       if (err) throw err;
-      console.log("Closed connection to database");
+      return;
       // process.exit()
     });
   }
 
-  createTable() {
+  createUsersTable() {
     const createTableQuery = [
       "CREATE TABLE IF NOT EXISTS users",
       "(id INT AUTO_INCREMENT PRIMARY KEY,",
@@ -59,7 +55,20 @@ class mysqlWrapper {
       if (err) throw err;
       console.log("Table created!", result);
     });
-  };
+  }
+
+  createStationsTable() {
+    const createTableQuery = [
+      "CREATE TABLE IF NOT EXISTS stations",
+      "(userID INT(11),",
+      "stationID INT(11))",
+    ].join(" ");
+
+    this.con.query(createTableQuery, (err, result) => {
+      if (err) throw err;
+      console.log("Table created!", result);
+    });
+  }
 
   async findUser(username) {
     try {
@@ -70,7 +79,7 @@ class mysqlWrapper {
           [username],
           (err, result) => {
             if (err) return reject(err);
-            return resolve(result.length > 0);
+            return resolve(result.length > 0 ? result[0].id : false);
           }
         );
         return this.end();
@@ -78,7 +87,7 @@ class mysqlWrapper {
     } catch (err) {
       return console.log(err);
     }
-  };
+  }
 
   async addNewUser(username, email, password) {
     let currentDateTime = new Date()
@@ -92,26 +101,30 @@ class mysqlWrapper {
         await this.connect();
         this.con.query(insertQuery, insertValues, (err) => {
           if (err) return reject(err);
-          return resolve(`New account for "${username}" has been created`);
+          console.log(`${username} added to users database`);
+          return resolve(`${username} added to database`);
         });
-        console.log(this.end());
+        return this.end();
       });
     } catch (err) {
       console.log(err);
     }
-  };
+  }
 
   async register(username, email, password) {
     let userExists = await this.findUser(username);
-    if (userExists)
+    if (!!userExists) {
       return {
         success: false,
-        message: `Username "${username}" has been taken`,
+        userID: "",
       };
-    let response = await this.addNewUser(username, email, password);
+    }
+    await this.addNewUser(username, email, password);
+    let userID = await this.findUser(username);
+    await this.addUserIntoStation(userID);
     // TODO: handle insertion error
-    return { success: true, message: response };
-  };
+    return { success: true, userID: userID };
+  }
 
   async authenticate(username, password) {
     try {
@@ -122,7 +135,7 @@ class mysqlWrapper {
           [username, password],
           (err, result) => {
             if (err) return reject(err);
-            console.log(result)
+            console.log(result);
             resolve({
               userID: result[0].id,
               isAuth: result.length > 0,
@@ -135,7 +148,7 @@ class mysqlWrapper {
     } catch (err) {
       return console.log(err);
     }
-  };
+  }
 
   async getUsers(offset = 0, limit = 10) {
     try {
@@ -154,7 +167,27 @@ class mysqlWrapper {
     } catch (err) {
       return console.log(err);
     }
-  };
+  }
+
+  async addUserIntoStation(userID) {
+    try {
+      return new Promise(async (resolve, reject) => {
+        await this.connect();
+        this.con.query(
+          `INSERT INTO stations (userID, stationID) VALUES (?, ?)`,
+          [userID, 0],
+          (err, result) => {
+            if (err) return reject(err);
+            console.log(userID, 'added to stations database')
+            return resolve(result.affectedRows >= 1 ? true : false);
+          }
+        );
+        return this.end();
+      });
+    } catch (e) {
+      return console.error(e);
+    }
+  }
 
   async insertStation(userID, stationID) {
     try {
@@ -163,22 +196,61 @@ class mysqlWrapper {
         this.con.query(
           `INSERT INTO stations (userID, stationID)
           SELECT * FROM (SELECT ?, ?) as tmp
-          WHERE NOT EXISTS (
-            SELECT userID FROM stations WHERE stationID = ?
-          ) LIMIT 1`, 
+          WHERE NOT EXISTS (SELECT userID FROM stations WHERE stationID = ?) LIMIT 1`,
           [userID, stationID, stationID],
           (err, result) => {
             if (err) return reject(err);
+            console.log(stationID, 'added')
+            console.log(result)
             return resolve(result.affectedRows >= 1 ? true : false);
-          })
-          return this.end();
-      })
+          }
+        );
+        return this.end();
+      });
     } catch (e) {
       return console.error(e);
     }
-  };
-};
+  }
 
+  async removeStation(userID, stationID) {
+    try {
+      return new Promise(async (resolve, reject) => {
+        await this.connect();
+        this.con.query(
+          `DELETE FROM stations WHERE userID = ? AND stationID = ?`,
+          [userID, stationID],
+          (err, result) => {
+            if (err) return reject(err);
+            console.log(stationID, 'removed')
+            return resolve(result.affectedRows >= 1 ? true : false);
+          }
+        );
+        return this.end();
+      });
+    } catch (e) {
+      return console.error(e);
+    }
+  }
 
+  async fetchSavedStations(userID) {
+    try {
+      return new Promise(async (resolve, reject) => {
+        await this.connect();
+        this.con.query(
+          `SELECT * FROM stations WHERE userID = ?`,
+          [userID],
+          (err, result) => {
+            if (err) return reject(err);
+            console.log(result)
+            return resolve(result.length > 0 ? result : false);
+          }
+        );
+        return this.end();
+      });
+    } catch (e) {
+      return console.log(e);
+    }
+  }
+}
 
 module.exports = mysqlWrapper;
