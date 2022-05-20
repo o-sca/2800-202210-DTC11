@@ -1,19 +1,24 @@
 <head>
   <link rel="stylesheet" href="./css/nav.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/font-awesome.min.css">
-  <script src="https://kit.fontawesome.com/575ee5eea7.js" crossorigin="anonymous"></script>
-  <style>
-   
-  </style>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/font-awesome.min.css"
+  />
+  <script
+    src="https://kit.fontawesome.com/575ee5eea7.js"
+    crossorigin="anonymous"
+  ></script>
+  <style></style>
 </head>
 
 <body>
   <!-- Top Navigation Menu -->
   <div class="topnav">
-    <a href="#home" class="active" id="logo">
-      logo
-    </a>
+    <a href="#home" class="active" id="logo"> logo </a>
     <div id="myLinks">
       <a href="/main.html">Home</a>
       <a href="/login.html"><span id="log">Login / Sign-up</span></a>
@@ -30,7 +35,6 @@
     </a>
   </div>
 
-
   <!-- Search Modal -->
   <div id="modal-search" class="modal-search">
     <!-- Modal content -->
@@ -38,12 +42,15 @@
       <span class="searchClose">&times;</span>
       <!-- Search Bar -->
       <div class="search-container">
-        <form action="">
-          <input type="text" placeholder="Search.." name="search">
-          <button type="submit" id="searchButton">
-            <i class="fas fa-search"></i>
-          </button>
-        </form>
+        <input
+          type="text"
+          id="searchTerm"
+          placeholder="Search.."
+          name="search"
+        />
+        <button type="submit" id="searchButton" onclick="filter()">
+          <i class="fas fa-search"></i>
+        </button>
       </div>
     </div>
   </div>
@@ -54,8 +61,22 @@
       <h2>Filter by:</h2>
       <span class="closefilterModal">&times;</span>
 
-      <label>connector</label>
-      <select name="filter_connector" id="filter_connector">
+      <label>Number of stations <span id="nos-slider-val">1</span></label>
+      <input
+        type="range"
+        min="1"
+        max="24"
+        value="1"
+        class="slider"
+        id="num_of_stations_slider"
+        oninput="updateSliderDisplayValue()"
+        onmouseup="filter()"
+        ontouchend="filter()"
+      />
+
+      <label>Connector</label>
+      <select name="filter_connector" id="filter_connector" onchange="filter()">
+        <option class="none_selection" value="0"></option>
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
@@ -64,30 +85,41 @@
         <option value="13">13</option>
       </select>
 
-      <label>kiloWatts</label>
-      <select name="filter_kiloWatts" id="filter_KiloWatts">
-        <option value="0-100">0 - 100</option>
-        <option value="101-200">101 - 200</option>
-        <option value="201 - 300">201 - 300</option>
-        <option value="301 - 400">301 - 400</option>
-      </select>
+      <label>Kilowatts <span id="kw-slider-val">5</span> kW</label>
+      <input
+        type="range"
+        min="5"
+        max="350"
+        value="5"
+        class="slider"
+        id="kilowatts_slider"
+        oninput="updateSliderDisplayValue()"
+        onmouseup="filter()"
+        ontouchend="filter()"
+      />
+
+      <!-- </select> -->
 
       <label>Power type</label>
-      <select name="filter_power" id="filter_power">
+      <select name="filter_power" id="filter_power" onchange="filter()">
+        <option class="none_selection" value="0"></option>
         <option value="1">1</option>
         <option value="2">2</option>
       </select>
 
-      <label">Charging Status</label>
-        <select name="filter_status" id="filter_status">
-          <option value="unknown">Unknown</option>
-          <option value="planned">Planned</option>
-          <option value="available">Available</option>
-          <option value="charging">Charging</option>
-        </select>
+      <label>Charging status</label>
+      <select name="filter_status" id="filter_status" onchange="filter()">
+        <option class="none_selection" value=""></option>
+        <option value="UNKNOWN">Unknown</option>
+        <option value="PLANNED">Planned</option>
+        <option value="AVAILABLE">Available</option>
+        <option value="CHARGING">Charging</option>
+      </select>
+      <button id="reset-filters-button" type="button" onclick="resetFilters()">
+        Reset All
+      </button>
     </div>
   </div>
-
 
   <script src="./js/nav.js"></script>
 </body>
