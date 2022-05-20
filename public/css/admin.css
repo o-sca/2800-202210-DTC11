@@ -32,8 +32,11 @@ h1 {
     font-size: 24px;
 }
 
-#users-container {
+main {
     width: clamp(380px, 100%, 650px);
+}
+
+#users-container {
     height: 100%;
     overflow-y: scroll;
 }
