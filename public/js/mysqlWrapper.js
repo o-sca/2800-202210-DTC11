@@ -45,7 +45,7 @@ class mysqlWrapper {
     });
   }
 
-  createTable() {
+  createUsersTable() {
     const createTableQuery = [
       "CREATE TABLE IF NOT EXISTS users",
       "(id INT AUTO_INCREMENT PRIMARY KEY,",
@@ -53,6 +53,19 @@ class mysqlWrapper {
       "email VARCHAR(255),",
       "password VARCHAR(255),",
       "admin TINYINT(1))",
+    ].join(" ");
+
+    this.con.query(createTableQuery, (err, result) => {
+      if (err) throw err;
+      console.log("Table created!", result);
+    });
+  };
+
+  createStationsTable() {
+    const createTableQuery = [
+      "CREATE TABLE IF NOT EXISTS stations",
+      "(userID INT(11),",
+      "stationID INT(11))",
     ].join(" ");
 
     this.con.query(createTableQuery, (err, result) => {
@@ -70,7 +83,7 @@ class mysqlWrapper {
           [username],
           (err, result) => {
             if (err) return reject(err);
-            return resolve(result.length > 0);
+            return resolve(result.length > 0 ? result[0].id : false);
           }
         );
         return this.end();
@@ -90,9 +103,9 @@ class mysqlWrapper {
     try {
       return new Promise(async (resolve, reject) => {
         await this.connect();
-        this.con.query(insertQuery, insertValues, (err, result, field) => {
+        this.con.query(insertQuery, insertValues, (err) => {
           if (err) return reject(err);
-          return resolve(field);
+          return resolve(`${username} added to database`);
         });
         return this.end();
       });
@@ -103,13 +116,14 @@ class mysqlWrapper {
 
   async register(username, email, password) {
     let userExists = await this.findUser(username);
-    if (userExists)
+    if (!!userExists)
       return {
         success: false,
         message: `Username "${username}" has been taken`,
       };
     let response = await this.addNewUser(username, email, password);
-    console.log(response)
+    let user = await this.findUser(username)
+    await this.addUserIntoStation(user)
     // TODO: handle insertion error
     return { success: true, message: response };
   };
@@ -156,6 +170,24 @@ class mysqlWrapper {
       return console.log(err);
     }
   };
+  
+  async addUserIntoStation(userID) {
+    try {
+      return new Promise(async (resolve, reject) => {
+        await this.connect();
+        this.con.query(
+          `INSERT INTO stations (userID, stationID) VALUES (?, ?)`, 
+          [userID, 0],
+          (err, result) => {
+            if (err) return reject(err);
+            return resolve(result.affectedRows >= 1 ? true : false);
+          })
+          return this.end();
+      })
+  } catch (e) {
+    return console.error(e);
+  }
+  };
 
   async insertStation(userID, stationID) {
     try {
@@ -164,9 +196,7 @@ class mysqlWrapper {
         this.con.query(
           `INSERT INTO stations (userID, stationID)
           SELECT * FROM (SELECT ?, ?) as tmp
-          WHERE NOT EXISTS (
-            SELECT userID FROM stations WHERE stationID = ?
-          ) LIMIT 1`, 
+          WHERE NOT EXISTS (SELECT userID FROM stations WHERE stationID = ?) LIMIT 1`, 
           [userID, stationID, stationID],
           (err, result) => {
             if (err) return reject(err);
