@@ -49,7 +49,6 @@ app.get("/logout", function (req, res, next) {
       res.redirect('/')
     })
   })
-  // TODO: diplay "logged out" via alert or temporary page
 });
 
 app.post("/login", async function (req, res) {
