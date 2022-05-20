@@ -1,0 +1,40 @@
+.leaflet-popup {
+    opacity: 1;
+    transform: translate3d(348px, 411px, 0px);
+    bottom: -7px;
+    left: -174px;
+}
+
+.save-button {
+    color: white;
+    background-color: hsl(201, 81%, 49%);
+    padding: .5em;
+    width: max-content;
+    height: max-content;
+    font-size: 14px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.station-header {
+    display: grid;
+    grid-template-columns: auto 50px;
+}
+
+.station-container {
+    height: 25vh;
+    overflow-y: scroll;
+
+}
+
+.outlets {
+    padding: 5px;
+    background-color: hsl(0, 5%, 96%);
+    border-radius: 8px;
+    margin-bottom: 2px;
+}
+
+.outlets p {
+    margin: 0.25em 0;
+}

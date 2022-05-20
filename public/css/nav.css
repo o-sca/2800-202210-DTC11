@@ -1,0 +1,210 @@
+body {
+  background-color: rgb(255, 255, 255);
+  font-family: Arial, Helvetica, sans-serif;
+
+}
+
+.topnav {
+  justify-content: space-between;
+  overflow: hidden;
+  background-color: #333;
+  position: relative;
+}
+
+.topnav #myLinks {
+  display: none;
+}
+
+.topnav a {
+  color: white;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  display: block;
+}
+
+.topnav a.icon {
+  background: 03045E;
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 20px;
+}
+
+.topnav a:hover {
+  background-color: #0096C7;
+  color: black;
+}
+
+.topnav a.searchIcon {
+  display: block;
+  position: absolute;
+  right: 50px;
+  top: 0;
+  font-size: 20px;
+}
+
+.topnav a.filterIcon {
+  display: block;
+  position: absolute;
+  right: 100px;
+  top: 0;
+  font-size: 18px;
+}
+
+.topnav img {
+  object-fit: cover;
+  height: 5%;
+  width: 50%;
+}
+
+
+.active {
+  text-align: center;
+  background-color: #48CAE4;
+  color: white;
+}
+
+#admin {
+  display: none;
+}
+
+.modal-search {
+  display: none;
+  position: fixed;
+  z-index: 2;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.search-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.searchClose {
+  color: #aaaaaa;
+  position: absolute;
+  top: 100px;
+  right: 100px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.searchClose:hover,
+.searchClose:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.filterModal {
+  display: none;
+  position: fixed;
+  z-index: 2;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-filterModal {
+  display: flex;
+  flex-direction: column;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 6px;
+  width: clamp(240px, 60%, 320px);
+}
+
+.modal-filterModal label {
+  padding: 15px 0 5px;
+}
+
+.modal-filterModal ::-webkit-file-upload-button {
+  width: max-content;
+  margin-top: 15px;
+}
+
+.closefilterModal {
+  color: #aaaaaa;
+  position: absolute;
+  top: 100px;
+  right: 100px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.closefilterModal:hover,
+.closefilterModal:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+input[type=text] {
+  width: 75%;
+  height: 35px;
+}
+
+input[type=submit] {
+  background-color: #151788;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  height: 50%;
+}
+
+#reset-filters-button {
+  width: max-content;
+  margin-top: 15px;
+}
+
+#searchButton {
+  border: none;
+  background-color: #151788;
+  color: white;
+  height: 35px;
+  width: 125px;
+}
+
+@media only screen and (max-width: 800px) {
+  #searchButton {
+    border: none;
+    background-color: #151788;
+    color: white;
+    height: 35px;
+    width: 75%;
+    font-size: 25px;
+  }
+
+  .filterClose {
+    position: absolute;
+    top: 100px;
+    right: 50px;
+  }
+
+  .closefilterModal {
+    position: absolute;
+    right: 50px;
+  }
+}
