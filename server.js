@@ -39,10 +39,16 @@ app.get("/", function (req, res) {
   }
 });
 
-app.get("/logout", function (req, res) {
+app.get("/logout", function (req, res, next) {
   req.session.authenticated = false;
-  // TODO: diplay "logged out" via alert or temporary page
-  res.redirect("/");
+  req.session.user = null
+  req.session.save(function (err) {
+    if (err) next(err);
+    req.session.regenerate(function (err) {
+      if (err) next(err)
+      res.redirect('/')
+    })
+  })
 });
 
 app.post("/login", async function (req, res) {
@@ -51,7 +57,6 @@ app.post("/login", async function (req, res) {
     username,
     password
   );
-  console.log(userID)
   req.session.authenticated = isAuth ? true : false;
   if (isAuth) {
     req.session.userID = userID;
