@@ -17,7 +17,7 @@ async function filterStations(params = {}) {
       return false;
     if (
       searchTerm &&
-      (!name.includes(searchTerm) || !address.includes(searchTerm))
+      (!name.toLowerCase().includes(searchTerm) || !address.toLowerCase().includes(searchTerm))
     )
       return false;
     return true;
@@ -32,7 +32,7 @@ async function searchStations(query = "") {
   const STATIONS = await fetchStation();
   const filteredStations = STATIONS.filter((station) => {
     const { name, address } = station;
-    if (name.includes(capitaliseFirstLetter(query)) || address.includes(capitaliseFirstLetter(query))) return true;
+    if (name.includes(query) || address.includes(query)) return true;
   });
   return filteredStations;
   // return toLatLng(filteredStations);
@@ -93,7 +93,7 @@ async function stationDataSets() {
 
 async function filter() {
   const paramsAll = {
-    searchTerm: $("#searchTerm").val(),
+    searchTerm: $("#searchTerm").val().toLowerCase(),
     numOfStations: parseInt($("#num_of_stations_slider").val()),
     connector: parseInt($("#filter_power option:selected").val()),
     kilowatts: parseInt($("#kilowatts_slider").val()),
@@ -105,9 +105,9 @@ async function filter() {
     if (value) params[key] = value;
   }
 
-  console.log({ params });
+  console.log(params);
   const filteredStations = await filterStations(params);
-  console.log({ filteredStations });
+  console.log(filteredStations);
   populateStations(filteredStations, map);
 }
 
@@ -118,7 +118,3 @@ function updateSliderDisplayValue() {
 function resetFilters() {
   console.log("Filters to be reset on next update :)");
 }
-
-function capitaliseFirstLetter(string) {
-  return string[0].toUpperCase() + string.substring(1);
-};
