@@ -8,6 +8,7 @@ async function filterStations(params = {}) {
   const filteredStations = STATIONS.filter((STATION) => {
     const { name, address, stations } = STATION;
     const stationData = getStationInnerData(stations);
+    // console.log(stationData);
     if (numOfStations && numOfStations > stations.length) return false;
     if (kilowatts && kilowatts > Math.max(stationData.kilowatts)) return false;
     if (power && !stationData.power.includes(power)) return false;
@@ -22,7 +23,8 @@ async function filterStations(params = {}) {
     return true;
   });
   // console.log(toLatLng(filteredStations));
-  return toLatLng(filteredStations);
+  // return toLatLng(filteredStations);
+  return filteredStations;
 }
 
 async function searchStations(query = "") {
@@ -32,7 +34,8 @@ async function searchStations(query = "") {
     const { name, address } = station;
     if (name.includes(query) || address.includes(query)) return true;
   });
-  return toLatLng(filteredStations);
+  return filteredStations;
+  // return toLatLng(filteredStations);
 }
 
 function toLatLng(stations) {
@@ -45,8 +48,12 @@ function getStationInnerData(stations) {
   data = { connector: [], kilowatts: [], power: [], status: [] };
   stations.forEach((station) => {
     station.outlets.forEach((outlet) => {
-      for (const key of Object.keys(data)) {
-        data[key].push(outlet[key]);
+      for (let key of Object.keys(data)) {
+        if (outlet[key] && !isNaN(outlet[key])) {
+          data[key].push(parseFloat(outlet[key]));
+        } else if (outlet[key]) {
+          data[key].push(outlet[key]);
+        }
       }
     });
   });
@@ -85,25 +92,29 @@ async function stationDataSets() {
 }
 
 async function filter() {
-  let p = {
+  const paramsAll = {
     searchTerm: $("#searchTerm").val(),
+    numOfStations: parseInt($("#num_of_stations_slider").val()),
     connector: parseInt($("#filter_power option:selected").val()),
-    kilowatts: parseInt($("#kilowatts_range").val()),
+    kilowatts: parseInt($("#kilowatts_slider").val()),
     power: parseInt($("#filter_power option:selected").val()),
     status: $("#filter_status").val(),
   };
-
-  let params = {};
-  for (const [key, value] of Object.entries(p)) {
-    console.log(`${key}: ${value}`);
+  const params = {};
+  for (const [key, value] of Object.entries(paramsAll)) {
     if (value) params[key] = value;
   }
 
   console.log({ params });
-  let filteredStations = await filterStations(params);
+  const filteredStations = await filterStations(params);
+  console.log({ filteredStations });
   populateStations(filteredStations, map);
 }
 
 function updateSliderDisplayValue() {
-  $("#kw-slider-val").text($("#kilowatts_range").val());
+  $("#nos-slider-val").text($("#num_of_stations_slider").val());
+  $("#kw-slider-val").text($("#kilowatts_slider").val());
+}
+function resetFilters() {
+  console.log("Filters to be reset on next update :)");
 }
