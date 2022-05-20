@@ -3,8 +3,13 @@
     z-index: 100;
 }
 
-main {
-    height: 100%;
+#navbarPlaceholder {
+    opacity: 0.65;
+    z-index: 9999;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width:45%;
 }
 
 .map {
@@ -12,6 +17,28 @@ main {
     width: 100%;
     height: 100%;
     margin-top: 1px;
+    z-index: 0;
+    position: absolute;
+    top: 0;
+}
+
+.icons {
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    background-color: #ffffff;
+    border: 1px solid black;
+    opacity: 0.25;
+    width: 50%;
+    position: absolute;
+    bottom: 22px;
+}
+
+#footerPlaceholder {
+    z-index: 9999;
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }
 
 
@@ -26,7 +53,9 @@ main {
         width: 100%;
         height: 100%;
         margin-top: 1px;
-        z-index: 1;
+        z-index: 0;
+        position: absolute;
+        top: 0;
     }
 
     .icons {
