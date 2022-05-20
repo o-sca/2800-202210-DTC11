@@ -14,6 +14,19 @@ img {
     width: 100%;
 }
 
+#footerPlaceholder {
+    z-index: 9999;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: hsl(0, 0%, 95%);
+    cursor: pointer;
+}
+
 footer {
-    padding: 0.5em;
+    padding: 0.25em;
+}
+
+footer p {
+    font-size: 10px;
 }

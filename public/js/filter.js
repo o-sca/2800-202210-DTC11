@@ -17,7 +17,8 @@ async function filterStations(params = {}) {
       return false;
     if (
       searchTerm &&
-      (!name.toLowerCase().includes(searchTerm) || !address.toLowerCase().includes(searchTerm))
+      (!name.toLowerCase().includes(searchTerm) ||
+        !address.toLowerCase().includes(searchTerm))
     )
       return false;
     return true;

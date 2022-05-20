@@ -4,11 +4,21 @@ body {
 
 }
 
+#navbarPlaceholder {
+  position: absolute;
+  margin-right: 5px;
+  width: 150px;
+}
+
 .topnav {
   background-color: #333;
   z-index: 0;
   position: relative;
   margin-left: 1px;
+  margin-top: 5px;
+  width: 150px;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 .topnav #myLinks {
