@@ -129,6 +129,7 @@ async function saveStation(stationID, status) {
   const method = status.toLowerCase() === 'save' ? 1 : 0;
   const response = await updateSavedStation(stationID, userObject.userID, method);
   if (response.status) return location.reload();
+  return;
 };
 
 function createRainbowOverlay(map) {
