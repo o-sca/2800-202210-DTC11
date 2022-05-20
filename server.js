@@ -57,7 +57,6 @@ app.post("/login", async function (req, res) {
     username,
     password
   );
-  console.log(userID)
   req.session.authenticated = isAuth ? true : false;
   if (isAuth) {
     req.session.userID = userID;
