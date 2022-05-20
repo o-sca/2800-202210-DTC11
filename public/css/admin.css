@@ -1,12 +1,13 @@
 body {
     background: #edf1f5;
     margin: 0;
+    height: 100%;
 }
 
 main {
     display: flex;
     justify-content: center;
-    height: 90%;
+    height: auto;
     overflow-y: scroll;
 }
 
