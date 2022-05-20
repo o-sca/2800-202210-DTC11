@@ -56,6 +56,7 @@ input[type=text] {
 input[type=submit] {
     height: auto;
     padding-bottom: 5px;
+    margin-top: 10px;
 }
 
 #gif {
