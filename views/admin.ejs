@@ -17,16 +17,18 @@
     <link rel="stylesheet" href="./css/admin.css" />
   </head>
   <body>
+    <div id="admin-header">
+      <button id="back-button" type="button">back</button>
+      <h1>User accounts management</h1>
+    </div>
     <main>
-      <div id="users-container">
-        <h1>User accounts management</h1>
-        <div id="user-list-header" class="user-row">
-          <p>User ID</p>
-          <p>Name / Email</p>
-          <p>Added</p>
-          <p>Remove</p>
-        </div>
+      <div id="user-list-header" class="user-row">
+        <p>User ID</p>
+        <p>Name / Email</p>
+        <p>Added</p>
+        <p>Remove</p>
       </div>
+      <div id="users-container"></div>
     </main>
     <nav id="footerPlaceholder"></nav>
 

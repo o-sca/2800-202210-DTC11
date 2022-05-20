@@ -23,7 +23,7 @@ function setup() {
             <p class="user-added-time">${addTime}</p>
           </div>
            <div class="user-manage">
-            <button type="button" onclick=deleteUser(${user.id})>❌</button>
+            <button class="delete-button" type="button" onclick=deleteUser(${user.id})>❌</button>
           </div>
         </div>
         `;

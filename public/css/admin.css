@@ -1,3 +1,7 @@
+* {
+    font-family: Helvetica, sans-serif;
+}
+
 body {
     background: #edf1f5;
     margin: 0;
@@ -5,27 +9,40 @@ body {
 }
 
 main {
-    display: flex;
-    justify-content: center;
-    height: auto;
-    overflow-y: scroll;
+    height: 90%;
+}
+
+#admin-header {
+    background-color: rgb(197, 241, 249);
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+}
+
+#back-button {
+    width: fit-content;
+}
+
+.delete-button {
+    width: 25px;
+    height: 25px;
 }
 
 h1 {
-    background-color: rgb(197, 241, 249);
-    padding: 10px;
     font-size: 24px;
-    text-align: center;
 }
 
 #users-container {
     width: clamp(380px, 100%, 650px);
+    height: 100%;
+    overflow-y: scroll;
 }
 
 #user-list-header p {
     padding: 0.25em;
     text-align: center;
     font-weight: bold;
+    border-bottom: solid 2px gray;
 }
 
 .user-row {
@@ -53,9 +70,4 @@ h1 {
 .user-name,
 .user-added-date {
     font-weight: bold;
-}
-
-button {
-    width: 25px;
-    height: 25px;
 }
