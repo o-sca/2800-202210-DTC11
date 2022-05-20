@@ -26,9 +26,7 @@ class mysqlWrapper {
           return err
             ? reject(err)
             : resolve(
-                console.log(
-                  `Connected to threadID: ${this.con.threadId}`
-                )
+                console.log(`Connected to threadID: ${this.con.threadId}`)
               );
         });
       });
@@ -59,7 +57,7 @@ class mysqlWrapper {
       if (err) throw err;
       console.log("Table created!", result);
     });
-  };
+  }
 
   createStationsTable() {
     const createTableQuery = [
@@ -72,7 +70,7 @@ class mysqlWrapper {
       if (err) throw err;
       console.log("Table created!", result);
     });
-  };
+  }
 
   async findUser(username) {
     try {
@@ -91,7 +89,7 @@ class mysqlWrapper {
     } catch (err) {
       return console.log(err);
     }
-  };
+  }
 
   async addNewUser(username, email, password) {
     let currentDateTime = new Date()
@@ -112,21 +110,22 @@ class mysqlWrapper {
     } catch (err) {
       console.log(err);
     }
-  };
+  }
 
   async register(username, email, password) {
     let userExists = await this.findUser(username);
     if (!!userExists)
       return {
         success: false,
-        message: `Username "${username}" has been taken`,
+        id: "",
       };
     let response = await this.addNewUser(username, email, password);
-    let user = await this.findUser(username)
-    await this.addUserIntoStation(user)
+    let userID = await this.findUser(username);
+    console.log({ userID });
+    await this.addUserIntoStation(userID);
     // TODO: handle insertion error
-    return { success: true, message: response };
-  };
+    return { success: true, id: userID };
+  }
 
   async authenticate(username, password) {
     try {
@@ -137,7 +136,7 @@ class mysqlWrapper {
           [username, password],
           (err, result) => {
             if (err) return reject(err);
-            console.log(result)
+            console.log(result);
             resolve({
               userID: result[0].id,
               isAuth: result.length > 0,
@@ -150,7 +149,7 @@ class mysqlWrapper {
     } catch (err) {
       return console.log(err);
     }
-  };
+  }
 
   async getUsers(offset = 0, limit = 10) {
     try {
@@ -169,25 +168,26 @@ class mysqlWrapper {
     } catch (err) {
       return console.log(err);
     }
-  };
-  
+  }
+
   async addUserIntoStation(userID) {
     try {
       return new Promise(async (resolve, reject) => {
         await this.connect();
         this.con.query(
-          `INSERT INTO stations (userID, stationID) VALUES (?, ?)`, 
+          `INSERT INTO stations (userID, stationID) VALUES (?, ?)`,
           [userID, 0],
           (err, result) => {
             if (err) return reject(err);
             return resolve(result.affectedRows >= 1 ? true : false);
-          })
-          return this.end();
-      })
-  } catch (e) {
-    return console.error(e);
+          }
+        );
+        return this.end();
+      });
+    } catch (e) {
+      return console.error(e);
+    }
   }
-  };
 
   async insertStation(userID, stationID) {
     try {
@@ -196,53 +196,57 @@ class mysqlWrapper {
         this.con.query(
           `INSERT INTO stations (userID, stationID)
           SELECT * FROM (SELECT ?, ?) as tmp
-          WHERE NOT EXISTS (SELECT userID FROM stations WHERE stationID = ?) LIMIT 1`, 
+          WHERE NOT EXISTS (SELECT userID FROM stations WHERE stationID = ?) LIMIT 1`,
           [userID, stationID, stationID],
           (err, result) => {
             if (err) return reject(err);
             return resolve(result.affectedRows >= 1 ? true : false);
-          })
-          return this.end();
-      })
+          }
+        );
+        return this.end();
+      });
     } catch (e) {
       return console.error(e);
     }
-  };
+  }
 
   async removeStation(userID, stationID) {
     try {
       return new Promise(async (resolve, reject) => {
         await this.connect();
-        this.con.query(`DELETE FROM stations WHERE userID = ? AND stationID = ?`, 
+        this.con.query(
+          `DELETE FROM stations WHERE userID = ? AND stationID = ?`,
           [userID, stationID],
           (err, result) => {
             if (err) return reject(err);
             return resolve(result.affectedRows >= 1 ? true : false);
-          })
-          return this.end();
-      })
+          }
+        );
+        return this.end();
+      });
     } catch (e) {
       return console.error(e);
     }
-  };
+  }
 
   async fetchSavedStations(userID) {
     try {
       return new Promise(async (resolve, reject) => {
         await this.connect();
-        this.con.query(`SELECT * FROM stations WHERE userID = ?`, 
-          [userID], (err, result) => {
+        this.con.query(
+          `SELECT * FROM stations WHERE userID = ?`,
+          [userID],
+          (err, result) => {
             if (err) return reject(err);
             return resolve(result.length > 0 ? result : false);
-        })
+          }
+        );
         return this.end();
-      })
+      });
     } catch (e) {
       return console.log(e);
     }
-  };
-};
-
-
+  }
+}
 
 module.exports = mysqlWrapper;

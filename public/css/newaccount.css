@@ -8,11 +8,23 @@ footer {
     float: center;
 }
 
+* {
+    font-family: Helvetica, sans-serif;
+}
+
+a {
+    margin: 1em;
+    color: white;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: larger;
+}
+
 body {
     margin: 0;
     /* background: rgb(0, 47, 48); */
     background: linear-gradient(-45deg, #d9eff9, #40537e, #1e467a, #3f1997);
-    animation: gradient 10s  ease infinite;
+    animation: gradient 10s ease infinite;
     background-size: 300% 300%;
 }
 
@@ -20,7 +32,7 @@ body {
     display: flex;
     flex-direction: column;
     border-style: solid;
-    border-color: rgb(73,32,112);
+    border-color: rgb(73, 32, 112);
     justify-content: center;
     width: 350px;
     height: 400px;
@@ -42,7 +54,7 @@ input[type=text] {
 }
 
 #gif {
-    display:inline-block;
+    display: inline-block;
     width: 200px;
     height: 120px;
     align-items: center;
@@ -50,4 +62,8 @@ input[type=text] {
     margin-bottom: 40px;
     margin-left: auto;
     margin-right: auto;
+}
+
+#errorMessage {
+    font-weight: bolder;
 }
