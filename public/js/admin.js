@@ -9,6 +9,10 @@ function setup() {
       users.forEach((user) => {
         let addDate = user.added.slice(0, 10);
         let addTime = user.added.slice(11, 19);
+        let deleteButton = user.admin
+          ? ""
+          : `<button class="delete-button" type="button" onclick=deleteUser(${user.id})>❌</button>`;
+
         let userRow = `
         <div id="userRow-${user.id}" class="user-row ${parity}-row">
           <div class="user-id-cell">
@@ -23,7 +27,7 @@ function setup() {
             <p class="user-added-time">${addTime}</p>
           </div>
            <div class="user-manage">
-            <button class="delete-button" type="button" onclick=deleteUser(${user.id})>❌</button>
+            ${deleteButton}
           </div>
         </div>
         `;
