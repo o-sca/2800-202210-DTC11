@@ -107,6 +107,13 @@ app.post("/register", async (req, res) => {
   }
 });
 
+app.get("/deleteUser/:id", function (req, res) {
+  const id = req.params.id;
+  console.log({ id });
+  const result = mysqlWrapper.deleteUser(id);
+  res.send(result);
+});
+
 app.get("/userStatus", (req, res) => {
   res.send({
     isLoggedIn: req.session.authenticated,
