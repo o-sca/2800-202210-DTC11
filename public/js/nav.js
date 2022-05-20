@@ -10,7 +10,7 @@ function openHamburgerMenu() {
   // Search modal Functionality
   var modal = document.getElementById("modal-search");
   var btn = document.getElementById("openSearchModal");
-  var span = document.getElementsByClassName("filterClose")[0];
+  var span = document.getElementsByClassName("searchClose")[0];
   btn.onclick = function () {
     modal.style.display = "block";
   }
