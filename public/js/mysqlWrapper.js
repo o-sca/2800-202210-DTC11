@@ -181,8 +181,16 @@ class mysqlWrapper {
   async fetchSavedStations(userID) {
     try {
       return new Promise(async (resolve, reject) => {
-        
+        await this.connect();
+        this.con.query(`SELECT * FROM stations WHERE userID = ?`, 
+          [userID], (err, result) => {
+            if (err) return reject(err);
+            return resolve(result.length > 0 ? result : false);
+        })
+        return this.end();
       })
+    } catch (e) {
+      return console.log(e);
     }
   };
 };

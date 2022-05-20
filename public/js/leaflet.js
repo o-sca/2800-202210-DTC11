@@ -58,14 +58,18 @@ function createMarker(lat, lng, layer) {
 
 const markersLayer = new L.LayerGroup();
 
-function populateStations(arr, map) {
+async function populateStations(arr, map) {
+  const userObject = await getUserStatus();
+  const savedStations = await fetchSavedStations(userObject.userID);
+
   markersLayer.clearLayers();
+
   for (let i = 0; i < arr.length; i++) {
     const name = arr[i].name;
     const address = arr[i].address;
     const id = arr[i].id;
-
     const outletDiv = appendStations(arr[i].stations);
+    const savedStatus = savedStations.includes(id) ? `Remove` : `Save`
 
     var stationInfo = `
     <div class="stations">
@@ -74,7 +78,7 @@ function populateStations(arr, map) {
         <b>${name}</b>
         <p>${address}</p>
         </div>
-        <button class="save-button" onclick="saveStation('${id}')">Save</button>
+        <button class="save-button" onclick="saveStation('${id}')">${savedStatus}</button>
       </div>
       <div class="station-container">
       ${outletDiv}
@@ -140,7 +144,7 @@ async function load() {
   locationIcon(location.lat, location.lng, map); // User's current location
 
   const stationsArray = await fetchStation();
-  populateStations(stationsArray, map);
+  await populateStations(stationsArray, map);
 
   // map.on("click", (e) => {});
 
@@ -156,4 +160,6 @@ async function load() {
     return map;
   });
 }
+
+
 load();

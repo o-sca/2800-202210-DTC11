@@ -47,9 +47,11 @@ async function insertSavedStation(stationID, userID) {
 };
 
 async function fetchSavedStations(userID) {
-    const response = await fetch('/fetchSavedStations', {
+    const response = await fetch(`/fetchSavedStations/${userID}`, {
         method: "GET"
     })
-    console.log(await response.json())
-    return;
-}
+    let responseJSON = await response.json();
+    if (!responseJSON.status) return; // No saved stations
+    const parsedStations = responseJSON.data.map(station => { return station.stationID });
+    return parsedStations;
+};

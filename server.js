@@ -33,7 +33,6 @@ app.listen(process.env.PORT || 5001, function (err) {
 
 app.get("/", function (req, res) {
   if (req.session.authenticated) {
-    console.log("'/'");
     res.sendFile(__dirname + "/public/main.html");
   } else {
     res.render("login", { username: "", message: "" });
@@ -121,4 +120,16 @@ app.post("/insertSavedStation", async (req, res) => {
     status: false,
     msg: "Duplicate record found"
   })
-})
+});
+
+app.get("/fetchSavedStations/:id", async (req, res) => {
+  const result = await mysqlWrapper.fetchSavedStations(req.params.id);
+  if (!result) return res.status(200).send({
+    status: false,
+    data: 'No saved stations'
+  })
+  else res.status(200).send({
+    status: true,
+    data: result
+  })
+});
