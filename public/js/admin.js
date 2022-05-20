@@ -10,7 +10,7 @@ function setup() {
         let addDate = user.added.slice(0, 10);
         let addTime = user.added.slice(11, 19);
         let userRow = `
-        <div class="user-row ${parity}-row">
+        <div id="userRow-${user.id}" class="user-row ${parity}-row">
           <div class="user-id-cell">
             <p class="user-id">${user.id}</p>
           </div>
@@ -34,8 +34,16 @@ function setup() {
   });
 }
 
-function deleteUser(id) {
+async function deleteUser(id) {
   console.log(`Delete user ${id}`);
+  await $.ajax({
+    url: `/deleteUser/${id}`,
+    type: "GET",
+    success: (res) => {
+      console.log({ res });
+      $(`#userRow-${id}`).remove();
+    },
+  });
 }
 
 $(document).ready(setup);

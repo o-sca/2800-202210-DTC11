@@ -23,9 +23,7 @@ class mysqlWrapper {
     try {
       await new Promise((resolve, reject) => {
         this.con.connect((err) => {
-          return err
-            ? reject(err)
-            : resolve(this.con.threadId);
+          return err ? reject(err) : resolve(this.con.threadId);
         });
       });
     } catch (err) {
@@ -194,7 +192,7 @@ class mysqlWrapper {
           [userID, 0],
           (err, result) => {
             if (err) return reject(err);
-            console.log(userID, 'added to stations database')
+            console.log(userID, "added to stations database");
             return resolve(result.affectedRows >= 1 ? true : false);
           }
         );
@@ -216,8 +214,8 @@ class mysqlWrapper {
           [userID, stationID, stationID],
           (err, result) => {
             if (err) return reject(err);
-            console.log(stationID, 'added')
-            console.log(result)
+            console.log(stationID, "added");
+            console.log(result);
             return resolve(result.affectedRows >= 1 ? true : false);
           }
         );
@@ -237,7 +235,7 @@ class mysqlWrapper {
           [userID, stationID],
           (err, result) => {
             if (err) return reject(err);
-            console.log(stationID, 'removed')
+            console.log(stationID, "removed");
             return resolve(result.affectedRows >= 1 ? true : false);
           }
         );
@@ -246,7 +244,7 @@ class mysqlWrapper {
     } catch (e) {
       return console.error(e);
     }
-  };
+  }
 
   async fetchSavedStations(userID) {
     try {
@@ -257,7 +255,7 @@ class mysqlWrapper {
           [userID],
           (err, result) => {
             if (err) return reject(err);
-            console.log(result)
+            console.log(result);
             return resolve(result.length > 0 ? result : false);
           }
         );
@@ -266,7 +264,7 @@ class mysqlWrapper {
     } catch (e) {
       return console.log(e);
     }
-  };
-};
+  }
+}
 
 module.exports = mysqlWrapper;
