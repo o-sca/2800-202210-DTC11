@@ -71,6 +71,9 @@ async function populateStations(arr, map) {
     const name = arr[i].name;
     const address = arr[i].address;
     const id = arr[i].id;
+    const totaloutlets = arr[i].stations.length;
+    const availableoutlets = "N/A";
+
     const outletDiv = appendStations(arr[i].stations);
     if (!savedStations) savedStatus = `Save`;
     else savedStatus = savedStations.includes(id) ? `Remove` : `Save`
@@ -81,6 +84,8 @@ async function populateStations(arr, map) {
         <div class="station-header-text">
         <b>${name}</b>
         <p>${address}</p>
+        <p>Outlets: total ${totaloutlets}, 
+          <span class="available-outlets">available ${availableoutlets}</span></p>
         </div>
         <button class="save-button" onclick="saveStation('${id}', '${savedStatus}')">${savedStatus}</button>
       </div>
@@ -119,9 +124,9 @@ async function saveStation(stationID, status) {
 function createRainbowOverlay(map) {
   const overlay = L.imageOverlay.rotated(
     "./imgs/rainbow_flipped.png",
-    L.latLng(49.323145, -123.100153),
-    L.latLng(49.250687, -123.003881),
     L.latLng(49.283443, -123.115244),
+    L.latLng(49.250687, -123.003881),
+    L.latLng(49.323145, -123.100153),
     {
       opacity: 0.5,
       interactive: true,

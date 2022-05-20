@@ -1,9 +1,19 @@
+.leaflet-popup {
+    opacity: 1;
+    transform: translate3d(348px, 411px, 0px);
+    bottom: -7px;
+    left: -174px;
+}
+
 .save-button {
+    color: white;
+    background-color: hsl(201, 81%, 49%);
     padding: .5em;
     width: max-content;
     height: max-content;
-    font-size: 16px;
+    font-size: 14px;
     margin-bottom: 5px;
+    border-radius: 5px;
 }
 
 .station-header {

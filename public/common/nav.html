@@ -22,20 +22,20 @@
     <a href="javascript:void(0);" class="icon" onclick="openHamburgerMenu()">
       <i class="fa fa-bars"></i>
     </a>
-    <a href="#myModal" id="openModal" class="searchIcon">
+    <a href="#modal-search" id="openSearchModal" class="searchIcon">
       <i class="fas fa-search"></i>
     </a>
-    <a href="#myModal2" id="openModal2" class="filterIcon">
+    <a href="#filterModal" id="openfilterModal" class="filterIcon">
       <i class="fa-solid fa-filter"></i>
     </a>
   </div>
 
 
-  <!-- The Modal -->
-  <div id="myModal" class="modal">
+  <!-- Search Modal -->
+  <div id="modal-search" class="modal-search">
     <!-- Modal content -->
-    <div class="modal-content">
-      <span class="close">&times;</span>
+    <div class="search-content">
+      <span class="searchClose">&times;</span>
       <!-- Search Bar -->
       <div class="search-container">
         <form action="">
@@ -49,10 +49,10 @@
   </div>
 
   <!-- Filter Modal -->
-  <div id="myModal2" class="modal2">
-    <div class="modal-content2">
+  <div id="filterModal" class="filterModal">
+    <div class="modal-filterModal">
       <h2>Filter by:</h2>
-      <span class="close2">&times;</span>
+      <span class="closefilterModal">&times;</span>
 
       <label>connector</label>
       <select name="filter_connector" id="filter_connector">
