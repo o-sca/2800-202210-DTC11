@@ -59,7 +59,7 @@ app.post("/login", async function (req, res) {
   );
   req.session.authenticated = isAuth ? true : false;
   if (isAuth) {
-    req.session.usernameID = userID;
+    req.session.userID = userID;
     req.session.admin = isAdmin;
     req.session.username = username;
     req.session.admin ? res.redirect("/admin") : res.redirect("/");
