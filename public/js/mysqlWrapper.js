@@ -178,6 +178,23 @@ class mysqlWrapper {
     }
   };
 
+  async removeStation(userID, stationID) {
+    try {
+      return new Promise(async (resolve, reject) => {
+        await this.connect();
+        this.con.query(`DELETE FROM stations WHERE userID = ? AND stationID = ?`, 
+          [userID, stationID],
+          (err, result) => {
+            if (err) return reject(err);
+            return resolve(result.affectedRows >= 1 ? true : false);
+          })
+          return this.end();
+      })
+    } catch (e) {
+      return console.error(e);
+    }
+  };
+
   async fetchSavedStations(userID) {
     try {
       return new Promise(async (resolve, reject) => {

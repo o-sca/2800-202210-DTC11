@@ -110,18 +110,6 @@ app.get("/getUsers", async (req, res) => {
   res.send(userList);
 });
 
-app.post("/insertSavedStation", async (req, res) => {
-  const result = await mysqlWrapper.insertStation(req.body.userID, req.body.stationID);
-  if (result) return res.status(200).send({
-    status: true,
-    msg: "Successfully inserted new record"
-  })
-  else return res.status(200).send({
-    status: false,
-    msg: "Duplicate record found"
-  })
-});
-
 app.get("/fetchSavedStations/:id", async (req, res) => {
   const result = await mysqlWrapper.fetchSavedStations(req.params.id);
   if (!result) return res.status(200).send({
@@ -131,5 +119,29 @@ app.get("/fetchSavedStations/:id", async (req, res) => {
   else res.status(200).send({
     status: true,
     data: result
+  })
+});
+
+app.post("/removeSavedStation", async (req, res) => {
+  const result = await mysqlWrapper.removeStation(req.body.userID, req.body.stationID);
+  if (result) return res.status(200).send({
+    status: true,
+    msg: "Successfully removed record"
+  })
+  else return res.status(200).send({
+    status: false,
+    msg: "Error removing record"
+  })
+});
+
+app.post("/insertSavedStation", async (req, res) => {
+  const result = await mysqlWrapper.insertStation(req.body.userID, req.body.stationID);
+  if (result) return res.status(200).send({
+    status: true,
+    msg: "Successfully inserted new record"
+  })
+  else return res.status(200).send({
+    status: false,
+    msg: "Duplicate record found"
   })
 });

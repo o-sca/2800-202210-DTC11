@@ -78,7 +78,7 @@ async function populateStations(arr, map) {
         <b>${name}</b>
         <p>${address}</p>
         </div>
-        <button class="save-button" onclick="saveStation('${id}')">${savedStatus}</button>
+        <button class="save-button" onclick="saveStation('${id}', '${savedStatus}')">${savedStatus}</button>
       </div>
       <div class="station-container">
       ${outletDiv}
@@ -88,7 +88,7 @@ async function populateStations(arr, map) {
     createMarker(arr[i].lat, arr[i].lng, markersLayer).bindPopup(stationInfo);
   }
   map.addLayer(markersLayer);
-}
+};
 
 function appendStations(stations) {
   var stnArr = [];
@@ -103,15 +103,14 @@ function appendStations(stations) {
     `);
   });
   return stnArr.join(" ");
-}
+};
 
-async function saveStation(stationID) {
+async function saveStation(stationID, status) {
   const userObject = await getUserStatus();
-  if (!userObject.isLoggedIn)
-    return alert(`Only registered / logged in users can access this feature.`);
-  const response = await insertSavedStation(stationID, userObject.userID);
-  console.log(response);
-}
+  if (!userObject.isLoggedIn) return alert(`Only registered / logged in users can access this feature.`);
+  const method = status.toLowerCase() === 'save' ? 1 : 0;
+  return await updateSavedStation(stationID, userObject.userID, method);
+};
 
 function createRainbowOverlay(map) {
   const overlay = L.imageOverlay.rotated(
