@@ -40,10 +40,8 @@ app.get("/", function (req, res) {
 });
 
 app.get("/logout", function (req, res, next) {
-  console.log('Executed')
   req.session.authenticated = false;
   req.session.user = null
-  req.logout();
   req.session.save(function (err) {
     if (err) next(err);
     req.session.regenerate(function (err) {
