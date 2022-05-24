@@ -106,8 +106,24 @@ body {
   width: clamp(240px, 60%, 320px);
 }
 
-.recents-content h3 {
+.recents-content h4, h5 {
   text-align: center;
+}
+
+.error-status {
+  text-align: center;
+}
+
+.viewed-container {
+  font-size: small;
+}
+
+.saved-container {
+  font-size: small;
+}
+
+.recents-block {
+  border: 1px solid;
 }
 
 .modal-search {

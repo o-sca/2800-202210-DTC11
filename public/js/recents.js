@@ -1,16 +1,29 @@
 async function openRecents() {
     let savedStations;
     const userObject = await getUserStatus();
-    if (userObject.isLoggedIn) {
-        savedStations = await fetchSavedStations(userObject.userID);
-        recentStations = await fetchRecentStations(userObject.userID);
-    }
-    else {
-        savedStations = false;
-        recentStations = false
-    }
-    console.log(recentStations)
-    console.log(savedStations)
+    if (!userObject.isLoggedIn) return $('.error-status').html(`Not Logged In`)
+ 
+    savedStations = await fetchSavedStations(userObject.userID);
+    recentStations = await fetchRecentStations(userObject.userID);
 
+    $('.viewed-container').empty();
+    $('.saved-container').empty();
     
+    recentStations.forEach(station => {
+        $('.viewed-container').append(`
+            <div class="recents-block">
+                <p>Station Name: ${station.stationName}</p>
+                <p>Station ID: ${station.stationID}</p>
+            </div>
+        `)
+    })
+
+    savedStations.forEach(station => {
+        $('.saved-container').append(`
+            <div class="recents-block">
+                <p>Station Name: ${station.stationName}</p>
+                <p>Station ID: ${station.stationID}</p>
+            </div>
+        `)
+    })
 };
