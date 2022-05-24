@@ -95,6 +95,7 @@ app.post("/register", async (req, res) => {
     password
   );
   if (success) {
+    req.session.authenticated = true;
     req.session.username = username;
     req.session.userID = userID;
     req.session.admin = false;
