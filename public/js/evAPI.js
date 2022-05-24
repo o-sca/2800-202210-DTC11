@@ -64,4 +64,14 @@ async function insertViewed(userID, stationID, stationName) {
         body: JSON.stringify({ stationID: stationID, userID: userID, stationName: stationName })
     })
     return await response.json();
-}
+};
+
+async function fetchRecentStations(userID) {
+    const response = await fetch(`/fetchViewedStations/${userID}`, {
+        method: "GET"
+    })
+    let responseJSON = await response.json();
+    if (!responseJSON.status) return; // No saved stations
+    const parsedStations = responseJSON.data.map(station => { return station.stationID, station.stationName });
+    return parsedStations;
+};

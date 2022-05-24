@@ -193,3 +193,17 @@ app.post("/insertViewedStation", async (req, res) => {
       msg: "Duplicate record found",
     });
 });
+
+app.get("/fetchViewedStations/:id", async (req, res) => {
+  const result = await mysqlWrapper.fetchRecentStations(req.params.id);
+  if (!result)
+    return res.status(200).send({
+      status: false,
+      data: "No saved stations",
+    });
+  else
+    res.status(200).send({
+      status: true,
+      data: result,
+    });
+});
