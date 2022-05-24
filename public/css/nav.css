@@ -95,6 +95,21 @@ body {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
+.recents-content {
+  display: flex;
+  flex-direction: column;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 6px;
+  width: clamp(240px, 60%, 320px);
+}
+
+.recents-content h3 {
+  text-align: center;
+}
+
 .modal-search {
   display: none;
   position: fixed;

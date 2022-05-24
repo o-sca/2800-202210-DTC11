@@ -45,6 +45,7 @@ const recentsBtn = document.getElementById("openRecentsModal");
 
 recentsBtn.onclick = function () {
   recentsModal.style.display = "block";
+  openRecents();
 }
 
 window.onclick = function (event) {
