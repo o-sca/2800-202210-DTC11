@@ -53,11 +53,24 @@ class mysqlWrapper {
       if (err) throw err;
       console.log("Table created!", result);
     });
-  }
+  };
 
   createStationsTable() {
     const createTableQuery = [
       "CREATE TABLE IF NOT EXISTS stations",
+      "(userID INT(11),",
+      "stationID INT(11))",
+    ].join(" ");
+
+    this.con.query(createTableQuery, (err, result) => {
+      if (err) throw err;
+      console.log("Table created!", result);
+    });
+  };
+
+  createRecentsTable() {
+    const createTableQuery = [
+      "CREATE TABLE IF NOT EXISTS recents",
       "(userID INT(11),",
       "stationID INT(11))",
     ].join(" ");
