@@ -40,7 +40,10 @@
   <div id="modal-search" class="modal-search">
     <!-- Modal content -->
     <div class="search-content">
-      <span class="searchClose">&times;</span>
+      <div class="modal-header">
+        <h2>Search by station name or address:</h2>
+        <span class="searchClose">&times;</span>
+      </div>
       <!-- Search Bar -->
       <div class="search-container">
         <input
@@ -59,9 +62,10 @@
   <!-- Filter Modal -->
   <div id="filterModal" class="filterModal">
     <div class="modal-filterModal">
-      <h2>Filter by:</h2>
-      <span class="closefilterModal">&times;</span>
-
+      <div class="modal-header">
+        <h2>Filter by:</h2>
+        <span class="closefilterModal">&times;</span>
+      </div>
       <label>Number of stations <span id="nos-slider-val">1</span></label>
       <input
         type="range"
