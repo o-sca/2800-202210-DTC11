@@ -56,3 +56,12 @@ async function fetchSavedStations(userID) {
     const parsedStations = responseJSON.data.map(station => { return station.stationID });
     return parsedStations;
 };
+
+async function insertViewed(userID, stationID, stationName) {
+    const response = await fetch(`/insertViewedStation`, {
+        method: "POST",
+        headers:  { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ stationID: stationID, userID: userID, stationName: stationName })
+    })
+    return await response.json();
+}

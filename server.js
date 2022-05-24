@@ -174,3 +174,22 @@ app.post("/insertSavedStation", async (req, res) => {
       msg: "Duplicate record found",
     });
 });
+
+app.post("/insertViewedStation", async (req, res) => {
+  const { userID, stationID, stationName } = req.body;
+  const result = await mysqlWrapper.insertViewed(
+    userID,
+    stationID,
+    stationName
+  );
+  if (result)
+    return res.status(200).send({
+      status: true,
+      msg: "Successfully inserted new record",
+    });
+  else
+    return res.status(200).send({
+      status: false,
+      msg: "Duplicate record found",
+    });
+});

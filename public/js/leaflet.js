@@ -65,7 +65,8 @@ function createMarker(lat, lng, options) {
   return L.marker([lat, lng])
     .addTo(options.layer)
     .on("click", async () => { 
-      await insert
+      const userObject = await getUserStatus();
+      await insertViewed(userObject.userID, options.stationID, options.stationName);
    });
 }
 
@@ -109,9 +110,9 @@ async function populateStations(arr, map) {
     </div>`;
 
     let options = {
-      name: name,
-      id: id,
-      layer: layer
+      stationName: name,
+      stationID: id,
+      layer: markersLayer
     };
 
     createMarker(arr[i].lat, arr[i].lng, options).bindPopup(stationInfo);

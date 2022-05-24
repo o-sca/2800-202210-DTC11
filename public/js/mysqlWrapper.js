@@ -72,7 +72,8 @@ class mysqlWrapper {
     const createTableQuery = [
       "CREATE TABLE IF NOT EXISTS recents",
       "(userID INT(11),",
-      "stationID INT(11))",
+      "stationID INT(11),",
+      "stationName VARCHAR(45)),",
     ].join(" ");
 
     this.con.query(createTableQuery, (err, result) => {
@@ -278,6 +279,49 @@ class mysqlWrapper {
       return console.log(e);
     }
   }
-}
+
+  async insertViewed(userID, stationID, stationName) {
+    try {
+      return new Promise(async (resolve, reject) => {
+        await this.connect();
+        this.con.query(
+          `INSERT INTO recents (userID, stationID, stationName)
+          SELECT * FROM (SELECT ?, ?, ?) as tmp
+          WHERE NOT EXISTS (SELECT userID FROM recents WHERE stationID = ?) LIMIT 1`,
+          [userID, stationID, stationName, stationID],
+          (err, result) => {
+            if (err) return reject(err);
+            console.log(`Station: ${stationName} #${stationID} added`);
+            console.log(result);
+            return resolve(result.affectedRows >= 1 ? true : false);
+          }
+        );
+        return this.end();
+      });
+    } catch (e) {
+      return console.error(e);
+    }
+  }
+
+  async fetchRecentStations(userID) {
+    try {
+      return new Promise(async (resolve, reject) => {
+        await this.connect();
+        this.con.query(
+          `SELECT * FROM recents WHERE userID = ?`,
+          [userID],
+          (err, result) => {
+            if (err) return reject(err);
+            console.log(result);
+            return resolve(result.length > 0 ? result : false);
+          }
+        );
+        return this.end();
+      });
+    } catch (e) {
+      return console.log(e);
+    }
+  }
+};
 
 module.exports = mysqlWrapper;
