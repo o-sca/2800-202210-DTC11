@@ -94,7 +94,7 @@ async function populateStations(arr, map) {
     if (!savedStations) savedStatus = `Save`;
     else {
       savedStations.map(station => { return station.stationID }) 
-      savedStatus = savedStations.includes(id) ? `Save` : `Remove`;
+      savedStatus = savedStations.includes(id) ? `Remove` : `Save`;
     }
 
     const options = {
