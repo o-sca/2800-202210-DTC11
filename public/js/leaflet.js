@@ -152,7 +152,10 @@ async function saveStation(stationID, stationName, status) {
     userObject.userID,
     status.toLowerCase() === "save" ? 1 : 0
   );
-  if (response.status) return location.reload();
+  if (response.status) {
+    const stationsArray = await fetchStation();
+    await populateStations(stationsArray, map);
+  };
   return;
 }
 
