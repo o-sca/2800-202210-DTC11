@@ -173,7 +173,7 @@ app.post("/insertSavedStation", async (req, res) => {
   else
     return res.status(200).send({
       status: false,
-      msg: "Duplicate record found",
+      msg: "Duplicate record found or error inserting record",
     });
 });
 

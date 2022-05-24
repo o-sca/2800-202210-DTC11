@@ -93,8 +93,8 @@ async function populateStations(arr, map) {
 
     if (!savedStations) savedStatus = `Save`;
     else {
-      savedStations.map(station => { return station.stationID }) 
-      savedStatus = savedStations.includes(id) ? `Remove` : `Save`;
+      const savedID = savedStations.map(station => { return station.stationID }) 
+      savedStatus = savedID.includes(id) ? `Remove` : `Save`;
     }
 
     const options = {
@@ -146,12 +146,11 @@ async function saveStation(stationID, stationName, status) {
   const userObject = await getUserStatus();
   if (!userObject.isLoggedIn)
     return alert(`Only registered / logged in users can access this feature.`);
-  const method = status.toLowerCase() === "save" ? 1 : 0;
   const response = await updateSavedStation(
     stationID,
     stationName,
     userObject.userID,
-    method
+    status.toLowerCase() === "save" ? 1 : 0
   );
   if (response.status) return location.reload();
   return;

@@ -224,12 +224,11 @@ class mysqlWrapper {
         this.con.query(
           `INSERT INTO stations (userID, stationID, stationName)
           SELECT * FROM (SELECT ?, ?, ?) as tmp
-          WHERE NOT EXISTS (SELECT userID FROM stations WHERE stationID = ?) LIMIT 1`,
-          [userID, stationID, stationName, stationID],
+          WHERE NOT EXISTS (SELECT userID FROM stations WHERE stationID = ? AND stationName = ?) LIMIT 1`,
+          [userID, stationID, stationName, stationID, stationName],
           (err, result) => {
             if (err) return reject(err);
             console.log(`Station: ${stationName} #${stationID} saved`);
-            console.log(result);
             return resolve(result.affectedRows >= 1 ? true : false);
           }
         );
