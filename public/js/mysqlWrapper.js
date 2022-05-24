@@ -202,8 +202,8 @@ class mysqlWrapper {
       return new Promise(async (resolve, reject) => {
         await this.connect();
         this.con.query(
-          `INSERT INTO stations (userID, stationID) VALUES (?, ?)`,
-          [userID, 0],
+          `INSERT INTO stations (userID, stationID, stationName) VALUES (?, ?, ?)`,
+          [userID, 0, null],
           (err, result) => {
             if (err) return reject(err);
             console.log(userID, "added to stations database");
@@ -217,18 +217,18 @@ class mysqlWrapper {
     }
   }
 
-  async insertStation(userID, stationID) {
+  async insertStation(userID, stationID, stationName) {
     try {
       return new Promise(async (resolve, reject) => {
         await this.connect();
         this.con.query(
-          `INSERT INTO stations (userID, stationID)
-          SELECT * FROM (SELECT ?, ?) as tmp
+          `INSERT INTO stations (userID, stationID, stationName)
+          SELECT * FROM (SELECT ?, ?, ?) as tmp
           WHERE NOT EXISTS (SELECT userID FROM stations WHERE stationID = ?) LIMIT 1`,
-          [userID, stationID, stationID],
+          [userID, stationID, stationName, stationID],
           (err, result) => {
             if (err) return reject(err);
-            console.log(stationID, "added");
+            console.log(`Station: ${stationName} #${stationID} saved`);
             console.log(result);
             return resolve(result.affectedRows >= 1 ? true : false);
           }
@@ -291,8 +291,7 @@ class mysqlWrapper {
           [userID, stationID, stationName, stationID],
           (err, result) => {
             if (err) return reject(err);
-            console.log(`Station: ${stationName} #${stationID} added`);
-            console.log(result);
+            console.log(`Station: ${stationName} #${stationID} viewed`);
             return resolve(result.affectedRows >= 1 ? true : false);
           }
         );

@@ -161,7 +161,8 @@ app.post("/removeSavedStation", async (req, res) => {
 app.post("/insertSavedStation", async (req, res) => {
   const result = await mysqlWrapper.insertStation(
     req.body.userID,
-    req.body.stationID
+    req.body.stationID,
+    req.body.stationName
   );
   if (result)
     return res.status(200).send({

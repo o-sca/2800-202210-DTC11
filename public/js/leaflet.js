@@ -90,8 +90,19 @@ async function populateStations(arr, map) {
     const availableoutlets = "N/A";
 
     const outletDiv = appendStations(arr[i].stations);
+
     if (!savedStations) savedStatus = `Save`;
-    else savedStatus = savedStations.includes(id) ? `Remove` : `Save`;
+    else {
+      savedStations.map(station => { return station.stationID }) 
+      savedStatus = savedStations.includes(id) ? `Save` : `Remove`;
+    }
+
+    const options = {
+      stationID: id,
+      stationName: name,
+      status: savedStatus,
+      layer: markersLayer
+    }
 
     var stationInfo = `
     <div class="stations">
@@ -102,18 +113,14 @@ async function populateStations(arr, map) {
         <p>Outlets: total ${totaloutlets}, 
           <span class="available-outlets">available ${availableoutlets}</span></p>
         </div>
-        <button class="save-button" onclick="saveStation('${id}', '${savedStatus}')">${savedStatus}</button>
+        <button class="save-button" 
+          onclick="saveStation('${options.stationID}', '${options.stationName}', '${options.status}')">${savedStatus}
+        </button>
       </div>
       <div class="station-container">
       ${outletDiv}
       </div>
     </div>`;
-
-    let options = {
-      stationName: name,
-      stationID: id,
-      layer: markersLayer
-    };
 
     createMarker(arr[i].lat, arr[i].lng, options).bindPopup(stationInfo);
   }
@@ -135,13 +142,14 @@ function appendStations(stations) {
   return stnArr.join(" ");
 }
 
-async function saveStation(stationID, status) {
+async function saveStation(stationID, stationName, status) {
   const userObject = await getUserStatus();
   if (!userObject.isLoggedIn)
     return alert(`Only registered / logged in users can access this feature.`);
   const method = status.toLowerCase() === "save" ? 1 : 0;
   const response = await updateSavedStation(
     stationID,
+    stationName,
     userObject.userID,
     method
   );
