@@ -54,15 +54,19 @@ function locationIcon(lat, lng, map) {
 
   return L.marker([lat, lng], { icon: icon })
     .addTo(map)
-    .bindPopup(`<div onclick="console.log(1)">Clickme</div>`);
+    .bindPopup(`<b>You Are Here</b>`);
 }
 
 function round(number) {
   return Math.round(number * 1000) / 1000;
 }
 
-function createMarker(lat, lng, layer) {
-  return L.marker([lat, lng]).addTo(layer);
+function createMarker(lat, lng, options) {
+  return L.marker([lat, lng])
+    .addTo(options.layer)
+    .on("click", async () => { 
+      await insert
+   });
 }
 
 const markersLayer = new L.LayerGroup();
@@ -104,7 +108,13 @@ async function populateStations(arr, map) {
       </div>
     </div>`;
 
-    createMarker(arr[i].lat, arr[i].lng, markersLayer).bindPopup(stationInfo);
+    let options = {
+      name: name,
+      id: id,
+      layer: layer
+    };
+
+    createMarker(arr[i].lat, arr[i].lng, options).bindPopup(stationInfo);
   }
   map.addLayer(markersLayer);
 }
@@ -171,8 +181,6 @@ async function load() {
 
   const stationsArray = await fetchStation();
   await populateStations(stationsArray, map);
-
-  // map.on("click", (e) => {});
 
   let overlay = createRainbowOverlay(map);
   let footerCount = 0;
