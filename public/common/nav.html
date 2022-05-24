@@ -20,7 +20,7 @@
     <a class="active" id="logo"></a>
     <div id="myLinks">
       <a href="/main.html">Home</a>
-      <a href="javascript:void(0);" onclick="openRecents()">Recents</a>
+      <a href="javascript:void(0);" id="openRecentsModal" onclick="openRecents()">Recents</a>
       <a id="log" href="/">Login / Sign-up</a>
       <a href="/admin" id="admin">Admin</a>
     </div>
@@ -119,6 +119,14 @@
       <button id="reset-filters-button" type="button" onclick="resetFilters()">
         Reset All
       </button>
+    </div>
+  </div>
+
+  <!-- Recents Modal -->
+  <div id="modal-recents" class="modal-recents">
+    <!-- Modal content -->
+    <div class="recents-content">
+      
     </div>
   </div>
 
