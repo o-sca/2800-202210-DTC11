@@ -11,6 +11,10 @@ main {
     float: center;
 }
 
+a {
+    text-decoration: none;
+}
+
 .login {
     display: flex;
     flex-direction: column;
@@ -87,7 +91,7 @@ button {
 
 .guestbutton {
     display: inline;
-    background-color: #151788;
+    background-color: #6f72fd;
     color: white;
     border: solid;
     cursor: pointer;
