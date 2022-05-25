@@ -1,3 +1,4 @@
+// return a list of station objects filtered according to paramaters
 async function filterStations(params = {}) {
   const STATIONS = await fetchStation();
   if (!STATIONS.length) return false;
@@ -24,22 +25,14 @@ async function filterStations(params = {}) {
   return filteredStations;
 }
 
-async function searchStations(query = "") {
-  if (!query) return false;
-  const STATIONS = await fetchStation();
-  const filteredStations = STATIONS.filter((station) => {
-    const { name, address } = station;
-    if (name.includes(query) || address.includes(query)) return true;
-  });
-  return filteredStations;
-}
-
+// convert list of station objects to list of {Lat, Lng}
 function toLatLng(stations) {
   return stations.map((station) => {
     return { lat: station.lat, lng: station.lng };
   });
 }
 
+// return array of value for each type of field within stations' outlets
 function getStationInnerData(stations) {
   data = { connector: [], kilowatts: [], power: [], status: [] };
   stations.forEach((station) => {
@@ -56,6 +49,7 @@ function getStationInnerData(stations) {
   return data;
 }
 
+// return station availability as ratio
 function getAvailability(statusList) {
   let avail = 0;
   statusList.forEach((status) => {
@@ -64,8 +58,7 @@ function getAvailability(statusList) {
   return avail / statusList.length;
 }
 
-//TODO: sort by distance, busy status, number of
-
+// get entire range of values that exist in database of stations
 async function stationDataSets() {
   const STATIONS = await fetchStation();
   const connectorSet = new Set();
@@ -87,6 +80,7 @@ async function stationDataSets() {
   return { connectorSet, kilowattsSet, powerSet, statusSet };
 }
 
+// get the values for each filter/serach paramater in app and filter stations with 'em
 async function filter() {
   const paramsAll = {
     searchTerm: $("#searchTerm").val().toLowerCase(),
@@ -104,12 +98,15 @@ async function filter() {
   populateStations(filteredStations, map);
 }
 
+// change values displayed as slider moves
 function updateSliderDisplayValue() {
   $("#nos-slider-val").text($("#num_of_stations_slider").val());
   $("#kw-slider-val").text($("#kilowatts_slider").val());
 }
+
+// return all filter/search values to default
 function resetFilters() {
-  // console.log("Filters to be reset on next update :)");
+  $("#searchTerm").val("");
   $("#num_of_stations_slider").val(1);
   $("#filter_connector").val(0);
   $("#kilowatts_slider").val(1);
