@@ -72,9 +72,6 @@ input[type=submit] {
   margin-top: 10px;
 }
 
-input[type=password] {
-  margin-top: 5px;
-}
 
 #gif {
   display: inline-block;
