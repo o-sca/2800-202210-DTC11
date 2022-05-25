@@ -29,7 +29,7 @@ app.listen(process.env.PORT || 5001, function (err) {
   console.log("Listening");
 });
 
-/***** ROUTES *****/
+/*************** Login/Account Routes ***************/
 
 app.get("/", function (req, res) {
   if (req.session.authenticated) {
@@ -80,13 +80,14 @@ app.get("/admin", function (req, res) {
   }
 });
 
+// direct to "Create new account" page
 app.get("/newaccount", function (req, res) {
   res.render("newaccount", {
     email: "",
     message: "",
   });
 });
-
+// get form data from "Create new account" page
 app.post("/register", async (req, res) => {
   const { username, password, email } = req.body;
   const { success, userID } = await mysqlWrapper.register(
@@ -127,6 +128,8 @@ app.get("/getUsers", async (req, res) => {
   const userList = await mysqlWrapper.getUsers(0, 20);
   res.send(userList);
 });
+
+/*************** User History Routes ***************/
 
 app.get("/fetchSavedStations/:id", async (req, res) => {
   const result = await mysqlWrapper.fetchSavedStations(req.params.id);

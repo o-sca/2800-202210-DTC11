@@ -53,7 +53,7 @@ class mysqlWrapper {
       if (err) throw err;
       console.log("Table created!", result);
     });
-  };
+  }
 
   createStationsTable() {
     const createTableQuery = [
@@ -66,7 +66,7 @@ class mysqlWrapper {
       if (err) throw err;
       console.log("Table created!", result);
     });
-  };
+  }
 
   createRecentsTable() {
     const createTableQuery = [
@@ -150,7 +150,6 @@ class mysqlWrapper {
     await this.addNewUser(username, email, password);
     let userID = await this.findUser(username);
     await this.addUserIntoStation(userID);
-    // TODO: handle insertion error
     return { success: true, userID: userID };
   }
 
@@ -320,6 +319,6 @@ class mysqlWrapper {
       return console.log(e);
     }
   }
-};
+}
 
 module.exports = mysqlWrapper;

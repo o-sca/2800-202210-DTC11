@@ -29,10 +29,6 @@ body {
     background: linear-gradient(-45deg, #d9eff9, #40537e, #1e467a, #3f1997);
     animation: gradient 10s ease infinite;
     background-size: 300% 300%;
-    /* background-size: 150% 150%; */
-    /* background: rgb(0, 47, 48); */
-    /* background: linear-gradient(50deg, rgba(0, 47, 48, 1) 0%, rgba(68, 84, 214, 1) 34%, rgba(0, 225, 255, 1) 92%); */
-    /* #d9eff9, #40537e */
 }
 
 #logo img {
@@ -51,7 +47,6 @@ input[type=text] {
     padding-bottom: 5px;
     align-items: center;
     justify-content: center;
-    /* margin-left: auto; */
     margin-right: auto;
     color: #545457;
 }

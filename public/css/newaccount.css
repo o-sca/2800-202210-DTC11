@@ -21,7 +21,6 @@ a {
 
 body {
   margin: 0;
-  /* background: rgb(0, 47, 48); */
   background: linear-gradient(-45deg, #d9eff9, #40537e, #1e467a, #3f1997);
   animation: gradient 10s ease infinite;
   background-size: 300% 300%;
@@ -88,14 +87,6 @@ input[type=submit] {
   font-weight: bolder;
 }
 
-/* button {
-    cursor: pointer;
-    font-size: 50px;
-    width: 200px;
-    align-items: center;
-    border: none;
-} */
-
 .cybr-btn {
   --primary: hsl(var(--primary-hue), 85%, calc(var(--primary-lightness, 50) * 1%));
   --shadow-primary: hsl(var(--shadow-primary-hue), 90%, 50%);
@@ -133,7 +124,6 @@ input[type=submit] {
   line-height: 35px;
   transition: background 0.2s;
   margin-top: 5px;
-  /* box-sizing: border-box; */
 }
 
 .cybr-btn:hover {

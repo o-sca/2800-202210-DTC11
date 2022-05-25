@@ -1,5 +1,16 @@
+async function deleteUser(id) {
+  console.log(`Delete user ${id}`);
+  await $.ajax({
+    url: `/deleteUser/${id}`,
+    type: "GET",
+    success: (res) => {
+      console.log({ res });
+      $(`#userRow-${id}`).remove();
+    },
+  });
+}
+
 function setup() {
-  // $(".container").hide();
   $.ajax({
     url: "/getUsers",
     type: "GET",
@@ -34,18 +45,6 @@ function setup() {
         $("#users-container").append(userRow);
         parity = parity == "even" ? "odd" : "even";
       });
-    },
-  });
-}
-
-async function deleteUser(id) {
-  console.log(`Delete user ${id}`);
-  await $.ajax({
-    url: `/deleteUser/${id}`,
-    type: "GET",
-    success: (res) => {
-      console.log({ res });
-      $(`#userRow-${id}`).remove();
     },
   });
 }
