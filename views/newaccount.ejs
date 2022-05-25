@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Registration</title>
   <meta name="COMP-2800" content="BCIT COMP-2800 Project" />
-
+  <link rel="icon" type="image/png" sizes="32x32" href="./imgs/favicon-32x32.png">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
@@ -26,6 +26,7 @@
         <form id="newAccountForm" action="/register" method="POST">
           <h1>Register</h1>
           <p>Fill out the following details to create a new account.</p>
+          <br />
           <p id="errorMessage">
             <%= message %>
           </p>
@@ -38,15 +39,17 @@
           <label for="password">
             <input type="password" placeholder="Password" name="password" id="password" required />
           </label>
-          <div>
-            <input id="register-button" type="submit" value="Register" />
-          </div>
+          <!-- <input type="submit" value="Register" /> -->
         </form>
+        <input type="submit" value="Register" />
       </div>
   </main>
+  <!-- Footer -->
   <nav id="footerPlaceholder"></nav>
 
+  <!-- Javascript scripts -->
   <script src="./js/common_elements.js"></script>
+  <!-- <script src="./js/newaccount.js"></script> -->
 </body>
 
 </html>

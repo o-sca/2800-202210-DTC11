@@ -72,6 +72,7 @@ input[type=submit] {
   margin-top: 10px;
 }
 
+
 #gif {
   display: inline-block;
   width: 200px;
@@ -278,4 +279,18 @@ input[type=submit] {
 
 .cybr-btn:nth-of-type(2) {
   --primary-hue: 260;
+}
+
+@keyframes gradient {
+  0% {
+      background-position: 0% 50%;
+  }
+
+  50% {
+      background-position: 100% 50%;
+  }
+
+  100% {
+      background-position: 0% 50%;
+  }
 }
