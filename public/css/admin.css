@@ -21,7 +21,7 @@ main {
     grid-template-columns: 1fr 5fr;
 }
 
-#back-button {
+#home-button {
     width: fit-content;
 }
 
