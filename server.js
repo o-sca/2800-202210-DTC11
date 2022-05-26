@@ -65,7 +65,7 @@ app.post("/login", async function (req, res) {
     req.session.admin ? res.redirect("/admin") : res.redirect("/");
   } else {
     req.session.admin = false;
-    res.render(__dirname + "/public/login.ejs", {
+    res.render(__dirname + "/views/login.ejs", {
       username: username,
       message: "Username or password invalid.",
     });
