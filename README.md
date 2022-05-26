@@ -115,7 +115,7 @@ App hosted on Heroku: https://ezev.herokuapp.com/
 - Create an account, or login with existing account or as guest user to acces main page. Login as administrator to access Admin page via menu. Admin page shows all users, with a button to delete a non-administrator user.
 - Existing stations show as markers on the map. Click a marker to see pop-up window with detailed information about that station. Press the "Save" button to add station to favourites list. Click the top-right menu button (hamburger menu) to access Recents - recently clicked stations and saved stations.
 - Click filter icon in menu to see filters pop-up. Modify paramaters to filter. Click "Reset all" button to clear filters.
-- Click serach icon to view search pop-up. Stations with name or address containing search text will be displayed.
+- Click search icon to view search pop-up. Stations with name or address containing search text will be displayed.
 
 ---
 
@@ -128,11 +128,13 @@ Team **Down To Charge** (BCIT team DTC11)
 - Oscar Zhu
 - Terence Grigoruk
 
-Vladimir Agafonkin, creator of the Leaflet API, and contributors: https://leafletjs.com/
+[Vladimir Agafonkin, creator of the Leaflet API, and contributors](https://leafletjs.com/)
 
-OpenStreetMap: https://www.openstreetmap.org/
+[OpenStreetMap](https://www.openstreetmap.org/)
 
-Opendatasoft Explore API v2 - https://opendata.vancouver.ca/api/v2/console
+[Opendatasoft Explore API v2](https://opendata.vancouver.ca/api/v2/console)
+
+[Plugshare API](https://developer.plugshare.com/docs/#introduction)
 
 ---
 
@@ -140,5 +142,7 @@ Opendatasoft Explore API v2 - https://opendata.vancouver.ca/api/v2/console
 
 @  
 @  
-@  
+
+ozhu@my.bcit.ca
+
 tgrigoruk@my.bcit.ca
