@@ -66,9 +66,15 @@
         <h2>Filter by:</h2>
         <span class="closefilterModal">&times;</span>
       </div>
-      <label
-        >Number of station bays: &gt;<span id="nos-slider-val">1</span></label
-      >
+      <label>Charging status</label>
+      <select name="filter_status" id="filter_status" onchange="filter()">
+        <option class="none_selection" value=""></option>
+        <option value="AVAILABLE">Available</option>
+        <option value="UNKNOWN">Unknown</option>
+        <option value="PLANNED">Planned</option>
+        <option value="CHARGING">Charging</option>
+      </select>
+      <label>Number of outlets: &gt; <span id="nos-slider-val">1</span></label>
       <input
         type="range"
         min="1"
@@ -114,14 +120,6 @@
         <option value="2">2</option>
       </select>
 
-      <label>Charging status</label>
-      <select name="filter_status" id="filter_status" onchange="filter()">
-        <option class="none_selection" value=""></option>
-        <option value="AVAILABLE">Available</option>
-        <option value="UNKNOWN">Unknown</option>
-        <option value="PLANNED">Planned</option>
-        <option value="CHARGING">Charging</option>
-      </select>
       <button id="reset-filters-button" type="button" onclick="resetFilters()">
         Reset All
       </button>
