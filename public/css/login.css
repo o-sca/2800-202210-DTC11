@@ -11,10 +11,6 @@ main {
     float: center;
 }
 
-a {
-    text-decoration: none;
-}
-
 .login {
     display: flex;
     flex-direction: column;
@@ -26,6 +22,10 @@ a {
     width: 300px;
     height: min-content;
     background-color: #d9eff9;
+}
+
+#login-button {
+    text-decoration: none;
 }
 
 body {
@@ -70,6 +70,7 @@ input[type=submit] {
     align-items: center;
     background-color: #151788;
     color: white;
+    font-size: 16px;
     padding: 14px 20px;
     margin: 8px 0;
     border: none;
@@ -100,7 +101,7 @@ button {
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 10px;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 #password {
