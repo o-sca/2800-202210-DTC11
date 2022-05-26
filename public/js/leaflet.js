@@ -1,6 +1,6 @@
 function createMap(object) {
   const attribution =
-    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
   const tileURL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
   const tiles = L.tileLayer(tileURL, { attribution });
 
@@ -64,10 +64,14 @@ function round(number) {
 function createMarker(lat, lng, options) {
   return L.marker([lat, lng])
     .addTo(options.layer)
-    .on("click", async () => { 
+    .on("click", async () => {
       const userObject = await getUserStatus();
-      await insertViewed(userObject.userID, options.stationID, options.stationName);
-   });
+      await insertViewed(
+        userObject.userID,
+        options.stationID,
+        options.stationName
+      );
+    });
 }
 
 const markersLayer = new L.LayerGroup();
@@ -93,7 +97,9 @@ async function populateStations(arr, map) {
 
     if (!savedStations) savedStatus = `Save`;
     else {
-      const savedID = savedStations.map(station => { return station.stationID }) 
+      const savedID = savedStations.map((station) => {
+        return station.stationID;
+      });
       savedStatus = savedID.includes(id) ? `Remove` : `Save`;
     }
 
@@ -101,8 +107,8 @@ async function populateStations(arr, map) {
       stationID: id,
       stationName: name,
       status: savedStatus,
-      layer: markersLayer
-    }
+      layer: markersLayer,
+    };
 
     var stationInfo = `
     <div class="stations">
@@ -155,7 +161,7 @@ async function saveStation(stationID, stationName, status) {
   if (response.status) {
     const stationsArray = await fetchStation();
     await populateStations(stationsArray, map);
-  };
+  }
   return;
 }
 
