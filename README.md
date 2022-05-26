@@ -134,7 +134,7 @@ Team **Down To Charge** (BCIT team DTC11)
 
 [Opendatasoft Explore API v2](https://opendata.vancouver.ca/api/v2/console)
 
-[Plugshare API Documentation](https://developer.plugshare.com/docs/#introduction)
+[Plugshare API](https://developer.plugshare.com/docs/#introduction)
 
 ---
 
