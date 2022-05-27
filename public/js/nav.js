@@ -8,20 +8,20 @@ function openHamburgerMenu() {
 }
 
 // Search modal Functionality
-var modal1 = document.getElementById("searchModal");
+var modal = document.getElementById("searchModal");
 var btn = document.getElementById("openSearchModal");
 var span = document.getElementsByClassName("searchClose")[0];
 btn.onclick = function () {
-  modal1.style.display = "block";
+  modal.style.display = "block";
 };
 span.onclick = function () {
-  modal1.style.display = "none";
+  modal.style.display = "none";
 };
-// window.onclick = function (event) {
-//   if (event.target != modal) {
-//     modal.style.display = "none";
-//   }
-// };
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+};
 
 //Filter modal Functionality
 var modal2 = document.getElementById("filterModal");
@@ -33,11 +33,11 @@ btn2.onclick = function () {
 span2.onclick = function () {
   modal2.style.display = "none";
 };
-// window.onclick = function (event) {
-//   if (event.target == modal2) {
-//     modal2.style.display = "none";
-//   }
-// };
+window.onclick = function (event) {
+  if (event.target == modal2) {
+    modal2.style.display = "none";
+  }
+};
 
 // Recents Modal Functionality
 const recentsModal = document.getElementById("modal-recents");
@@ -53,13 +53,3 @@ window.onclick = function (event) {
     recentsModal.style.display = "none";
   }
 };
-
-// var modals = document.getElementsByClassName("modal");
-// var modals = $(".modal");
-function setup() {
-  $(".modal").on("click", function (event) {
-    // modals.style.display = "none";
-    $(this).css("display", "none");
-  });
-}
-$(document).ready(setup);
