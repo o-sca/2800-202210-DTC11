@@ -8,22 +8,26 @@ async function openRecents() {
 
     $('.viewed-container').empty();
     $('.saved-container').empty();
-    
-    recentStations.forEach(station => {
-        $('.viewed-container').append(`
-            <div class="recents-block">
-                <p>Station Name: ${station.stationName}</p>
-                <p>Station ID: ${station.stationID}</p>
-            </div>
-        `)
-    })
 
-    savedStations.forEach(station => {
-        $('.saved-container').append(`
-            <div class="recents-block">
-                <p>Station Name: ${station.stationName}</p>
-                <p>Station ID: ${station.stationID}</p>
-            </div>
-        `)
-    })
+    if (savedStations) {
+        savedStations.forEach(station => {
+            $('.saved-container').append(`
+                <div class="recents-block">
+                    <p>Station Name: ${station.stationName}</p>
+                    <p>Station ID: ${station.stationID}</p>
+                </div>
+            `)
+        })
+    } else return;
+
+    if (recentStations) {
+        recentStations.forEach(station => {
+            $('.viewed-container').append(`
+                <div class="recents-block">
+                    <p>Station Name: ${station.stationName}</p>
+                    <p>Station ID: ${station.stationID}</p>
+                </div>
+            `)
+        })
+    } else return;
 };
